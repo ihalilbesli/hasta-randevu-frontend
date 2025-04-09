@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,9 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  constructor(
+    private router:Router,
+    private authService:AuthService){}
   //Zorunlu 
   name = '';
   surname = '';
@@ -27,7 +31,7 @@ export class RegisterComponent {
     '', 'ARH_POS', 'ARH_NEG', 'BRH_POS', 'BRH_NEG',
     'ABRH_POS', 'ABRH_NEG', 'ORH_POS', 'ORH_NEG'
   ];
-  constructor (private router:Router){}
+ 
 
   onSubmit(){
     const userData={
@@ -41,6 +45,15 @@ export class RegisterComponent {
       bloodType: this.bloodType || null,
       chronicDiseases: this.chronicDiseases || null,
     }
-    console.log('Gönderilecek kullanici:', userData);
+    this.authService.register(userData).subscribe({
+      next:()=>{
+        alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
+        this.router.navigate(['/login']);
+      },
+      error:(err) =>{
+        console.error('Kayıt başarısız:', err);
+        alert('Kayıt başarısız! Lütfen bilgilerinizi kontrol edin.');
+      },
+    });
   }
 }
