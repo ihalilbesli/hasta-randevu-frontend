@@ -1,0 +1,33 @@
+<div class="login-container">
+    <h2>Giriş</h2>
+  
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <!-- Email alanı -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          required
+        />
+      </div>
+  
+      <!-- Şifre -->
+      <div class="form-group">
+        <label for="password">Parola</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+  
+      <!-- Giriş Butonu -->
+      <button type="submit" [disabled]="!loginForm.form.valid">Giriş</button>
+    </form>
+  </div>
+  

@@ -1,0 +1,69 @@
+<div class="register-container">
+    <h2>Kayıt Ol</h2>
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Ad -->
+      <div class="form-group">
+        <label for="name">Ad</label>
+        <input type="text" id="name" name="name" [(ngModel)]="name" required />
+      </div>
+  
+      <!-- Soyad -->
+      <div class="form-group">
+        <label for="surname">Soyad</label>
+        <input type="text" id="surname" name="surname" [(ngModel)]="surname" required />
+      </div>
+  
+      <!-- E-posta -->
+      <div class="form-group">
+        <label for="email">E-posta</label>
+        <input type="email" id="email" name="email" [(ngModel)]="email" required />
+      </div>
+  
+      <!-- Şifre -->
+      <div class="form-group">
+        <label for="password">Şifre</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required />
+      </div>
+  
+      <!-- Telefon Numarası -->
+      <div class="form-group">
+        <label for="phoneNumber">Telefon</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" [(ngModel)]="phoneNumber" required />
+      </div>
+  
+      <!-- Cinsiyet -->
+      <div class="form-group">
+        <label for="gender">Cinsiyet</label>
+        <select id="gender" name="gender" [(ngModel)]="gender">
+          <option value="BELIRTILMEMIS">Belirtilmemiş</option>
+          <option value="ERKEK">Erkek</option>
+          <option value="KADIN">Kadın</option>
+        </select>
+      </div>
+  
+      <!-- Doğum Tarihi -->
+      <div class="form-group">
+        <label for="birthDate">Doğum Tarihi</label>
+        <input type="date" id="birthDate" name="birthDate" [(ngModel)]="birthDate" required />
+      </div>
+  
+      <!-- Kan Grubu (Opsiyonel) -->
+      <div class="form-group">
+        <label for="bloodType">Kan Grubu (isteğe bağlı)</label>
+        <select id="bloodType" name="bloodType" [(ngModel)]="bloodType">
+          <option *ngFor="let type of bloodTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+  
+      <!-- Kronik Rahatsızlıklar (Opsiyonel) -->
+      <div class="form-group">
+        <label for="chronicDiseases">Kronik Rahatsızlıklar (isteğe bağlı)</label>
+        <input type="text" id="chronicDiseases" name="chronicDiseases" [(ngModel)]="chronicDiseases" />
+      </div>
+  
+      <!-- Buton -->
+      <button type="submit" [disabled]="!registerForm.form.valid">Kayıt Ol</button>
+    </form>
+  </div>
+  
