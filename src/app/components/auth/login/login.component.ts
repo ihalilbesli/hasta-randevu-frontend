@@ -27,23 +27,19 @@ export class LoginComponent {
       onSubmit(){
       this.authService.login(this.email,this.password).subscribe({
         next:(response:any)=>{
-          console.log("📦 Backend'den gelen token (ham hali):",response);
           const token = response.token; 
           localStorage.setItem('jwtToken', token);
 
           // Token'ı decode ediyoruz
           const decoded=this.authService.decodeToken(token)
-          console.log("🔍 Çözülmüş token içeriği:", decoded);
-
-       
           localStorage.setItem('userRole', decoded?.role || "");
 
           if(decoded?.role==="HASTA"){
-         //   this.router.navigate(['/hasta-dashboard']);  
+           this.router.navigate(['/hasta-dashboard']);  
               console.log("Navigate edildi")
           }
           else if (decoded?.role === 'DOKTOR') {
-          //  this.router.navigate(['/doktor-dashboard']);
+           this.router.navigate(['/doktor-dashboard']);
           console.log("Navigate edildi")
           } else if (decoded?.role === 'ADMIN') {
           //  this.router.navigate(['/admin-dashboard']);

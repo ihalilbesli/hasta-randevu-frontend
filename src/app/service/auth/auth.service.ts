@@ -37,11 +37,9 @@ export class AuthService {
 
   // JWT içeriğini decode eden  yöntem
   public decodeToken(token:string):any{
-    console.log("🔧 decodeToken fonksiyonuna gelen token:", token);
     try{
       const payload=token.split(".")[1];
       const decoded=atob(payload);
-      console.log("📖 Token'dan çıkan payload:", decoded);
       return JSON.parse(decoded);
     }catch(error){
       console.error('Token decode hatası:', error);
