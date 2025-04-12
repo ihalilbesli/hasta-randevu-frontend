@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  showPassword: boolean = false;
   constructor(
     private authService:AuthService,
     private router:Router
@@ -21,8 +22,7 @@ export class LoginComponent {
       password:string="";
 
       onlogin(){
-        console.log("email :",this.email);
-        console.log("Sifre :",this.password)
+      
       }
       onSubmit(){
       this.authService.login(this.email,this.password).subscribe({
@@ -36,14 +36,14 @@ export class LoginComponent {
 
           if(decoded?.role==="HASTA"){
            this.router.navigate(['/hasta-dashboard']);  
-              console.log("Navigate edildi")
+           
           }
           else if (decoded?.role === 'DOKTOR') {
            this.router.navigate(['/doktor-dashboard']);
-          console.log("Navigate edildi")
+        
           } else if (decoded?.role === 'ADMIN') {
           //  this.router.navigate(['/admin-dashboard']);
-          console.log("Navigate edildi")
+        
           }
         },
         error:(err)=>{

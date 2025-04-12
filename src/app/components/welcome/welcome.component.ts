@@ -18,6 +18,6 @@ export class WelcomeComponent {
   }
   goToRegister() {
     this.router.navigate(['/register']);
-   // alert('Kayıt olma sayfası henüz hazır değil.');
+ 
   }
 }

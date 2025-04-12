@@ -1,4 +1,26 @@
 <div class="dashboard-container">
-    <h2>Hoş geldiniz, {{fullName }}</h2>
+  <!-- Üst bar -->
+  <div class="top-bar">
+    <h2>HosGeldin, {{ currentUser?.name }} {{ currentUser?.surname }}</h2>
+    
+    <div class="user-menu">
+      <span class="username">{{ currentUser?.email }}</span>
+      <button (click)="toggleMenu()">☰</button>
+      <div *ngIf="showMenu" class="dropdown-menu">
+        <button (click)="goToProfile()">Profile</button>
+        <button (click)="logout()">Logout</button>
+      </div>
+    </div>
   </div>
-  
+
+ <!-- Ana içerik -->
+ <div class="main-actions">
+  <button (click)="goTo('appointment')">📅 Randevu Oluştur</button>
+  <button (click)="goTo('appointments')">📋 Randevularım</button>
+  <button (click)="goTo('prescriptions')">💊 Reçetelerim</button>
+  <button (click)="goTo('test-results')">🧪 Test Sonuçlarım</button>
+  <button (click)="goTo('patient-reports')">📄 Raporlarım</button>
+  <button (click)="goTo('patient-history')">🩺 Sağlık Geçmişim</button>
+  <button (click)="goTo('complaints')">📝 Şikayet Oluştur</button>
+</div>
+</div>

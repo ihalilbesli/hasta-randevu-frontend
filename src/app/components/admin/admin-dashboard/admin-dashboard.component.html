@@ -1,1 +1,23 @@
-<p>admin-dashboard works!</p>
+<div class="dashboard-container">
+    <!-- Üst Bar -->
+    <div class="top-bar">
+      <h2>Hoş Geldiniz, {{ currentUser?.name }} {{ currentUser?.surname }}</h2>
+      
+      <div class="user-menu">
+        <span class="username">{{ currentUser?.email }}</span>
+        <button (click)="toggleMenu()">☰</button>
+        <div *ngIf="showMenu" class="dropdown-menu">
+          <button (click)="goToProfile()">Profil</button>
+          <button (click)="logout()">Çıkış Yap</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Yönetim İşlemleri -->
+    <div class="main-actions">
+      <button (click)="goTo('users')">👥 Kullanıcıları Yönet</button>
+      <button (click)="goTo('complaints')">📢 Şikayetleri Görüntüle</button>
+      <button (click)="goTo('analytics')">📊 İstatistik ve Analiz</button>
+    </div>
+  </div>
+  

@@ -18,12 +18,17 @@
       <div class="form-group">
         <label for="password">Parola</label>
         <input
-          type="password"
+          [type]="showPassword ? 'text' : 'password'"
           id="password"
           name="password"
           [(ngModel)]="password"
           required
         />
+        <button
+        type="button"
+        (click)="showPassword = !showPassword">
+        {{ showPassword ? '🙈' : '👁️' }}
+      </button>
       </div>
   
       <!-- Giriş Butonu -->
