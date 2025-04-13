@@ -1,32 +1,118 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { CLINICS } from '../../../data/clinics';
 import { UserService } from '../../../service/user-service/user-service.service';
 import { AuthService } from '../../../service/auth/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { AppointmentService } from '../../../service/appoinment/appointment.service';
 
 @Component({
   selector: 'app-appointment-create',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './appointment-create.component.html',
   styleUrl: './appointment-create.component.css'
 })
 export class AppointmentCreateComponent implements OnInit {
-  clinics: string[] = clinics;
+  clinics: string[] = CLINICS;
   doctors: any[] = [];
+  timeSlots: string[] = [];
+  groupedTimeSlots: { hour: string, slots: string[] }[] = [];
+
+  minDate = new Date().toISOString().split('T')[0];
+  maxDate = new Date(new Date().setMonth(new Date().getMonth() + 2)).toISOString().split('T')[0];
+  invalidDate = false;
 
   selectedClinic: string = '';
   selectedDoctorId: number | null = null;
   selectedDate: string = '';
   selectedTime: string = '';
-
   patientId: number | null = null;
+
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private http: HttpClient,
+    private appointmentService: AppointmentService,
     private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.patientId = user.id;
+      },
+      error: (err) => {
+        console.error('Kullanıcı alınamadı:', err);
+      }
+    });
+  }
+
+  onClinicChange() {
+    this.doctors = [];
+    this.userService.getUsersBySpecialization(this.selectedClinic).subscribe({
+      next: (data) => {
+        this.doctors = data;
+      },
+      error: (err) => {
+        console.error('Doktorlar alınamadı:', err);
+      }
+    });
+  }
+
+  onDateChange(event: any) {
+    const selectedDate = new Date(event.target.value);
+    const day = selectedDate.getDay(); // 0 = Pazar, 6 = Cumartesi
+    this.invalidDate = (day === 0 || day === 6);
+    if (!this.invalidDate) {
+      this.selectedDate = event.target.value;
+      this.generateTimeSlots();
+    }
+  }
+
+  generateTimeSlots() {
+    const startHour = 8;
+    const endHour = 17;
+    const interval = 20; // dakika
+
+    this.timeSlots = [];
+    this.groupedTimeSlots = [];
+
+    for (let hour = startHour; hour < endHour; hour++) {
+      const slots: string[] = [];
+      for (let minute = 0; minute < 60; minute += interval) {
+        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        slots.push(time);
+      }
+      this.groupedTimeSlots.push({ hour: `${hour}:00`, slots });
+    }
+  }
+
+  selectTime(time: string) {
+    this.selectedTime = time;
+  }
+
+  onSubmit() {
+    if (!this.patientId || !this.selectedDoctorId || !this.selectedTime || !this.selectedDate) return;
+
+    const appointmentData = {
+      clinic: this.selectedClinic,
+      date: this.selectedDate,
+      time: this.selectedTime,
+      description: "Online randevu alındı.",
+      doctor: { id: this.selectedDoctorId },
+      patient: { id: this.patientId }
+    };
+
+    this.appointmentService.createAppointment(appointmentData).subscribe({
+      next: () => {
+        alert('Randevu başarıyla oluşturuldu!');
+      },
+      error: (err) => {
+        console.error('Randevu oluşturulamadı:', err);
+        alert('Randevu sırasında hata oluştu.');
+      }
+    });
+  }
 }

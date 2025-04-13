@@ -1,42 +1,53 @@
 <div class="appointment-form">
-    <h2>Randevu Oluştur</h2>
-  
-    <form (ngSubmit)="onSubmit()" #appointmentForm="ngForm">
-  
-      <!-- Klinik Seçimi -->
-      <div class="form-group">
-        <label for="clinic">Klinik Seçiniz</label>
-        <select id="clinic" [(ngModel)]="selectedClinic" name="clinic" required (change)="onClinicChange()">
-          <option value="" disabled selected>-- Seçiniz --</option>
-          <option *ngFor="let clinic of clinics" [value]="clinic">{{ clinic }}</option>
-        </select>
+  <h2>Randevu Oluştur</h2>
+
+  <form (ngSubmit)="onSubmit()" #appointmentForm="ngForm">
+    <!-- Klinik Seçimi -->
+    <div class="form-group">
+      <label for="clinic">Klinik Seçiniz</label>
+      <select id="clinic" [(ngModel)]="selectedClinic" name="clinic" required (change)="onClinicChange()">
+        <option value="" disabled selected>-- Seçiniz --</option>
+        <option *ngFor="let clinic of clinics" [value]="clinic">{{ clinic }}</option>
+      </select>
+    </div>
+
+    <!-- Doktor Seçimi -->
+    <div class="form-group">
+      <label for="doctor">Doktor Seçiniz</label>
+      <select id="doctor" [(ngModel)]="selectedDoctorId" name="doctor" required>
+        <option value="" disabled selected>-- Seçiniz --</option>
+        <option *ngFor="let doctor of doctors" [value]="doctor.id">
+          {{ doctor.name }} {{ doctor.surname }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Tarih -->
+    <div class="form-group">
+      <label for="date">Tarih</label>
+      <input type="date" [min]="minDate" [max]="maxDate" (change)="onDateChange($event)" [ngClass]="{ 'invalid': invalidDate }" required>
+    </div>
+
+    <!-- Saat Seçimi -->
+    <div class="form-group" *ngIf="groupedTimeSlots.length > 0">
+      <label>Saat Seçiniz</label>
+      <div *ngFor="let group of groupedTimeSlots">
+        <h4>{{ group.hour }}</h4>
+        <div class="slot-group">
+          <button
+            type="button"
+            *ngFor="let time of group.slots"
+            [ngClass]="{ selected: selectedTime === time }"
+            (click)="selectTime(time)">
+            {{ time }}
+          </button>
+        </div>
       </div>
-  
-      <!-- Doktor Seçimi -->
-      <div class="form-group">
-        <label for="doctor">Doktor Seçiniz</label>
-        <select id="doctor" [(ngModel)]="selectedDoctorId" name="doctor" required>
-          <option value="" disabled selected>-- Seçiniz --</option>
-          <option *ngFor="let doctor of doctors" [value]="doctor.id">
-            {{ doctor.name }} {{ doctor.surname }} - {{ doctor.specialization }}
-          </option>
-        </select>
-      </div>
-  
-      <!-- Tarih -->
-      <div class="form-group">
-        <label for="date">Tarih</label>
-        <input type="date" id="date" name="date" [(ngModel)]="selectedDate" required>
-      </div>
-  
-      <!-- Saat -->
-      <div class="form-group">
-        <label for="time">Saat</label>
-        <input type="time" id="time" name="time" [(ngModel)]="selectedTime" required>
-      </div>
-  
-      <!-- Buton -->
-      <button type="submit" [disabled]="!appointmentForm.form.valid">Randevu Oluştur</button>
-    </form>
-  </div>
-  
+    </div>
+
+    <!-- Buton -->
+    <button type="submit" [disabled]="!appointmentForm.form.valid || !selectedTime">
+      Randevu Oluştur
+    </button>
+  </form>
+</div>

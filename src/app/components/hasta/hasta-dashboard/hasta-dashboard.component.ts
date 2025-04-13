@@ -42,8 +42,7 @@ export class HastaDashboardComponent {
     this.authService.logout();
   }
   goTo(path:string){
-    alert(path+" sayfası daha sonra eklenecek.");
-   // this.router.navigate([`/${path}`]);
+    this.router.navigate(['/appointment-create']);
     console.log(path+" navigate edildi");
     
   }
