@@ -42,7 +42,7 @@ export class LoginComponent {
            this.router.navigate(['/doktor-dashboard']);
         
           } else if (decoded?.role === 'ADMIN') {
-          //  this.router.navigate(['/admin-dashboard']);
+            this.router.navigate(['/admin-dashboard']);
         
           }
         },

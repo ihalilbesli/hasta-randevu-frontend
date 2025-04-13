@@ -48,5 +48,13 @@ export const routes: Routes = [
            .then(({ AdminDashboardComponent }) => AdminDashboardComponent),
            canActivate: [authGuard,roleGuard(["ADMIN"])]
       },
+      {
+        path: 'appointment-create',
+        loadComponent: () =>
+          import('./components/hasta/appointment-create/appointment-create.component')
+           .then(({ AppointmentCreateComponent }) => AppointmentCreateComponent),
+           canActivate: [authGuard,roleGuard(["HASTA"])]
+      },
+
       
 ];
