@@ -30,6 +30,8 @@ export class AppointmentCreateComponent implements OnInit {
   selectedDate: string = '';
   selectedTime: string = '';
   patientId: number | null = null;
+  existingAppointments: any[] = [];
+  description:string="";
 
   constructor(
     private userService: UserService,
@@ -44,39 +46,51 @@ export class AppointmentCreateComponent implements OnInit {
         this.patientId = user.id;
       },
       error: (err) => {
-        console.error('Kullanıcı alınamadı:', err);
+        console.error('Kullanci alinamadi:', err);
       }
     });
   }
 
   onClinicChange() {
-    this.doctors = [];
     this.userService.getUsersBySpecialization(this.selectedClinic).subscribe({
       next: (data) => {
         this.doctors = data;
       },
       error: (err) => {
-        console.error('Doktorlar alınamadı:', err);
+        console.error('Doktorlar alinamadi:', err);
       }
     });
   }
 
   onDateChange(event: any) {
-    const selectedDate = new Date(event.target.value);
-    const day = selectedDate.getDay(); // 0 = Pazar, 6 = Cumartesi
+    const selected = new Date(event.target.value);
+    const day = selected.getDay(); // 0 = Pazar, 6 = Cumartesi
     this.invalidDate = (day === 0 || day === 6);
-    if (!this.invalidDate) {
-      this.selectedDate = event.target.value;
-      this.generateTimeSlots();
+
+    if (this.invalidDate) {
+      this.groupedTimeSlots = [];
+      this.selectedTime = '';
+      return;
+    }
+
+    if (this.selectedDoctorId) {
+      this.appointmentService.getAppointmentsByDoctorAndDate(this.selectedDoctorId, this.selectedDate).subscribe({
+        next: (appointments) => {
+          this.existingAppointments = appointments;
+          this.generateTimeSlots();
+        },
+        error: (err) => {
+          console.error('Doktorun randevulari alinamadi:', err);
+        }
+      });
     }
   }
 
   generateTimeSlots() {
     const startHour = 8;
     const endHour = 17;
-    const interval = 20; // dakika
+    const interval = 20;
 
-    this.timeSlots = [];
     this.groupedTimeSlots = [];
 
     for (let hour = startHour; hour < endHour; hour++) {
@@ -100,19 +114,38 @@ export class AppointmentCreateComponent implements OnInit {
       clinic: this.selectedClinic,
       date: this.selectedDate,
       time: this.selectedTime,
-      description: "Online randevu alındı.",
+      description: this.description||"Online randevu alındı.",
       doctor: { id: this.selectedDoctorId },
       patient: { id: this.patientId }
     };
 
     this.appointmentService.createAppointment(appointmentData).subscribe({
       next: () => {
-        alert('Randevu başarıyla oluşturuldu!');
+        alert('Randevu başariyla oluşturuldu!');
+        this.resetForm();
       },
       error: (err) => {
-        console.error('Randevu oluşturulamadı:', err);
-        alert('Randevu sırasında hata oluştu.');
+        console.error('Randevu sirasinda hata oluştu:', err);
+        alert('Randevu oluşturulamadi.');
       }
     });
+  }
+
+  resetForm() {
+    this.selectedClinic = '';
+    this.selectedDoctorId = null;
+    this.selectedDate = '';
+    this.selectedTime = '';
+    this.doctors = [];
+    this.existingAppointments = [];
+    this.groupedTimeSlots = [];
+    this.invalidDate = false;
+    this.description="";
+  }
+
+  isTimeTaken(time: string): boolean {
+    return this.existingAppointments.some(
+      a => a.time?.substring(0, 5) === time
+    );
   }
 }

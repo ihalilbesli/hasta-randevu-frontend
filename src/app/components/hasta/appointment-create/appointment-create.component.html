@@ -25,7 +25,18 @@
     <!-- Tarih -->
     <div class="form-group">
       <label for="date">Tarih</label>
-      <input type="date" [min]="minDate" [max]="maxDate" (change)="onDateChange($event)" [ngClass]="{ 'invalid': invalidDate }" required>
+      <input 
+      type="date"
+      id="date"
+      name="date"
+      [(ngModel)]="selectedDate"
+      [min]="minDate"
+      [max]="maxDate" 
+      (change)="onDateChange($event)" 
+      [ngClass]="{ 'invalid': invalidDate }" 
+      required>
+
+
     </div>
 
     <!-- Saat Seçimi -->
@@ -35,15 +46,31 @@
         <h4>{{ group.hour }}</h4>
         <div class="slot-group">
           <button
-            type="button"
-            *ngFor="let time of group.slots"
-            [ngClass]="{ selected: selectedTime === time }"
-            (click)="selectTime(time)">
-            {{ time }}
-          </button>
+          type="button"
+          *ngFor="let time of group.slots"
+          [ngClass]="{
+            selected: selectedTime === time,
+            taken: isTimeTaken(time)
+          }"
+          [disabled]="isTimeTaken(time)"
+          (click)="!isTimeTaken(time) && selectTime(time)">
+          {{ time }}
+        </button>
         </div>
       </div>
     </div>
+    
+    <!-- Açıklama Alanı -->
+    <div class="form-group">
+      <label for="description">Açıklama</label>
+      <textarea 
+        name="description"
+         id="description"
+         [(ngModel)]="description" 
+         rows="2"
+         placeholder="Randevu ile ilgili bir açıklama girin (isteğe bağlı)" >
+        </textarea>
+      </div>
 
     <!-- Buton -->
     <button type="submit" [disabled]="!appointmentForm.form.valid || !selectedTime">
