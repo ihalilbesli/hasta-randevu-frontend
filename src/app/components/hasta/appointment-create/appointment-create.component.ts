@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { CLINICS } from '../../../data/clinics';
 import { UserService } from '../../../service/user-service/user-service.service';
 import { AuthService } from '../../../service/auth/auth.service';
@@ -80,7 +79,7 @@ export class AppointmentCreateComponent implements OnInit {
           this.generateTimeSlots();
         },
         error: (err) => {
-          console.error('Doktorun randevulari alinamadi:', err);
+          console.error('Doktorun randevulari alinamadi:', err); //
         }
       });
     }
