@@ -50,10 +50,10 @@
           *ngFor="let time of group.slots"
           [ngClass]="{
             selected: selectedTime === time,
-            taken: isTimeTaken(time)
+            taken: isTimeDisabled(time)
           }"
-          [disabled]="isTimeTaken(time)"
-          (click)="!isTimeTaken(time) && selectTime(time)">
+          [disabled]="isTimeDisabled(time)"
+          (click)="!isTimeDisabled(time) && selectTime(time)">
           {{ time }}
         </button>
         </div>

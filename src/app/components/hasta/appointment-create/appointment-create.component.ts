@@ -18,6 +18,7 @@ export class AppointmentCreateComponent implements OnInit {
   clinics: string[] = CLINICS;
   doctors: any[] = [];
   timeSlots: string[] = [];
+  pastTimes: string[] = [];
   groupedTimeSlots: { hour: string, slots: string[] }[] = [];
 
   minDate = new Date().toISOString().split('T')[0];
@@ -41,6 +42,7 @@ export class AppointmentCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
+      
       next: (user) => {
         this.patientId = user.id;
       },
@@ -51,9 +53,18 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   onClinicChange() {
+    this.selectedDoctorId = null;
+    this.selectedDate = '';
+    this.selectedTime = '';
+    this.doctors = [];
+    this.groupedTimeSlots = [];
+    this.existingAppointments = [];
+    this.invalidDate = false;
     this.userService.getUsersBySpecialization(this.selectedClinic).subscribe({
+      
       next: (data) => {
         this.doctors = data;
+        
       },
       error: (err) => {
         console.error('Doktorlar alinamadi:', err);
@@ -90,12 +101,25 @@ export class AppointmentCreateComponent implements OnInit {
     const endHour = 17;
     const interval = 20;
 
+    const today = new Date();
+    const selected = new Date(this.selectedDate);
+
     this.groupedTimeSlots = [];
+    this.pastTimes = [];
 
     for (let hour = startHour; hour < endHour; hour++) {
       const slots: string[] = [];
+
       for (let minute = 0; minute < 60; minute += interval) {
         const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+      
+        if (
+          selected.toDateString() === today.toDateString() &&
+          (hour < today.getHours() || (hour === today.getHours() && minute <= today.getMinutes()))
+        ) {
+          this.pastTimes.push(time);
+        }
+  
         slots.push(time);
       }
       this.groupedTimeSlots.push({ hour: `${hour}:00`, slots });
@@ -142,9 +166,11 @@ export class AppointmentCreateComponent implements OnInit {
     this.description="";
   }
 
-  isTimeTaken(time: string): boolean {
-    return this.existingAppointments.some(
+  isTimeDisabled(time: string): boolean {
+    const isPast = this.pastTimes.includes(time);
+    const isTaken = this.existingAppointments.some(
       a => a.time?.substring(0, 5) === time
     );
+    return isPast || isTaken;
   }
 }
