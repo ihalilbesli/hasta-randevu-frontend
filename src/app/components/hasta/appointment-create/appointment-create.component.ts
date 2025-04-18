@@ -15,23 +15,35 @@ import { AppointmentService } from '../../../service/appoinment/appointment.serv
   styleUrl: './appointment-create.component.css'
 })
 export class AppointmentCreateComponent implements OnInit {
+  // Sabit klinik listesi
   clinics: string[] = CLINICS;
+  // Seçilen kliniğe göre doktorlar
   doctors: any[] = [];
+
+  // Randevu saatleri ve geçmiş saatler
   timeSlots: string[] = [];
   pastTimes: string[] = [];
+
+    // Saatleri gruplanmış şekilde tutmak için
   groupedTimeSlots: { hour: string, slots: string[] }[] = [];
 
+    // Tarih aralığı (bugünden itibaren 2 ay sonrası)
   minDate = new Date().toISOString().split('T')[0];
   maxDate = new Date(new Date().setMonth(new Date().getMonth() + 2)).toISOString().split('T')[0];
   invalidDate = false;
 
+    // Kullanıcının formda yaptığı seçimler
   selectedClinic: string = '';
   selectedDoctorId: number | null = null;
   selectedDate: string = '';
   selectedTime: string = '';
   patientId: number | null = null;
-  existingAppointments: any[] = [];
-  description:string="";
+
+   // Seçilen doktora ait alınmış randevular
+   existingAppointments: any[] = [];
+
+   // Açıklama alanı (kullanıcı doldurmazsa varsayılan metin atanır)
+   description: string = "";
 
   constructor(
     private userService: UserService,
@@ -41,6 +53,7 @@ export class AppointmentCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+        // Giriş yapan kullanıcının (hasta) bilgilerini al
     this.userService.getCurrentUser().subscribe({
       
       next: (user) => {
@@ -52,6 +65,7 @@ export class AppointmentCreateComponent implements OnInit {
     });
   }
 
+    // Klinik değiştiğinde doktor listesini yenile
   onClinicChange() {
     this.selectedDoctorId = null;
     this.selectedDate = '';
@@ -71,7 +85,7 @@ export class AppointmentCreateComponent implements OnInit {
       }
     });
   }
-
+  // Tarih değiştiğinde geçerli mi kontrol et ve uygun saatleri getir
   onDateChange(event: any) {
     const selected = new Date(event.target.value);
     const day = selected.getDay(); // 0 = Pazar, 6 = Cumartesi
@@ -96,6 +110,7 @@ export class AppointmentCreateComponent implements OnInit {
     }
   }
 
+    // Randevu saatlerini 08:00 - 17:00 arası 20 dakika aralıkla oluştur
   generateTimeSlots() {
     const startHour = 8;
     const endHour = 17;
@@ -113,6 +128,7 @@ export class AppointmentCreateComponent implements OnInit {
       for (let minute = 0; minute < 60; minute += interval) {
         const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
       
+        // Bugünün geçmiş saatlerini ayıkla
         if (
           selected.toDateString() === today.toDateString() &&
           (hour < today.getHours() || (hour === today.getHours() && minute <= today.getMinutes()))
@@ -126,10 +142,12 @@ export class AppointmentCreateComponent implements OnInit {
     }
   }
 
+    // Saat seçimi
   selectTime(time: string) {
     this.selectedTime = time;
   }
 
+    // Randevu oluşturma işlemi
   onSubmit() {
     if (!this.patientId || !this.selectedDoctorId || !this.selectedTime || !this.selectedDate) return;
 
@@ -154,6 +172,7 @@ export class AppointmentCreateComponent implements OnInit {
     });
   }
 
+  // Formu sıfırla
   resetForm() {
     this.selectedClinic = '';
     this.selectedDoctorId = null;
@@ -165,7 +184,7 @@ export class AppointmentCreateComponent implements OnInit {
     this.invalidDate = false;
     this.description="";
   }
-
+  // Saatin geçerli olup olmadığını kontrol et (geçmiş ya da alınmış saatler devre dışı)
   isTimeDisabled(time: string): boolean {
     const isPast = this.pastTimes.includes(time);
     const isTaken = this.existingAppointments.some(
