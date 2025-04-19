@@ -1,0 +1,55 @@
+<div class="appointment-list">
+    <h2>Randevularım</h2>
+  
+    <!-- Filtreler -->
+    <div class="filters">
+      <label>
+        Durum:
+        <select [(ngModel)]="statusFilter" (change)="applyFilter()">
+          <option value="ALL">Tümü</option>
+          <option value="AKTIF">Aktif</option>
+          <option value="IPTAL_EDILDI">İptal Edildi</option>
+        </select>
+      </label>
+  
+      <label>
+        Başlangıç Tarihi:
+        <input type="date" [(ngModel)]="startDate" (change)="applyFilter()" />
+      </label>
+  
+      <label>
+        Bitiş Tarihi:
+        <input type="date" [(ngModel)]="endDate" (change)="applyFilter()" />
+      </label>
+    </div>
+  
+    <!-- Randevu Listesi -->
+    <table *ngIf="filteredAppointments.length > 0">
+      <thead>
+        <tr>
+          <th>Klinik</th>
+          <th>Tarih</th>
+          <th>Saat</th>
+          <th>Durum</th>
+          <th>Açıklama</th>
+          <th>İşlem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of filteredAppointments">
+          <td>{{ app.clinic }}</td>
+          <td>{{ app.date }}</td>
+          <td>{{ app.time }}</td>
+          <td>{{ app.status }}</td>
+          <td>{{ app.description }}</td>
+          <td>
+            <button *ngIf="app.status === 'AKTIF'" (click)="cancelAppointment(app.id)">İptal Et</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Kayıt yoksa -->
+    <p *ngIf="filteredAppointments.length === 0">Gösterilecek randevu bulunamadı.</p>
+  </div>
+  

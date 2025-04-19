@@ -69,4 +69,16 @@ export class AppointmentService {
         headers: this.getHeaders()
        });
     }
+    getAppointmentsByPatientId(patientId: number): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/patient/${patientId}`, {
+        headers: this.getHeaders()
+      });
+    }
+    cancelAppointment(id: number): Observable<any> {
+      return this.http.put(`${this.apiUrl}/${id}/cancel`, {}, {
+        headers: this.getHeaders()
+      });
+    }
+    
+    
 }

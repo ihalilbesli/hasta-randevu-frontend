@@ -42,7 +42,7 @@ export class HastaDashboardComponent {
     this.authService.logout();
   }
   goTo(path:string){
-    this.router.navigate(['/appointment-create']);
+    this.router.navigate([`/${path}`]);
     console.log(path+" navigate edildi");
     
   }

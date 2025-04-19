@@ -53,7 +53,7 @@ export class AppointmentCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-        // Giriş yapan kullanıcının (hasta) bilgilerini al
+        // Giriş yapan kullanıcının  bilgilerini al
     this.userService.getCurrentUser().subscribe({
       
       next: (user) => {
@@ -126,6 +126,7 @@ export class AppointmentCreateComponent implements OnInit {
       const slots: string[] = [];
 
       for (let minute = 0; minute < 60; minute += interval) {
+        if (hour === 12) continue;
         const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
       
         // Bugünün geçmiş saatlerini ayıkla
@@ -138,7 +139,9 @@ export class AppointmentCreateComponent implements OnInit {
   
         slots.push(time);
       }
-      this.groupedTimeSlots.push({ hour: `${hour}:00`, slots });
+      if (slots.length > 0) {
+        this.groupedTimeSlots.push({ hour: `${hour}:00`, slots });
+      }
     }
   }
 
@@ -151,6 +154,21 @@ export class AppointmentCreateComponent implements OnInit {
   onSubmit() {
     if (!this.patientId || !this.selectedDoctorId || !this.selectedTime || !this.selectedDate) return;
 
+    const sameClinicAppointment = this.existingAppointments.find(
+      a =>
+        a.patient?.id === this.patientId &&
+        a.clinic === this.selectedClinic &&
+        a.status === 'AKTIF' // sadece aktifleri kontrol et
+    );
+    if (sameClinicAppointment) {
+      const confirmReplace = confirm(
+        "Bu klinikte daha önce alınmış aktif bir randevunuz bulunuyor.\nYeni randevuyu alırsanız, önceki iptal edilecek.\nDevam etmek istiyor musunuz?"
+      );
+  
+      if (!confirmReplace) {
+        return;
+      }
+    }
     const appointmentData = {
       clinic: this.selectedClinic,
       date: this.selectedDate,
@@ -184,12 +202,13 @@ export class AppointmentCreateComponent implements OnInit {
     this.invalidDate = false;
     this.description="";
   }
-  // Saatin geçerli olup olmadığını kontrol et (geçmiş ya da alınmış saatler devre dışı)
   isTimeDisabled(time: string): boolean {
     const isPast = this.pastTimes.includes(time);
+  
     const isTaken = this.existingAppointments.some(
-      a => a.time?.substring(0, 5) === time
+      a => a.time?.substring(0, 5) === time && a.status === 'AKTIF'  // 👈 sadece aktifleri al
     );
+  
     return isPast || isTaken;
   }
 }
