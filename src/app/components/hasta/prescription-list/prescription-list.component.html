@@ -1,0 +1,45 @@
+<div class="prescription-list">
+    <h2>📄 Reçetelerim</h2>
+  
+    <div class="filters">
+      <label>
+        Zaman Filtresi:
+        <select [(ngModel)]="selectedPeriod" (change)="fetchPrescriptions()">
+          <option value="all">Tümü</option>
+          <option value="day">Son 1 Gün</option>
+          <option value="week">Son 1 Hafta</option>
+          <option value="month">Son 1 Ay</option>
+          <option value="year">Son 1 Yıl</option>
+        </select>
+      </label>
+  
+      <label>
+        Anahtar Kelime:
+        <input type="text" [(ngModel)]="keyword" (input)="search()" placeholder="Açıklamada ara..." />
+      </label>
+    </div>
+  
+    <table *ngIf="filteredPrescriptions.length > 0">
+      <thead>
+        <tr>
+          <th>Kod</th>
+          <th>Tarih</th>
+          <th>Doktor</th>
+          <th>İlaçlar</th>
+          <th>Açıklama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredPrescriptions">
+          <td>{{ p.prescriptionCode }}</td>
+          <td>{{ p.date }}</td>
+          <td>{{ p.doctor.name }} {{ p.doctor.surname }}</td>
+          <td>{{ p.medications }}</td>
+          <td>{{ p.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p *ngIf="filteredPrescriptions.length === 0">Gösterilecek reçete bulunamadı.</p>
+  </div>
+  
