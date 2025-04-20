@@ -1,0 +1,13 @@
+<div class="top-bar">
+    <h2>Hoşgeldin, {{ currentUser?.name }} {{ currentUser?.surname }}</h2>
+  
+    <div class="user-menu">
+      <span class="username">{{ currentUser?.email }}</span>
+      <button (click)="toggleMenu()">☰</button>
+      <div *ngIf="showMenu" class="dropdown-menu">
+        <button (click)="goToProfile()">Profil</button>
+        <button (click)="logout()">Çıkış Yap</button>
+      </div>
+    </div>
+  </div>
+  

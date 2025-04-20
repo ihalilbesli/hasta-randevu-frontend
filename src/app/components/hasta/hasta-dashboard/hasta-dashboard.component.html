@@ -1,18 +1,6 @@
+<app-header></app-header>
 <div class="dashboard-container">
-  <!-- Üst bar -->
-  <div class="top-bar">
-    <h2>HosGeldin, {{ currentUser?.name }} {{ currentUser?.surname }}</h2>
-    
-    <div class="user-menu">
-      <span class="username">{{ currentUser?.email }}</span>
-      <button (click)="toggleMenu()">☰</button>
-      <div *ngIf="showMenu" class="dropdown-menu">
-        <button (click)="goToProfile()">Profile</button>
-        <button (click)="logout()">Logout</button>
-      </div>
-    </div>
-  </div>
-
+  
  <!-- Ana içerik -->
  <div class="main-actions">
   <button (click)="goTo('appointment-create')">📅 Randevu Oluştur</button>
