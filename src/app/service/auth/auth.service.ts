@@ -60,4 +60,4 @@ getUserEmail(): string | null {
   const decoded = this.decodeToken(token);
   return decoded?.role || null;
   }
-}
+}//
