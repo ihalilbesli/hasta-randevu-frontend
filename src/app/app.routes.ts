@@ -68,6 +68,12 @@ export const routes: Routes = [
           import('./components/hasta/prescription-list/prescription-list.component')
            .then(({ PrescriptionListComponent }) => PrescriptionListComponent),
            canActivate: [authGuard,roleGuard(["HASTA"])]
+      },{
+        path: 'test-results',
+        loadComponent: () =>
+          import('./components/hasta/test-result/test-result.component')
+           .then(({ TestResultComponent }) => TestResultComponent),
+           canActivate: [authGuard,roleGuard(["HASTA"])]
       },
 
       

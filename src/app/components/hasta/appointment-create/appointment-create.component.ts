@@ -163,6 +163,7 @@ export class AppointmentCreateComponent implements OnInit {
         a.clinic === this.selectedClinic &&
         a.status === 'AKTIF'
     );
+    
 
     if (sameClinicAppointment) {
       const confirmReplace = confirm(
@@ -170,6 +171,20 @@ export class AppointmentCreateComponent implements OnInit {
       );
       if (!confirmReplace) return;
     }
+     // ❗ Aynı tarihte başka bir klinikten randevu var mı?
+  const sameDayOtherClinicAppointment = this.allAppointments.find(
+    a =>
+      a.patient?.id === this.patientId &&
+      a.date === this.selectedDate &&
+      a.clinic !== this.selectedClinic &&
+      a.status === 'AKTIF'
+  );
+  if (sameDayOtherClinicAppointment) {
+    alert(`
+      ${this.selectedDate} ${this.selectedTime} zaman aralığı ile çakışan başka bir randevunuz bulunmaktadır.
+      Randevu kaydı için farklı bir zaman aralığı seçilmelidir.`);
+        return;
+  }
 
     const appointmentData = {
       clinic: this.selectedClinic,

@@ -1,0 +1,40 @@
+<div class="test-result-list">
+    <h2>🧪 Test Sonuçlarım</h2>
+  
+    <div class="filters">
+      <label>
+        Zaman Filtresi:
+        <select [(ngModel)]="selectedPeriod" (change)="fetchResults()">
+          <option value="all">Tümü</option>
+          <option value="day">Son 1 Gün</option>
+          <option value="week">Son 1 Hafta</option>
+          <option value="month">Son 1 Ay</option>
+          <option value="year">Son 1 Yıl</option>
+        </select>
+      </label>
+    </div>
+  
+    <table *ngIf="filteredResults.length > 0">
+      <thead>
+        <tr>
+          <th>Test Adı</th>
+          <th>Tarih</th>
+          <th>Tür</th>
+          <th>Sonuç</th>
+          <th>Doktor Yorumu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of filteredResults">
+          <td>{{ t.testName }}</td>
+          <td>{{ t.testDate }}</td>
+          <td>{{ t.testType }}</td>
+          <td>{{ t.result }}</td>
+          <td>{{ t.doctorComment || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p *ngIf="filteredResults.length === 0">Gösterilecek test sonucu bulunamadı.</p>
+  </div>
+  
