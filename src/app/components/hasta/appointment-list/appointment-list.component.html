@@ -42,7 +42,7 @@
     <tbody>
       <tr *ngFor="let app of filteredAppointments">
         <td>{{ app.clinic }}</td>
-        <td>{{ app.date }}</td>
+        <td>{{ app.date |date:'dd/MM/yyyy' }}</td>
         <td>{{ app.time?.substring(0,5) }}</td>
         <td>{{ app.status }}</td>
         <td>{{ app.description }}</td>

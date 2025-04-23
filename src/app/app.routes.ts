@@ -68,11 +68,26 @@ export const routes: Routes = [
           import('./components/hasta/prescription-list/prescription-list.component')
            .then(({ PrescriptionListComponent }) => PrescriptionListComponent),
            canActivate: [authGuard,roleGuard(["HASTA"])]
-      },{
+      },
+      {
         path: 'test-results',
         loadComponent: () =>
           import('./components/hasta/test-result/test-result.component')
            .then(({ TestResultComponent }) => TestResultComponent),
+           canActivate: [authGuard,roleGuard(["HASTA"])]
+      },
+      {
+        path: 'patient-reports',
+        loadComponent: () =>
+          import('./components/hasta/patient-report/patient-report.component')
+           .then(({ PatientReportComponent }) => PatientReportComponent),
+           canActivate: [authGuard,roleGuard(["HASTA"])]
+      },
+      {
+        path: 'patient-history',
+        loadComponent: () =>
+          import('./components/hasta/patient-history/patient-history.component')
+           .then(({ PatientHistoryComponent }) => PatientHistoryComponent),
            canActivate: [authGuard,roleGuard(["HASTA"])]
       },
 

@@ -1,0 +1,47 @@
+<app-header></app-header>
+<div class="history-container">
+    <h2>🩺 Sağlık Geçmişim</h2>
+  
+    <div class="filters">
+      <label>
+        Zaman Filtresi:
+        <select [(ngModel)]="selectedPeriod" (change)="loadHistories()">
+          <option value="all">Tümü</option>
+          <option value="day">Son 1 Gün</option>
+          <option value="week">Son 1 Hafta</option>
+          <option value="month">Son 1 Ay</option>
+          <option value="year">Son 1 Yıl</option>
+        </select>
+      </label>
+  
+      <label>
+        <select [(ngModel)]="searchField">
+          <option value="diagnosis">Tanıya Göre</option>
+          <option value="treatment">Tedaviye Göre</option>
+        </select>
+        <input type="text" [(ngModel)]="searchKeyword" (input)="search()" placeholder="Kelimeyle ara..." />
+      </label>
+    </div>
+  
+    <table *ngIf="filteredHistories.length > 0">
+      <thead>
+        <tr>
+          <th>Tarih</th>
+          <th>Tanı</th>
+          <th>Tedavi</th>
+          <th>Not</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let history of filteredHistories">
+         <td>{{ history.date | date:'dd/MM/yyyy' }}</td>
+          <td>{{ history.diagnosis }}</td>
+          <td>{{ history.treatment }}</td>
+          <td>{{ history.notes || '---' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p *ngIf="filteredHistories.length === 0">Geçmiş bilgisi bulunamadı.</p>
+  </div>
+  

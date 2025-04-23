@@ -1,0 +1,47 @@
+<app-header></app-header>
+<div class="report-list">
+    <h2>📄 Raporlarım</h2>
+  
+    <!-- Filtre -->
+    <div class="filters">
+      <label>
+        Zaman Filtresi:
+        <select [(ngModel)]="selectedPeriod" (change)="fetchReports()">
+          <option value="all">Tümü</option>
+          <option value="day">Son 1 Gün</option>
+          <option value="week">Son 1 Hafta</option>
+          <option value="month">Son 1 Ay</option>
+          <option value="year">Son 1 Yıl</option>
+        </select>
+      </label>
+  
+      <label>
+        Anahtar Kelime:
+        <input type="text"  
+        [(ngModel)]="keyword" (input)="applyKeyword()" placeholder="Rapor türünde ara..." />
+      </label>
+    </div>
+  
+    <!-- Liste -->
+    <table *ngIf="filteredReports.length > 0">
+      <thead>
+        <tr>
+          <th>Tür</th>
+          <th>Tarih</th>
+          <th>Doktor</th>
+          <th>Dosya</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of filteredReports">
+          <td>{{ report.reportType }}</td>
+          <td>{{ report.reportDate |date:'dd/MM/yyyy' }}</td>
+          <td>{{ report.doctor.name.charAt(0) }} {{ report.doctor.surname }}</td>
+          <td><a [href]="report.fileUrl" target="_blank">Görüntüle</a></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p *ngIf="filteredReports.length === 0">Hiç rapor bulunamadı.</p>
+  </div>
+  

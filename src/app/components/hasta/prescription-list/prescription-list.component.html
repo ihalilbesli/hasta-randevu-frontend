@@ -32,7 +32,7 @@
       <tbody>
         <tr *ngFor="let p of filteredPrescriptions">
           <td>{{ p.prescriptionCode }}</td>
-          <td>{{ p.date | date: 'dd MMMM yyyy' }}</td>
+          <td>{{ p.date |date:'dd/MM/yyyy' }}</td>
           <td>{{ p.doctor.name.charAt(0) }}. {{ p.doctor.surname }}</td>
           <td>{{ p.medications }}</td>
           <td>{{ p.description }}</td>

@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../service/user-service/user-service.service';
 import { TestResultService } from '../../../service/test-result/test-result.service';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-test-result',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,HeaderComponent],
   templateUrl: './test-result.component.html',
   styleUrl: './test-result.component.css'
 })
