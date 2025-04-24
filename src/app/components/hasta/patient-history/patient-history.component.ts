@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header/header.component';
 import { PatientHistoryService } from '../../../service/patient-history/patient-history.service';
 import { UserService } from '../../../service/user-service/user-service.service';
+import { AiChatComponent } from '../ai-chat/ai-chat.component';
 
 @Component({
   selector: 'app-patient-history',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent],
+  imports: [CommonModule,FormsModule,HeaderComponent,AiChatComponent],
   templateUrl: './patient-history.component.html',
   styleUrl: './patient-history.component.css'
 })

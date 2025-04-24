@@ -7,11 +7,12 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { AuthService } from '../../../service/auth/auth.service';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
 import { HeaderComponent } from '../../header/header.component';
+import { AiChatComponent } from '../ai-chat/ai-chat.component';
 
 @Component({
   selector: 'app-appointment-create',
   standalone: true,
-  imports: [CommonModule, FormsModule,HeaderComponent],
+  imports: [CommonModule, FormsModule,HeaderComponent,AiChatComponent],
   templateUrl: './appointment-create.component.html',
   styleUrl: './appointment-create.component.css'
 })
@@ -172,19 +173,21 @@ export class AppointmentCreateComponent implements OnInit {
       if (!confirmReplace) return;
     }
      // ❗ Aynı tarihte başka bir klinikten randevu var mı?
-  const sameDayOtherClinicAppointment = this.allAppointments.find(
-    a =>
-      a.patient?.id === this.patientId &&
-      a.date === this.selectedDate &&
-      a.clinic !== this.selectedClinic &&
-      a.status === 'AKTIF'
-  );
-  if (sameDayOtherClinicAppointment) {
-    alert(`
-      ${this.selectedDate} ${this.selectedTime} zaman aralığı ile çakışan başka bir randevunuz bulunmaktadır.
-      Randevu kaydı için farklı bir zaman aralığı seçilmelidir.`);
-        return;
-  }
+  // ❗ Aynı tarihte ve aynı saatte başka bir klinikten randevu var mı?
+    const sameDateTimeOtherClinicAppointment = this.allAppointments.find(
+     a =>
+        a.patient?.id === this.patientId &&
+        a.date === this.selectedDate &&
+        a.time?.substring(0, 5) === this.selectedTime && // saat uyuşuyor mu
+        a.clinic !== this.selectedClinic &&
+        a.status === 'AKTIF'
+);
+if (sameDateTimeOtherClinicAppointment) {
+  alert(`
+    ${this.selectedDate} ${this.selectedTime} zaman aralığı ile çakışan başka bir klinikten aktif bir randevunuz bulunmaktadır.
+    Lütfen farklı bir zaman seçiniz.`);
+  return;
+}
 
     const appointmentData = {
       clinic: this.selectedClinic,

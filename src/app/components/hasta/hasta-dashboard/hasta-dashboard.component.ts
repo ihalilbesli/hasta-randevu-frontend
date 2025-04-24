@@ -4,11 +4,12 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { Router } from '@angular/router';
 import { AuthService } from '../../../service/auth/auth.service';
 import { HeaderComponent } from '../../header/header.component';
+import { AiChatComponent } from '../ai-chat/ai-chat.component';
 
 @Component({
   selector: 'app-hasta-dashboard',
   standalone: true,
-  imports: [CommonModule,HeaderComponent],
+  imports: [CommonModule,HeaderComponent,AiChatComponent],
   templateUrl: './hasta-dashboard.component.html',
   styleUrl: './hasta-dashboard.component.css'
 })

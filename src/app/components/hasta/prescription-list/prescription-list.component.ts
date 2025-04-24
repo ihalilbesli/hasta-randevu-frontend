@@ -3,11 +3,13 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PrescriptionService } from '../../../service/presccription/prescription.service';
 import { UserService } from '../../../service/user-service/user-service.service';
+import { HeaderComponent } from '../../header/header.component';
+import { AiChatComponent } from '../ai-chat/ai-chat.component';
 
 @Component({
   selector: 'app-prescription-list',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,HeaderComponent,AiChatComponent],
   templateUrl: './prescription-list.component.html',
   styleUrl: './prescription-list.component.css'
 })

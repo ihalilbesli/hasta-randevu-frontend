@@ -90,6 +90,13 @@ export const routes: Routes = [
            .then(({ PatientHistoryComponent }) => PatientHistoryComponent),
            canActivate: [authGuard,roleGuard(["HASTA"])]
       },
+      {
+        path: 'complaints',
+        loadComponent: () =>
+          import('./components/hasta/complaint-create/complaint-create.component')
+           .then(({ ComplaintCreateComponent }) => ComplaintCreateComponent),
+           canActivate: [authGuard,roleGuard(["HASTA"])]
+      },
 
       
 ];

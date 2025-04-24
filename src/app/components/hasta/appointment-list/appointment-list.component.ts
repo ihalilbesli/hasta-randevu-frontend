@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
 import { UserService } from '../../../service/user-service/user-service.service';
 import { HeaderComponent } from '../../header/header.component';
+import { AIService } from '../../../service/ai-chat/ai-chat.service';
+import { AiChatComponent } from '../ai-chat/ai-chat.component';
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [CommonModule, FormsModule,HeaderComponent],
+  imports: [CommonModule, FormsModule,HeaderComponent,AiChatComponent],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css'
 })

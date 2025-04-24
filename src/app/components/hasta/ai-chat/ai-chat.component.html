@@ -1,0 +1,35 @@
+<!-- Buton: Yapay zeka aç/kapat -->
+<div class="ai-chat-button" *ngIf="!isOpen" (click)="toggle()">🤖</div>
+
+<!-- Yapay zeka sohbet kutusu -->
+<div class="ai-chat-box" *ngIf="isOpen">
+  <div class="header">
+    <span>Yapay Zeka Asistanı</span>
+    <button (click)="toggle()">✖</button>
+  </div>
+
+  <textarea [(ngModel)]="complaintText" placeholder="Şikayetinizi yazın..."></textarea>
+
+  <button (click)="submitComplaint()" [disabled]="isLoading">
+    {{ isLoading ? 'Yükleniyor...' : 'Gönder' }}
+  </button>
+
+  <!-- Yanıt varsa göster -->
+  <div class="response" *ngIf="response">
+    <strong>Poliklinik Önerisi:</strong>
+    <div>{{ suggestedClinic || '-' }}</div>
+
+    <br>
+
+    <strong>Tavsiye:</strong>
+    <div>
+      {{
+        (response.split('Tavsiye:')[1] || '-').trim()
+      }}
+    </div>
+    <div class="actions">
+      <button (click)="goToAppointment()">Randevu Al</button>
+      <button (click)="reset()">Yeni Şikayet Yaz</button>
+    </div>
+  </div>
+</div>
