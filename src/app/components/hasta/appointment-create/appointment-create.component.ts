@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CLINICS } from '../../../data/clinics';
 import { UserService } from '../../../service/user-service/user-service.service';
-import { AuthService } from '../../../service/auth/auth.service';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
 import { HeaderComponent } from '../../header/header.component';
-import { AiChatComponent } from '../ai-chat/ai-chat.component';
+
 
 @Component({
   selector: 'app-appointment-create',
   standalone: true,
-  imports: [CommonModule, FormsModule,HeaderComponent,AiChatComponent],
+  imports: [CommonModule, FormsModule,HeaderComponent],
   templateUrl: './appointment-create.component.html',
   styleUrl: './appointment-create.component.css'
 })
@@ -41,10 +40,17 @@ export class AppointmentCreateComponent implements OnInit {
   constructor(
     private userService: UserService,
     private appointmentService: AppointmentService,
-    private router: Router
+    private router: Router,
+    private route:ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params=>{
+      if(params["clinic"]){
+        this.selectedClinic=params["clinic"];
+        this.onClinicChange();
+      }
+    });
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
         this.patientId = user.id;

@@ -18,7 +18,7 @@ export class AiChatComponent {
   isLoading = false;
   response: string | null = null;
   suggestedClinic: string | null = null;
-
+  readonly: boolean = false; 
   constructor(private aiService: AIService, private router: Router) {}
 
   toggle() {
@@ -31,6 +31,7 @@ export class AiChatComponent {
     this.isLoading = true;
     this.response = null;
     this.suggestedClinic = null;
+    this.readonly = true;
 
     this.aiService.analyzeComplaint(this.complaintText).subscribe({
       next: (res) => {
@@ -59,6 +60,7 @@ export class AiChatComponent {
     this.complaintText = '';
     this.response = null;
     this.suggestedClinic = null;
+    this.readonly = false;
   }
 
 

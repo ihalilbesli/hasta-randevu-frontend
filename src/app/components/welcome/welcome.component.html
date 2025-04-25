@@ -1,7 +1,96 @@
-<div class="welcome-container">
-    <h1>Hasta Randevu Sistemine Hoş Geldiniz</h1>
-  
+<!-- Navbar -->
+<div class="navbar">
+  <img src="assets/logo/Logo_Hasta-Randevu.png" alt="Logo" />
+  <div class="nav-buttons">
     <button (click)="goToLogin()">Giriş Yap</button>
     <button (click)="goToRegister()">Kayıt Ol</button>
   </div>
-  
+</div>
+
+<!-- Slider -->
+<div class="slider">
+  <div class="arrow left" (click)="prevSlide()">&#10094;</div>
+
+  <div
+    class="slide"
+    *ngFor="let slide of slides; let i = index"
+    [class.active]="i === currentSlide"
+    [style.backgroundImage]="'url(' + slide.imageUrl + ')'"
+  >
+    <div class="overlay">
+      <h2>{{ slide.title }}</h2>
+      <p>{{ slide.description }}</p>
+    </div>
+  </div>
+
+  <div class="arrow right" (click)="nextSlide()">&#10095;</div>
+
+  <div class="dots">
+    <span
+      *ngFor="let s of slides; let i = index"
+      [class.active]="i === currentSlide"
+      (click)="goToSlide(i)"
+    ></span>
+  </div>
+</div>
+
+<!-- Sosyal Medya -->
+<div class="social-icons">
+  <a href="https://x.com" target="_blank">X</a>
+  <a href="https://facebook.com" target="_blank">F</a>
+  <a href="https://instagram.com" target="_blank">I</a>
+</div>
+
+<!-- Duyurular -->
+<div class="announcements">
+  <h3>Duyurular</h3>
+  <div class="announcement-grid">
+    <div>MHRS’de Randevu Hatırlatma</div>
+    <div>MHRS Çalışma Usul ve Esasları</div>
+    <div>Öncelikli Hastalar Uygulaması</div>
+    <div>MHRS e-Devlet Buluşması</div>
+    <div>MHRS’den Gururlandıran Ödül</div>
+    <div>Semt Polikliniklerine Randevu</div>
+  </div>
+</div>
+
+<!-- Kartlar -->
+<div class="cards">
+  <div class="card">
+    <img src="assets/icons/fast.png" alt="Hızlı Randevu" />
+    <h3>Hızlı Randevu</h3>
+    <p>Anında ve kolay randevu oluşturun.</p>
+  </div>
+  <div class="card">
+    <img src="assets/icons/location.png" alt="Yakın Hastane" />
+    <h3>En Yakın Hastane</h3>
+    <p>Konuma göre hastaneleri listeleyin.</p>
+  </div>
+  <div class="card">
+    <img src="assets/icons/doctor.png" alt="Doktor Seçimi" />
+    <h3>Doktor Seçimi</h3>
+    <p>Uzman doktorlarla randevu oluşturun.</p>
+  </div>
+  <div class="card">
+    <img src="assets/icons/ai.png" alt="Yapay Zeka" />
+    <h3>Yapay Zeka Asistanı</h3>
+    <p>Şikayete göre poliklinik önerisi alın.</p>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <ul>
+      <li>Hakkımızda</li>
+      <li>Sıkça Sorulan Sorular</li>
+      <li>Soru ve Görüşleriniz</li>
+      <li>Yararlı Bağlantılar</li>
+      <li>Üyelik Silme</li>
+    </ul>
+  </div>
+  <div class="footer-right">
+    <img src="assets/icons/secure.png" alt="Güvenli Bağlantı" />
+    <p>© 2025 Hasta Randevu Sistemi</p>
+  </div>
+</footer>

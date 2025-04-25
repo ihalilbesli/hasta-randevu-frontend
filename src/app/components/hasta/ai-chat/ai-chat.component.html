@@ -8,9 +8,13 @@
     <button (click)="toggle()">✖</button>
   </div>
 
-  <textarea [(ngModel)]="complaintText" placeholder="Şikayetinizi yazın..."></textarea>
+  <textarea
+   [(ngModel)]="complaintText"
+   placeholder="Şikayetinizi yazın..."
+   [readonly]="readonly">
+  </textarea>
 
-  <button (click)="submitComplaint()" [disabled]="isLoading">
+  <button (click)="submitComplaint()" [disabled]="isLoading || readonly">
     {{ isLoading ? 'Yükleniyor...' : 'Gönder' }}
   </button>
 
