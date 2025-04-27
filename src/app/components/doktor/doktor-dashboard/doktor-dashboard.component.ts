@@ -3,11 +3,12 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { Router } from '@angular/router';
 import { AuthService } from '../../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-doktor-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,HeaderComponent],
   templateUrl: './doktor-dashboard.component.html',
   styleUrl: './doktor-dashboard.component.css'
 })
@@ -40,9 +41,9 @@ export class DoktorDashboardComponent {
     this.authService.logout();
   }
   goTo(path:string){
-    alert(path+" sayfası daha sonra eklenecek.");
-   // this.router.navigate([`/${path}`]);
-    console.log(path+" navigate edildi");
+    this.router.navigate([`/${path}`]);
+  console.log(path+" navigate edildi");
     
   }
+  
 }

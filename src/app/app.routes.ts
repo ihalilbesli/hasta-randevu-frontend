@@ -97,6 +97,13 @@ export const routes: Routes = [
            .then(({ ComplaintCreateComponent }) => ComplaintCreateComponent),
            canActivate: [authGuard,roleGuard(["HASTA"])]
       },
+      {
+        path: 'appointments',
+        loadComponent: () =>
+          import('./components/doktor/appointments/appointments.component')
+           .then(({ AppointmentsComponent }) => AppointmentsComponent),
+           canActivate: [authGuard,roleGuard(["DOKTOR"])]
+      },
 
       
 ];

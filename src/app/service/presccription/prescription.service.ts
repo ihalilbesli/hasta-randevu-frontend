@@ -45,4 +45,24 @@ export class PrescriptionService {
       headers: this.getHeaders()
     });
   }
+   // 5. Reçete oluştur
+   createPrescription(prescriptionData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}`, prescriptionData, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // 6. Reçete güncelle
+  updatePrescription(id: number, updatedData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, updatedData, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // 7. Reçete sil
+  deletePrescription(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
 }
