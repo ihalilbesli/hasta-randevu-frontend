@@ -8,7 +8,12 @@ export function roleGuard (expectedRole:string[]):CanActivateFn{
     const authService = inject(AuthService);
     const router = inject(Router);
 
+    
     const userRole = authService.getUserRole(); 
+
+    console.log('--- ROLE GUARD TEST ---');
+    console.log('Beklenen roller:', expectedRole);
+    console.log('Kullanıcının rolü:', userRole);
 
     if (userRole && expectedRole.includes(userRole)) {
       return true;

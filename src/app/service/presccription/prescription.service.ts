@@ -65,4 +65,16 @@ export class PrescriptionService {
       headers: this.getHeaders()
     });
   }
+  getPrescriptionsByDoctor(doctorId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/doctor/${doctorId}`, {
+      headers: this.getHeaders()
+    });
+  }
+  
+  // Belirli bir tarihten sonrakileri getirme (filtreli)
+  getPrescriptionsByDoctorAndPeriod(doctorId: number, period: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/doctor/${doctorId}/filter?period=${period}`, {
+      headers: this.getHeaders()
+    });
+  }
 }

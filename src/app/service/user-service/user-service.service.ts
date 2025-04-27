@@ -71,4 +71,7 @@ export class UserService {
       headers: this.getHeaders()
     });
   }
+  getAllPatients(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/patients`, { headers: this.getHeaders() });
+  }
 }
