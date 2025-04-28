@@ -53,11 +53,4 @@ export default class DoctorService {
       headers: this.getHeaders()
     });
   }
-
-  // 🔍 Hastalarım (doktorun işlem yaptığı hastalar)
-  getMyPatients(doctorId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/users/my-patients/${doctorId}`, {
-      headers: this.getHeaders()
-    });
-  }
 }

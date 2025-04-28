@@ -1,0 +1,81 @@
+<app-header></app-header>
+
+<!-- Hasta Seçimi -->
+<div class="form-group">
+  <label>Hasta Seçin:</label>
+  <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
+    <option value="">-- Hasta Seçin --</option>
+    <option *ngFor="let patient of patients" [value]="patient.id">
+      {{ patient.name }} {{ patient.surname }}
+    </option>
+  </select>
+</div>
+
+<!-- 🔥 Hasta seçilince yönlendirme butonları -->
+<div *ngIf="selectedPatientId && activeTab === ''" class="form-group">
+  <button (click)="activeTab = 'add'">Test Sonucu Ekle</button>
+  <button (click)="activeTab = 'list'">Test Sonuçlarını Gör</button>
+</div>
+
+<!-- 🔥 Test Sonucu Ekleme Alanı -->
+<div *ngIf="selectedPatientId && activeTab === 'add'">
+    <button (click)="activeTab = ''">← Geri</button>
+
+  
+  <!-- Test Türü Seçimi -->
+  <div class="form-group">
+    <label>Test Türü:</label>
+    <select [(ngModel)]="testType" (change)="onTestTypeChange()">
+      <option [value]="'DIGER'">Diğer</option>
+      <option value="KAN_TAHLILI">Kan Tahlili</option>
+      <option value="IDRAR_TAHLILI">İdrar Tahlili</option>
+      <option value="MRI">MRI</option>
+      <option value="TOMOGRAFI">Tomografi</option>
+    </select>
+  </div>
+
+  <!-- Test Parametreleri -->
+  <div *ngIf="testParameters.length > 0">
+    <div class="form-group" *ngFor="let param of testParameters">
+      <label>{{ param.name }}</label>
+      <input type="text" [(ngModel)]="param.value" placeholder="Değer girin (Opsiyonel)" />
+    </div>
+  </div>
+
+  <!-- Doktor Yorumu -->
+  <div class="form-group">
+    <label>Doktor Yorumu (Opsiyonel):</label>
+    <textarea [(ngModel)]="doctorComment" placeholder="Varsa yorum yazın"></textarea>
+  </div>
+
+  <!-- Test Tarihi -->
+  <div class="form-group">
+    <label>Test Tarihi:</label>
+    <input type="date" [(ngModel)]="testDate" />
+  </div>
+
+  <!-- Kaydet Butonu -->
+  <button (click)="createTestResult()">Test Sonucu Kaydet</button>
+
+</div>
+
+<!-- 🔥 Test Sonuçlarını Görme Alanı -->
+<div *ngIf="selectedPatientId && activeTab === 'list'" class="tab-content">
+    <button (click)="activeTab = ''">← Geri</button>
+
+  <h2>Test Sonuçları</h2>
+
+  <div *ngIf="testResults.length === 0">
+    <p>Seçilen hastaya ait test sonucu bulunamadı.</p>
+  </div>
+
+  <div *ngFor="let test of testResults" class="test-result-card">
+    <p><strong>Test Adı:</strong> {{ test.testName }}</p>
+    <p><strong>Sonuç Detayı:</strong><br /> {{ test.result }}</p>
+    <p><strong>Doktor Yorumu:</strong> {{ test.doctorComment || '-' }}</p>
+    <p><strong>Tarih:</strong> {{ test.testDate }}</p>
+     <!-- 🔥 Sil Butonu -->
+  <button (click)="deleteTestResult(test.id)">🗑️ Sil</button>
+  <button (click)="editTestResult(test)">✏️ Düzenle</button>
+  </div>
+</div>

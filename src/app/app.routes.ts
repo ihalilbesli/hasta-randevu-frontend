@@ -111,6 +111,13 @@ export const routes: Routes = [
            .then(({ PrescriptionComponent }) => PrescriptionComponent),
            canActivate: [authGuard,roleGuard(["DOKTOR"])] 
       },
+      {
+        path: 'doctor-test-results',
+        loadComponent: () =>
+          import('./components/doktor/test-result/test-result.component')
+           .then(({ TestResultComponent }) => TestResultComponent),
+           canActivate: [authGuard,roleGuard(["DOKTOR"])] 
+      },
 
       
 ];

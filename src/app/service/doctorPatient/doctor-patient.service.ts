@@ -35,5 +35,10 @@ export class DoctorPatientService {
       headers: this.getHeaders()
     });
   }
+  getMyPatientsToday(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/my-patients-today`, {
+      headers: this.getHeaders()
+    });
+  }
   
 }

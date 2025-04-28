@@ -57,7 +57,7 @@ export class PrescriptionComponent implements OnInit {
   }
 
   loadPatients(): void {
-    this.doctorPatientService.getMyPatients().subscribe({
+    this.doctorPatientService.getMyPatientsToday().subscribe({
       next: (patients) => {
         this.patients = patients;
       },
