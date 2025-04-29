@@ -40,4 +40,24 @@ export class PatientHistoryService {
       headers: this.getHeaders()
     });
   }
+   // 🔥 5. Yeni geçmiş kaydı oluşturma
+   createHistory(historyData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}`, historyData, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // 🔥 6. Geçmiş kaydını güncelleme
+  updateHistory(id: number, updatedData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, updatedData, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // 🔥 7. Geçmiş kaydını silme
+  deleteHistory(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
 }

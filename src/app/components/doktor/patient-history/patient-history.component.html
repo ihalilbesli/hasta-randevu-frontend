@@ -1,0 +1,92 @@
+<app-header></app-header>
+
+<!-- 🔘 Randevulu / Randevusuz Seçimi -->
+<div class="form-group">
+  <button (click)="selectPatientMode('today')" [disabled]="patientMode === 'today'">
+    Randevulu Hastalar
+  </button>
+  <button (click)="selectPatientMode('all')" [disabled]="patientMode === 'all'">
+    Randevusuz Hastalar
+  </button>
+</div>
+
+<!-- 🧑‍⚕️ Hasta Seçimi -->
+<div class="form-group">
+  <label>Hasta Seçin:</label>
+  <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
+    <option [value]="null">-- Hasta Seçin --</option>
+    <option *ngFor="let patient of patients" [value]="patient.id">
+      {{ patient.name }} {{ patient.surname }}
+    </option>
+  </select>
+</div>
+
+<!-- 🔘 Hasta seçildiyse butonlar -->
+<div *ngIf="selectedPatientId && activeTab === ''" class="form-group">
+  <button *ngIf="patientMode === 'today'" (click)="selectTab('add')">Geçmiş Ekle</button>
+  <button (click)="selectTab('list')">Geçmişleri Gör</button>
+</div>
+
+<!-- ➕ Geçmiş Ekleme -->
+<div *ngIf="selectedPatientId && activeTab === 'add'">
+  <button (click)="activeTab = ''">← Geri</button>
+  <h3>{{ editingHistoryId ? 'Geçmişi Güncelle' : 'Yeni Geçmiş Ekle' }}</h3>
+
+  <div class="form-group">
+    <label>Tanı *</label>
+    <input type="text" [(ngModel)]="diagnosis" placeholder="Tanı girin" required />
+  </div>
+
+  <div class="form-group">
+    <label>Tedavi</label>
+    <input type="text" [(ngModel)]="treatment" placeholder="Tedavi bilgisi (opsiyonel)" />
+  </div>
+
+  <div class="form-group">
+    <label>Notlar</label>
+    <textarea [(ngModel)]="notes" placeholder="Varsa notlar"></textarea>
+  </div>
+
+  <button (click)="createOrUpdateHistory()">
+    {{ editingHistoryId ? 'Güncelle' : 'Kaydet' }}
+  </button>
+</div>
+
+<!-- 📄 Geçmiş Listeleme -->
+<div *ngIf="selectedPatientId && activeTab === 'list'">
+  <button (click)="activeTab = ''">← Geri</button>
+  <!-- 🔍 Arama ve Zaman Filtreleme Alanı -->
+<div *ngIf="selectedPatientId && activeTab === 'list'" class="form-group">
+    <label>Arama:</label>
+    <input [(ngModel)]="searchKeyword" placeholder="Anahtar kelime girin" />
+    <select [(ngModel)]="searchField">
+      <option value="diagnosis">Tanı</option>
+      <option value="treatment">Tedavi</option>
+    </select>
+    <button (click)="searchHistories()">Ara</button>
+  
+    <label>Zaman Filtresi:</label>
+    <select [(ngModel)]="selectedPeriod" (change)="loadHistories()">
+      <option value="">Tümü</option>
+      <option value="day">Son 1 Gün</option>
+      <option value="week">Son 1 Hafta</option>
+      <option value="month">Son 1 Ay</option>
+      <option value="year">Son 1 Yıl</option>
+    </select>
+  </div>
+  <h3>Geçmiş Kayıtları</h3>
+
+  <div *ngIf="histories.length === 0">
+    <p>Bu hastaya ait geçmiş kaydı yok.</p>
+  </div>
+
+  <div *ngFor="let history of histories" class="history-card">
+    <p><strong>Tanı:</strong> {{ history.diagnosis }}</p>
+    <p><strong>Tedavi:</strong> {{ history.treatment || '-' }}</p>
+    <p><strong>Notlar:</strong> {{ history.notes || '-' }}</p>
+    <p><strong>Tarih:</strong> {{ history.date }}</p>
+
+    <button (click)="editHistory(history)">✏️ Düzenle</button>
+    <button (click)="deleteHistory(history.id)">🗑️ Sil</button>
+  </div>
+</div>

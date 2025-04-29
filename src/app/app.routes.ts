@@ -118,6 +118,13 @@ export const routes: Routes = [
            .then(({ TestResultComponent }) => TestResultComponent),
            canActivate: [authGuard,roleGuard(["DOKTOR"])] 
       },
+      {
+        path: 'doctor-patient-history',
+        loadComponent: () =>
+          import('./components/doktor/patient-history/patient-history.component')
+           .then(({ PatientHistoryComponent }) => PatientHistoryComponent),
+           canActivate: [authGuard,roleGuard(["DOKTOR"])] 
+      },
 
       
 ];
