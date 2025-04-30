@@ -1,33 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AuthService } from '../../../service/auth/auth.service';
-import { Router } from '@angular/router';
 import { PrescriptionService } from '../../../service/presccription/prescription.service';
 import { DoctorPatientService } from '../../../service/doctorPatient/doctor-patient.service';
 import { UserService } from '../../../service/user-service/user-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-prescription',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule,HeaderComponent],
   templateUrl: './prescription.component.html',
   styleUrls: ['./prescription.component.css']
 })
 export class PrescriptionComponent implements OnInit {
-  activeTab: 'write' | 'list' = 'write'; // Sekme kontrolü
+  patientMode: 'today' | 'all' = 'today';
+  activeTab: '' | 'write' | 'list' = '';
 
-  // Reçete Yazma Alanı
   patients: any[] = [];
   selectedPatientId: number | null = null;
+
   medications: string = '';
   description: string = '';
 
-  // Reçetelerim Alanı
   prescriptions: any[] = [];
   searchKeyword: string = '';
-  filterPeriod: string = 'all'; // all, day, week, month
+  filterPeriod: string = 'all';
 
   doctorId: number | null = null;
   isLoading: boolean = false;
@@ -35,15 +33,14 @@ export class PrescriptionComponent implements OnInit {
   constructor(
     private prescriptionService: PrescriptionService,
     private doctorPatientService: DoctorPatientService,
-    private userService: UserService,          // ✔️ doğru şekilde yazıldı
-    private authService: AuthService,
-    private router: Router
+    private userService: UserService,
+  
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
     this.userService.getCurrentUser().subscribe({
-      next: (user) => { // ✔️ user tipi any verildi
+      next: (user) => {
         this.doctorId = user.id;
         this.loadPatients();
         this.loadPrescriptions();
@@ -57,14 +54,25 @@ export class PrescriptionComponent implements OnInit {
   }
 
   loadPatients(): void {
-    this.doctorPatientService.getMyPatientsToday().subscribe({
-      next: (patients) => {
-        this.patients = patients;
-      },
-      error: (error) => {
-        console.error('Hastalar yüklenemedi:', error);
-      }
+    const observable = this.patientMode === 'today'
+      ? this.doctorPatientService.getMyPatientsToday()
+      : this.doctorPatientService.getMyPatients();
+
+    observable.subscribe({
+      next: (patients) => this.patients = patients,
+      error: (error) => console.error('Hastalar yüklenemedi:', error)
     });
+  }
+
+  selectPatientMode(mode: 'today' | 'all'): void {
+    this.patientMode = mode;
+    this.selectedPatientId = null;
+    this.activeTab = '';
+    this.loadPatients();
+  }
+
+  onPatientChange(): void {
+    this.activeTab = '';
   }
 
   loadPrescriptions(): void {
@@ -93,6 +101,7 @@ export class PrescriptionComponent implements OnInit {
           alert('Reçete başarıyla oluşturuldu!');
           this.resetForm();
           this.loadPrescriptions();
+          this.activeTab = '';
         },
         error: (error) => {
           console.error('Reçete oluşturulamadı:', error);

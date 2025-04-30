@@ -1,58 +1,71 @@
-<div class="tabs">
-    <button (click)="activeTab = 'write'" [class.active]="activeTab === 'write'">Reçete Yaz</button>
-    <button (click)="activeTab = 'list'" [class.active]="activeTab === 'list'">Reçetelerim</button>
+<app-header></app-header>
+
+<!-- 🔘 Randevulu / Randevusuz Butonları -->
+<div class="form-group">
+  <button (click)="selectPatientMode('today')" [disabled]="patientMode === 'today'">Randevulu Hastalar</button>
+  <button (click)="selectPatientMode('all')" [disabled]="patientMode === 'all'">Randevusuz Hastalar</button>
+</div>
+
+<!-- 👤 Hasta Seçimi -->
+<div class="form-group">
+  <label>Hasta Seçin:</label>
+  <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
+    <option [ngValue]="null">-- Hasta Seçin --</option>
+    <option *ngFor="let patient of patients" [ngValue]="patient.id">
+      {{ patient.name }} {{ patient.surname }}
+    </option>
+  </select>
+</div>
+
+<!-- 🔘 Hasta seçildiyse geçiş butonları -->
+<div *ngIf="selectedPatientId && activeTab === ''" class="form-group">
+  <button *ngIf="patientMode === 'today'" (click)="activeTab = 'write'">Reçete Yaz</button>
+  <button (click)="activeTab = 'list'">Reçeteleri Gör</button>
+</div>
+
+<!-- 📝 Reçete Yazma Formu -->
+<div *ngIf="selectedPatientId && activeTab === 'write'" class="tab-content">
+  <button (click)="activeTab = ''">← Geri</button>
+  <h2>Yeni Reçete Yaz</h2>
+
+  <div class="form-group">
+    <label>İlaçlar:</label>
+    <input type="text" [(ngModel)]="medications" placeholder="İlaçları virgülle ayırarak yazın" />
   </div>
-  
-  <div *ngIf="activeTab === 'write'" class="tab-content">
-    <h2>Yeni Reçete Yaz</h2>
-  
-    <div class="form-group">
-      <label>Hasta Seçin:</label>
-      <select [(ngModel)]="selectedPatientId">
-        <option value="">-- Hasta Seçin --</option>
-        <option *ngFor="let patient of patients" [value]="patient.id">
-          {{ patient.name }} {{ patient.surname }}
-        </option>
-      </select>
-    </div>
-  
-    <div class="form-group">
-      <label>İlaçlar:</label>
-      <input type="text" [(ngModel)]="medications" placeholder="İlaçları virgülle ayırarak yazın" />
-    </div>
-  
-    <div class="form-group">
-      <label>Açıklama:</label>
-      <textarea [(ngModel)]="description" placeholder="Açıklama girin"></textarea>
-    </div>
-  
-    <button (click)="createPrescription()">Reçete Oluştur</button>
+
+  <div class="form-group">
+    <label>Açıklama:</label>
+    <textarea [(ngModel)]="description" placeholder="Açıklama girin"></textarea>
   </div>
-  
-  <div *ngIf="activeTab === 'list'" class="tab-content">
-    <h2>Reçetelerim</h2>
-  
-    <div class="filter-group">
-      <input type="text" [(ngModel)]="searchKeyword" (input)="searchPrescriptions()" placeholder="Açıklamada Ara" />
-  
-      <select [(ngModel)]="filterPeriod" (change)="filterPrescriptions()">
-        <option value="all">Tüm Zamanlar</option>
-        <option value="day">Son 1 Gün</option>
-        <option value="week">Son 1 Hafta</option>
-        <option value="month">Son 1 Ay</option>
-        <option value="year">Son 1 Yıl</option>
-      </select>
-    </div>
-  
-    <div *ngIf="prescriptions.length === 0">
-      <p>Henüz yazılmış bir reçeteniz bulunmamaktadır.</p>
-    </div>
-  
-    <div *ngFor="let prescription of prescriptions" class="prescription-card">
-        <p><strong>Hasta:</strong> {{ prescription.patient?.name }} {{ prescription.patient?.surname }}</p> <!-- 🔥 hasta bilgisi eklendi -->
-        <p><strong>İlaçlar:</strong> {{ prescription.medications }}</p>
-        <p><strong>Açıklama:</strong> {{ prescription.description }}</p>
-        <p><strong>Tarih:</strong> {{ prescription.date }}</p>
-        <button (click)="deletePrescription(prescription.id)">Sil</button>
-      </div>
-  
+
+  <button (click)="createPrescription()">Reçete Oluştur</button>
+</div>
+
+<!-- 📄 Reçeteler Listesi -->
+<div *ngIf="activeTab === 'list'" class="tab-content">
+  <button (click)="activeTab = ''">← Geri</button>
+  <h2>Reçetelerim</h2>
+
+  <div class="filter-group">
+    <input type="text" [(ngModel)]="searchKeyword" (input)="searchPrescriptions()" placeholder="Açıklamada Ara" />
+    <select [(ngModel)]="filterPeriod" (change)="filterPrescriptions()">
+      <option value="all">Tüm Zamanlar</option>
+      <option value="day">Son 1 Gün</option>
+      <option value="week">Son 1 Hafta</option>
+      <option value="month">Son 1 Ay</option>
+      <option value="year">Son 1 Yıl</option>
+    </select>
+  </div>
+
+  <div *ngIf="prescriptions.length === 0">
+    <p>Henüz yazılmış bir reçeteniz bulunmamaktadır.</p>
+  </div>
+
+  <div *ngFor="let prescription of prescriptions" class="prescription-card">
+    <p><strong>Hasta:</strong> {{ prescription.patient?.name }} {{ prescription.patient?.surname }}</p>
+    <p><strong>İlaçlar:</strong> {{ prescription.medications }}</p>
+    <p><strong>Açıklama:</strong> {{ prescription.description }}</p>
+    <p><strong>Tarih:</strong> {{ prescription.date }}</p>
+    <button (click)="deletePrescription(prescription.id)">Sil</button>
+  </div>
+</div>

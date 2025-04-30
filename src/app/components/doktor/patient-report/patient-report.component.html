@@ -1,0 +1,76 @@
+<app-header></app-header>
+
+<!-- Randevulu / Randevusuz Butonları -->
+<div class="form-group">
+  <button (click)="selectPatientMode('today')" [disabled]="patientMode === 'today'">Randevulu Hastalar</button>
+  <button (click)="selectPatientMode('all')" [disabled]="patientMode === 'all'">Randevusuz Hastalar</button>
+</div>
+
+<!-- Hasta Seçimi -->
+<div class="form-group">
+  <label>Hasta Seçin:</label>
+  <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
+    <option [value]="null">-- Hasta Seçin --</option>
+    <option *ngFor="let p of patients" [value]="p.id">{{ p.name }} {{ p.surname }}</option>
+  </select>
+</div>
+
+<!-- Geçiş Butonları -->
+<div *ngIf="selectedPatientId && activeTab === ''" class="form-group">
+  <button *ngIf="patientMode === 'today'" (click)="selectTab('add')">Rapor Ekle</button>
+  <button (click)="selectTab('list')">Raporları Gör</button>
+</div>
+
+<!-- Rapor Ekleme Formu -->
+<div *ngIf="activeTab === 'add'">
+  <button (click)="goBack()">← Geri</button>
+  <h3>{{ editingReportId ? 'Rapor Güncelle' : 'Rapor Ekle' }}</h3>
+
+  <div class="form-group">
+    <label>Rapor Türü:</label>
+    <input [(ngModel)]="reportType" placeholder="Örnek: MR Sonucu" />
+  </div>
+
+  <div class="form-group">
+    <label>Dosya Bağlantısı (URL):</label>
+    <input [(ngModel)]="fileUrl" placeholder="Dosya yolu girin" />
+  </div>
+
+  <button (click)="createOrUpdateReport()">
+    {{ editingReportId ? 'Güncelle' : 'Kaydet' }}
+  </button>
+</div>
+
+<!-- Raporları Listele -->
+<div *ngIf="activeTab === 'list'">
+  <button (click)="goBack()">← Geri</button>
+  <h3>Raporlar</h3>
+
+  <div class="form-group">
+    <label>Zaman Filtresi:</label>
+    <select [(ngModel)]="selectedPeriod" (change)="loadReports()">
+      <option value="">Tümü</option>
+      <option value="day">Son 1 Gün</option>
+      <option value="week">Son 1 Hafta</option>
+      <option value="month">Son 1 Ay</option>
+      <option value="year">Son 1 Yıl</option>
+    </select>
+
+    <label>Rapor Türü ile Ara:</label>
+    <input [(ngModel)]="searchKeyword" placeholder="örn: BT" />
+    <button (click)="searchReports()">Ara</button>
+  </div>
+
+  <div *ngIf="reports.length === 0">
+    <p>Kayıt bulunamadı.</p>
+  </div>
+
+  <div *ngFor="let report of reports" class="report-card">
+    <p><strong>Hasta:</strong> {{ report.patient?.name }} {{ report.patient?.surname }}</p>
+    <p><strong>Tür:</strong> {{ report.reportType }}</p>
+    <p><strong>Tarih:</strong> {{ report.reportDate }}</p>
+    <p><a [href]="report.fileUrl" target="_blank">📎 Dosyayı Aç</a></p>
+    <button (click)="editReport(report)">✏️ Düzenle</button>
+    <button (click)="deleteReport(report.id)">🗑️ Sil</button>
+  </div>
+</div>

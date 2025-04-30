@@ -125,6 +125,20 @@ export const routes: Routes = [
            .then(({ PatientHistoryComponent }) => PatientHistoryComponent),
            canActivate: [authGuard,roleGuard(["DOKTOR"])] 
       },
+      {
+        path: 'doctor-patient-reports',
+        loadComponent: () =>
+          import('./components/doktor/patient-report/patient-report.component')
+           .then(({ PatientReportComponent }) => PatientReportComponent),
+           canActivate: [authGuard,roleGuard(["DOKTOR"])] 
+      },
+      {
+        path: 'my-patients',
+        loadComponent: () =>
+          import('./components/doktor/my-patients/my-patients.component')
+           .then(({ MyPatientsComponent }) => MyPatientsComponent),
+           canActivate: [authGuard,roleGuard(["DOKTOR"])] 
+      },
 
       
 ];

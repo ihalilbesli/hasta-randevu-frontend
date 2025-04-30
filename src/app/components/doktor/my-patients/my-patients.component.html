@@ -1,0 +1,42 @@
+<app-header></app-header>
+
+<h2>📋 Hastalarım</h2>
+
+<!-- 🔍 Arama Kutusu -->
+<div class="search-bar">
+  <input [(ngModel)]="searchQuery" (input)="searchPatients()" placeholder="Ad veya e-posta ile ara..." />
+  <select [(ngModel)]="searchType">
+    <option value="name">İsme göre</option>
+    <option value="email">E-posta ile</option>
+  </select>
+</div>
+
+<!-- ❌ Hasta yoksa -->
+<div *ngIf="filteredPatients.length === 0" class="empty-message">
+  Kayıtlı hasta bulunamadı.
+</div>
+
+<!-- 🧾 Hasta Listesi -->
+<div *ngFor="let patient of filteredPatients" class="patient-card">
+  <h3>{{ patient.name }} {{ patient.surname }}</h3>
+  <p>📧 {{ patient.email }}</p>
+  <p>📱 {{ patient.phoneNumber }}</p>
+  <p>🎂 Doğum: {{ patient.birthDate || '-' }} | 🩸 Kan Grubu: {{ patient.bloodType || '-' }}</p>
+
+  <!-- 🔢 İstatistikler -->
+  <div class="stats">
+    <p>📅 Randevu: {{ patient.appointmentCount || 0 }}</p>
+    <p>💊 Reçete: {{ patient.prescriptionCount || 0 }}</p>
+    <p>🧪 Test: {{ patient.testResultCount || 0 }}</p>
+    <p>📚 Geçmiş: {{ patient.historyCount || 0 }}</p>
+    <p>📄 Rapor: {{ patient.reportCount || 0 }}</p>
+  </div>
+
+  <!-- ⚡ Kısayol Butonları -->
+ <div class="actions">
+  <button (click)="goToPrescription(patient.id)">📝 Reçete Yaz</button>
+  <button (click)="goToTest(patient.id)">🧪 Test Sonucu Ekle</button>
+  <button (click)="goToHistory(patient.id)">📚 Geçmiş Gör</button>
+  <button (click)="goToReport(patient.id)">📄 Raporları Gör</button>
+</div>
+</div>
