@@ -1,13 +1,17 @@
 <div class="top-bar">
-    <h2> {{ currentUser?.name }} {{ currentUser?.surname }}</h2>
-  
-    <div class="user-menu">
-      <span class="username">{{ currentUser?.email }}</span>
-      <button (click)="toggleMenu()">☰</button>
-      <div *ngIf="showMenu" class="dropdown-menu">
-        <button (click)="goToProfile()">Profil</button>
-        <button (click)="logout()">Çıkış Yap</button>
-      </div>
+  <!-- Sol taraf: Logo + sistem adı -->
+  <div class="logo-section">
+    <img src="assets/logo/Logo_Hasta-Randevu.png" alt="Logo" class="header-logo" />
+    <span class="system-name">Hasta Randevu Sistemi</span>
+  </div>
+
+  <!-- Sağ taraf: kullanıcı bilgisi + menü -->
+  <div class="user-menu">
+    <span class="username">{{ currentUser?.email }}</span>
+    <button (click)="toggleMenu()">☰</button>
+    <div *ngIf="showMenu" class="dropdown-menu">
+      <button (click)="goToProfile()">Profil</button>
+      <button (click)="logout()">Çıkış Yap</button>
     </div>
   </div>
-  
+</div>

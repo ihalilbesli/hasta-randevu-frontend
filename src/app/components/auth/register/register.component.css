@@ -1,0 +1,215 @@
+.register-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .register-left {
+    width: 50%;
+    padding: 40px 60px;
+    background-color: #eef5f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .register-right {
+    width: 50%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .register-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.85;
+    filter: brightness(1.05) saturate(60%);
+  }
+  
+  /* ✅ Logo sol üstte */
+  .logo-container {
+    position: absolute;
+    top: 40px;
+    left: 60px;
+    z-index: 2;
+  }
+  
+  .logo {
+    height: 180px;
+    object-fit: contain;
+  }
+  
+  /* ✅ Başlık ortada */
+  .logo-text {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  
+  .logo-text h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #222;
+    margin: 0;
+  }
+  
+  .logo-text p {
+    font-size: 18px;
+    color: #555;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  
+  /* ✅ Kayıt formu */
+  .register-container {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .register-container h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+    color: #222;
+  }
+  
+  .form-subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 550px;
+    height: 32px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    padding: 0 12px;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  
+  .required {
+    color: red;
+    margin-right: 4px;
+    font-weight: bold;
+  }
+  
+  /* Checkbox */
+  .checkbox-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #333;
+    width: 550px;
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+  } 
+  
+  .checkbox-group a {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  /* Uyarı yazısı */
+  .error-text {
+    font-size: 13px;
+    color: red;
+    margin-top: -8px;
+  }
+  
+  /* ✅ Kayıt butonu */
+  button[type="submit"] {
+    width: 550px;
+    height: 32px;
+    background-color: #28a745;
+    color: white;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  
+  /* ✅ Modal */
+  .privacy-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal-content h3 {
+    margin-top: 0;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  
+  .modal-content p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .modal-content button {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
