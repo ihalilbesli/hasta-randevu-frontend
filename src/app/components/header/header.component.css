@@ -1,61 +1,70 @@
 /* Ana üst bar */
 .top-bar {
-  background-color: #006d77;
+  background-color: #f1f8f9; /* açık ve sade */
   padding: 14px 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
+  color: #222;
+  height: 80px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
+
+
 /* Sol taraf: logo + yazı */
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .header-logo {
-  height: 56px;
+  height: 180px;  /* ✅ Artırıldı */
+  max-height: 100%;
   object-fit: contain;
 }
 
+/* Sistem adı */
 .system-name {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
-  color: #ffffff;
+  color: #222;
+  white-space: nowrap;
 }
 
 /* Sağ taraf: kullanıcı + menü */
 .user-menu {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   position: relative;
 }
 
 .username {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
-  color: #f1f1f1;
+  color: #333;
+  white-space: nowrap;
 }
 
 /* Hamburger menü butonu */
 .user-menu button {
   background: none;
   border: none;
-  color: white;
-  font-size: 22px;
+  color: #333;
+  font-size: 26px;
   cursor: pointer;
+  padding: 6px;
 }
 
 /* Açılır menü */
 .dropdown-menu {
   position: absolute;
-  top: 36px;
+  top: 40px;
   right: 0;
   background-color: white;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 6px 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   z-index: 1000;
@@ -69,7 +78,7 @@
   padding: 10px 16px;
   text-align: left;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
   transition: background-color 0.2s;
 }
@@ -78,19 +87,18 @@
   background-color: #f2f2f2;
 }
 
-/* Responsive */
+/* ✅ Mobil Görünüm */
 @media (max-width: 768px) {
-  .system-name {
-    display: none;
-  }
-
+  .system-name,
   .username {
     display: none;
   }
 
   .top-bar {
-    flex-direction: row;
-    justify-content: space-between;
     padding: 10px 16px;
+  }
+
+  .header-logo {
+    height: 48px;
   }
 }
