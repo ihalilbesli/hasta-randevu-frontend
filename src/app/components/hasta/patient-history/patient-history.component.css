@@ -1,0 +1,126 @@
+.history-container {
+    padding: 32px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    max-width: 1000px;
+    margin: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .history-container h2 {
+    font-size: 24px;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  /* Filtreler */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  
+  .filters label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .filters select,
+  .filters input {
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    min-width: 200px;
+  }
+  
+  /* Kart yapısı */
+  .history-card {
+    border: 1px solid #ddd;
+    border-left: 6px solid #28a745;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .card-header .info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .toggle-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .toggle-btn:hover {
+    background-color: #218838;
+  }
+  
+  .card-details {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 12px;
+    line-height: 1.6;
+  }
+  
+  /* Boş veri mesajı */
+  .no-data-msg {
+    margin-top: 32px;
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    font-size: 15px;
+  }
+  
+  /* 📱 Mobil Uyum */
+  @media (max-width: 768px) {
+    .filters {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .filters label {
+      width: 100%;
+      max-width: 300px;
+    }
+  
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .toggle-btn {
+      width: 100%;
+    }
+  }
+  

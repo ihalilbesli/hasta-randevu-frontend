@@ -1,48 +1,43 @@
 <app-header></app-header>
 <app-ai-chat></app-ai-chat>
-<div class="report-list">
-    <h2>📄 Raporlarım</h2>
-  
-    <!-- Filtre -->
-    <div class="filters">
-      <label>
-        Zaman Filtresi:
-        <select [(ngModel)]="selectedPeriod" (change)="fetchReports()">
-          <option value="all">Tümü</option>
-          <option value="day">Son 1 Gün</option>
-          <option value="week">Son 1 Hafta</option>
-          <option value="month">Son 1 Ay</option>
-          <option value="year">Son 1 Yıl</option>
-        </select>
-      </label>
-  
-      <label>
-        Anahtar Kelime:
-        <input type="text"  
-        [(ngModel)]="keyword" (input)="applyKeyword()" placeholder="Rapor türünde ara..." />
-      </label>
-    </div>
-  
-    <!-- Liste -->
-    <table *ngIf="filteredReports.length > 0">
-      <thead>
-        <tr>
-          <th>Tür</th>
-          <th>Tarih</th>
-          <th>Doktor</th>
-          <th>Dosya</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let report of filteredReports">
-          <td>{{ report.reportType }}</td>
-          <td>{{ report.reportDate |date:'dd/MM/yyyy' }}</td>
-          <td>{{ report.doctor.name.charAt(0) }} {{ report.doctor.surname }}</td>
-          <td><a [href]="report.fileUrl" target="_blank">Görüntüle</a></td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <p *ngIf="filteredReports.length === 0">Hiç rapor bulunamadı.</p>
+
+<div class="report-list-container">
+  <h2>📄 Raporlarım</h2>
+
+  <!-- Filtre -->
+  <div class="filters">
+    <label>
+      Zaman Filtresi:
+      <select [(ngModel)]="selectedPeriod" (change)="fetchReports()">
+        <option value="all">Tümü</option>
+        <option value="day">Son 1 Gün</option>
+        <option value="week">Son 1 Hafta</option>
+        <option value="month">Son 1 Ay</option>
+        <option value="year">Son 1 Yıl</option>
+      </select>
+    </label>
+
+    <label>
+      Anahtar Kelime:
+      <input type="text" [(ngModel)]="keyword" (input)="applyKeyword()" placeholder="Rapor türünde ara..." />
+    </label>
   </div>
-  
+
+  <!-- Kart Liste -->
+  <div *ngIf="filteredReports.length > 0">
+    <div class="report-card" *ngFor="let report of filteredReports">
+      <div class="card-header">
+        <div class="info">
+          <div><strong>📂 Tür:</strong> {{ report.reportType }}</div>
+          <div><strong>📅 Tarih:</strong> {{ report.reportDate | date: 'dd.MM.yyyy' }}</div>
+          <div><strong>👨‍⚕️ Doktor:</strong> {{ report.doctor.name }} {{ report.doctor.surname }}</div>
+        </div>
+        <a class="view-link" [href]="report.fileUrl" target="_blank">Görüntüle</a>
+      </div>
+    </div>
+  </div>
+
+  <p *ngIf="filteredReports.length === 0" class="no-data-msg">
+    Hiç rapor bulunamadı.
+  </p>
+</div>

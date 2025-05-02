@@ -1,0 +1,118 @@
+.test-result-list {
+    padding: 32px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    max-width: 1000px;
+    margin: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .test-result-list h2 {
+    font-size: 24px;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  /* Filtre */
+  .filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  
+  .filters label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .filters select {
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    min-width: 200px;
+  }
+  
+  /* Test Kartı */
+  .test-card {
+    border: 1px solid #ddd;
+    border-left: 6px solid #17a2b8;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .card-header .info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .toggle-btn {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .toggle-btn:hover {
+    background-color: #138496;
+  }
+  
+  .card-details {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 12px;
+    line-height: 1.6;
+  }
+  
+  /* Boş veri */
+  .no-data-msg {
+    margin-top: 32px;
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    font-size: 15px;
+  }
+  
+  /* Mobil uyum */
+  @media (max-width: 768px) {
+    .filters {
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+  
+    .toggle-btn {
+      width: 100%;
+    }
+  
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
+  
