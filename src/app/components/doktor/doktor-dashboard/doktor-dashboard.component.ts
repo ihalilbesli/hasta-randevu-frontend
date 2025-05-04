@@ -42,7 +42,7 @@ export class DoktorDashboardComponent {
   }
   goTo(path:string){
     this.router.navigate([`/${path}`]);
-  console.log(path+" navigate edildi");//
+  console.log(path+" navigate edildi");
     
   }
   

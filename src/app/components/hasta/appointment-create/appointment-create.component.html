@@ -1,8 +1,9 @@
 <app-header></app-header>
 <div class="appointment-form">
-  <h2>Randevu Oluştur</h2>
+  <h2>🗓️ Randevu Oluştur</h2>
 
   <form (ngSubmit)="onSubmit()" #appointmentForm="ngForm">
+
     <!-- Klinik Seçimi -->
     <div class="form-group">
       <label for="clinic">Klinik Seçiniz</label>
@@ -23,59 +24,67 @@
       </select>
     </div>
 
-    <!-- Tarih -->
+    <!-- Tarih Seçimi -->
     <div class="form-group">
       <label for="date">Tarih</label>
       <input 
-      type="date"
-      id="date"
-      name="date"
-      [(ngModel)]="selectedDate"
-      [min]="minDate"
-      [max]="maxDate" 
-      (change)="onDateChange($event)" 
-      [ngClass]="{ 'invalid': invalidDate }" 
-      required>
-
-
+        type="date" 
+        id="date" 
+        name="date" 
+        [(ngModel)]="selectedDate" 
+        [min]="minDate" 
+        [max]="maxDate"
+        (change)="onDateChange($event)" 
+        [ngClass]="{ 'invalid': invalidDate }" 
+        required>
+      <p class="warning" *ngIf="invalidDate">Hafta sonu randevu alınamaz.</p>
     </div>
 
-    <!-- Saat Seçimi -->
-    <div class="form-group" *ngIf="groupedTimeSlots.length > 0">
-      <label>Saat Seçiniz</label>
-      <div *ngFor="let group of groupedTimeSlots">
-        <h4>{{ group.hour }}</h4>
-        <div class="slot-group">
-          <button
-          type="button"
-          *ngFor="let time of group.slots"
-          [ngClass]="{
-            selected: selectedTime === time,
-            taken: isTimeDisabled(time)
-          }"
-          [disabled]="isTimeDisabled(time)"
-          (click)="!isTimeDisabled(time) && selectTime(time)">
-          {{ time }}
-        </button>
-        </div>
-      </div>
+   <!-- Saat Seçimi -->
+<div class="form-group" *ngIf="groupedTimeSlots.length > 0">
+  <label class="label">Saat Seçiniz</label>
+  
+  <div *ngFor="let group of groupedTimeSlots">
+    <div class="accordion-header" (click)="toggleGroup(group.hour)">
+      ▶ {{ group.hour }}
     </div>
-    
+
+    <div
+      class="accordion-content"
+      [ngClass]="{ open: isGroupOpen(group.hour) }"
+    >
+      <button
+        type="button"
+        *ngFor="let time of group.slots"
+        [ngClass]="{
+          selected: selectedTime === time,
+          taken: isTimeDisabled(time)
+        }"
+        [disabled]="isTimeDisabled(time)"
+        (click)="!isTimeDisabled(time) && selectTime(time)"
+      >
+        {{ time }}
+      </button>
+    </div>
+  </div>
+</div>
+
+
     <!-- Açıklama Alanı -->
     <div class="form-group">
-      <label for="description">Açıklama</label>
+      <label for="description">Açıklama (isteğe bağlı)</label>
       <textarea 
-        name="description"
-         id="description"
-         [(ngModel)]="description" 
-         rows="2"
-         placeholder="Randevu ile ilgili bir açıklama girin (isteğe bağlı)" >
-        </textarea>
-      </div>
+        name="description" 
+        id="description" 
+        [(ngModel)]="description" 
+        rows="2" 
+        placeholder="İsteğe bağlı açıklama ekleyebilirsiniz">
+      </textarea>
+    </div>
 
-    <!-- Buton  -->
+    <!-- Buton -->
     <button type="submit" [disabled]="!appointmentForm.form.valid || !selectedTime">
-      Randevu Oluştur
+      ✅ Randevu Oluştur
     </button>
   </form>
 </div>

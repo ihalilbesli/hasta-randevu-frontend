@@ -7,11 +7,10 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
 import { HeaderComponent } from '../../header/header.component';
 
-
 @Component({
   selector: 'app-appointment-create',
   standalone: true,
-  imports: [CommonModule, FormsModule,HeaderComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent],
   templateUrl: './appointment-create.component.html',
   styleUrl: './appointment-create.component.css'
 })
@@ -37,28 +36,30 @@ export class AppointmentCreateComponent implements OnInit {
   description = '';
   invalidDate = false;
 
+  // Açık grup saatleri takibi
+  openGroups: { [hour: string]: boolean } = {};
+
   constructor(
     private userService: UserService,
     private appointmentService: AppointmentService,
     private router: Router,
-    private route:ActivatedRoute
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params=>{
-      if(params["clinic"]){
-        this.selectedClinic=params["clinic"];
+    this.route.queryParams.subscribe(params => {
+      if (params["clinic"]) {
+        this.selectedClinic = params["clinic"];
         this.onClinicChange();
       }
     });
+
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
         this.patientId = user.id;
         this.getPatientAppointments(user.id);
       },
-      error: (err) => {
-        console.error('Kullanıcı alınamadı:', err);
-      }
+      error: (err) => console.error('Kullanıcı alınamadı:', err)
     });
   }
 
@@ -67,9 +68,7 @@ export class AppointmentCreateComponent implements OnInit {
       next: (data) => {
         this.allAppointments = data;
       },
-      error: (err) => {
-        console.error('Hasta randevuları alınamadı:', err);
-      }
+      error: (err) => console.error('Hasta randevuları alınamadı:', err)
     });
   }
 
@@ -80,6 +79,7 @@ export class AppointmentCreateComponent implements OnInit {
     this.groupedTimeSlots = [];
     this.doctorAppointments = [];
     this.invalidDate = false;
+    this.openGroups = {};
   }
 
   onClinicChange() {
@@ -90,9 +90,7 @@ export class AppointmentCreateComponent implements OnInit {
       next: (data) => {
         this.doctors = data;
       },
-      error: (err) => {
-        console.error('Doktorlar alınamadı:', err);
-      }
+      error: (err) => console.error('Doktorlar alınamadı:', err)
     });
   }
 
@@ -113,9 +111,7 @@ export class AppointmentCreateComponent implements OnInit {
           this.doctorAppointments = appointments;
           this.generateTimeSlots();
         },
-        error: (err) => {
-          console.error('Doktor randevuları alınamadı:', err);
-        }
+        error: (err) => console.error('Doktor randevuları alınamadı:', err)
       });
     }
   }
@@ -149,9 +145,19 @@ export class AppointmentCreateComponent implements OnInit {
       }
 
       if (slots.length > 0) {
-        this.groupedTimeSlots.push({ hour: `${hour}:00`, slots });
+        const hourLabel = `${hour.toString().padStart(2, '0')}:00`;
+        this.groupedTimeSlots.push({ hour: hourLabel, slots });
+        this.openGroups[hourLabel] = false; // ilk başta tüm gruplar kapalı
       }
     }
+  }
+
+  toggleGroup(hour: string) {
+    this.openGroups[hour] = !this.openGroups[hour];
+  }
+
+  isGroupOpen(hour: string): boolean {
+    return this.openGroups[hour];
   }
 
   selectTime(time: string) {
@@ -161,7 +167,6 @@ export class AppointmentCreateComponent implements OnInit {
   onSubmit() {
     if (!this.patientId || !this.selectedDoctorId || !this.selectedTime || !this.selectedDate) return;
 
-    // Güncel verileri çekip kontrol et
     this.getPatientAppointments(this.patientId);
 
     const sameClinicAppointment = this.allAppointments.find(
@@ -170,30 +175,25 @@ export class AppointmentCreateComponent implements OnInit {
         a.clinic === this.selectedClinic &&
         a.status === 'AKTIF'
     );
-    
 
     if (sameClinicAppointment) {
-      const confirmReplace = confirm(
-        "Bu klinikte daha önce alınmış aktif bir randevunuz bulunuyor.\nYeni randevuyu alırsanız, önceki iptal edilecek.\nDevam etmek istiyor musunuz?"
-      );
+      const confirmReplace = confirm("Bu klinikte daha önce alınmış aktif bir randevunuz bulunuyor. Yeni randevu alırsanız, önceki iptal edilecek. Devam etmek istiyor musunuz?");
       if (!confirmReplace) return;
     }
-     // ❗ Aynı tarihte başka bir klinikten randevu var mı?
-  // ❗ Aynı tarihte ve aynı saatte başka bir klinikten randevu var mı?
+
     const sameDateTimeOtherClinicAppointment = this.allAppointments.find(
-     a =>
+      a =>
         a.patient?.id === this.patientId &&
         a.date === this.selectedDate &&
-        a.time?.substring(0, 5) === this.selectedTime && // saat uyuşuyor mu
+        a.time?.substring(0, 5) === this.selectedTime &&
         a.clinic !== this.selectedClinic &&
         a.status === 'AKTIF'
-);
-if (sameDateTimeOtherClinicAppointment) {
-  alert(`
-    ${this.selectedDate} ${this.selectedTime} zaman aralığı ile çakışan başka bir klinikten aktif bir randevunuz bulunmaktadır.
-    Lütfen farklı bir zaman seçiniz.`);
-  return;
-}
+    );
+
+    if (sameDateTimeOtherClinicAppointment) {
+      alert(`${this.selectedDate} ${this.selectedTime} zaman aralığı ile çakışan başka bir klinikten aktif bir randevunuz bulunmaktadır. Lütfen farklı bir zaman seçiniz.`);
+      return;
+    }
 
     const appointmentData = {
       clinic: this.selectedClinic,
