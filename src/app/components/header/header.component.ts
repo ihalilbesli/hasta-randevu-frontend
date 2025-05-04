@@ -38,4 +38,21 @@ export class HeaderComponent {
   goToProfile() {
     alert('Profil sayfası daha sonra eklenecek.');
   }
+  navigateHome() {
+    const token = this.authService.getToken();
+    if (token) {
+      const role = this.authService.getUserRole();
+      if (role === 'HASTA') {
+        this.router.navigate(['/hasta-dashboard']);
+      } else if (role === 'DOKTOR') {
+        this.router.navigate(['/doktor-dashboard']);
+      } else if (role === 'ADMIN') {
+        this.router.navigate(['/admin-dashboard']);
+      } else {
+        this.router.navigate(['/welcome']);
+      }
+    } else {
+      this.router.navigate(['/welcome']);
+    }
+  }
 }
