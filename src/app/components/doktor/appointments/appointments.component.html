@@ -1,33 +1,39 @@
 <app-header></app-header>
 <div class="appointments-container">
-    <h2>Gelen Randevularım</h2>
-  
-    <div *ngIf="isLoading">Yükleniyor...</div>
-  
-    <table *ngIf="!isLoading && appointments.length > 0">
-      <thead>
-        <tr>
-          <th>Hasta</th>
-          <th>Tarih</th>
-          <th>Saat</th>
-          <th>Klinik</th>
-          <th>Açıklama</th>
-          <th>Durum</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let appointment of appointments">
-          <td>{{ appointment.patient?.name }} {{ appointment.patient?.surname }}</td>
-          <td>{{ appointment.date }}</td>
-          <td>{{ appointment.time }}</td>
-          <td>{{ appointment.clinic }}</td>
-          <td>{{ appointment.description || '-' }}</td>
-          <td>{{ appointment.status }}</td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <div *ngIf="!isLoading && appointments.length === 0">
-      Henüz randevunuz bulunmamaktadır.
-    </div>
+  <h2>Gelen Randevularım</h2>
+
+  <div *ngIf="isLoading">Yükleniyor...</div>
+
+  <table *ngIf="!isLoading && appointments.length > 0">
+    <thead>
+      <tr>
+        <th>Hasta</th>
+        <th>Tarih</th>
+        <th>Saat</th>
+        <th>Klinik</th>
+        <th>Durum</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appointment of appointments">
+        <td>{{ appointment.patient?.name }} {{ appointment.patient?.surname }}</td>
+        <td>{{ appointment.date }}</td>
+        <td>{{ appointment.time?.substring(0,5) }}</td>
+        <td>{{ appointment.clinic }}</td>
+        <td>{{ appointment.status }}</td>
+        <td>
+          <ng-container *ngIf="appointment.status === 'AKTIF'">
+            <button (click)="markAsCompleted(appointment.id)">Muayene Et</button>
+            <button (click)="markAsLate(appointment.id)">Geç Kaldı</button>
+          </ng-container>
+          <span *ngIf="appointment.status !== 'AKTIF'">-</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!isLoading && appointments.length === 0">
+    Henüz randevunuz bulunmamaktadır.
   </div>
+</div>

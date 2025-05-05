@@ -53,4 +53,5 @@ export default class DoctorService {
       headers: this.getHeaders()
     });
   }
+  
 }

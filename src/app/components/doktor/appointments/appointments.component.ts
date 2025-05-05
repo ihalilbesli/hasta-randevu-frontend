@@ -4,6 +4,7 @@ import DoctorService from '../../../service/doctor-service/doctor-service.servic
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header/header.component';
+import { AppointmentService } from '../../../service/appoinment/appointment.service';
 
 @Component({
   selector: 'app-appointments',
@@ -19,7 +20,8 @@ export class AppointmentsComponent  {
   
    constructor(
     private doktorService: DoctorService,
-    private userService: UserService
+    private userService: UserService,
+    private appointmentService:AppointmentService
   ) {}
   ngOnInit(): void {
     this.isLoading = true;
@@ -47,5 +49,28 @@ export class AppointmentsComponent  {
         this.isLoading = false;
       }
     });
+  } 
+  markAsCompleted(id: number) {
+    this.appointmentService.updateAppointmentStatus(id, 'COMPLETED').subscribe({
+      next: () => {
+        this.loadAppointments();
+      },
+      error: (err) => {
+        console.error('Durum güncellenemedi:', err);
+      }
+    });
   }
+  
+  markAsLate(id: number) {
+    this.appointmentService.updateAppointmentStatus(id, 'GEC_KALINDI').subscribe({
+      next: () => {
+        this.loadAppointments();
+      },
+      error: (err) => {
+        console.error('Durum güncellenemedi:', err);
+      }
+    });
+  }
+  
+  
 }

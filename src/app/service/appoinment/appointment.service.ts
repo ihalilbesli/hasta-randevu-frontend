@@ -79,6 +79,11 @@ export class AppointmentService {
         headers: this.getHeaders()
       });
     }
+    updateAppointmentStatus(id: number, status: string): Observable<any> {
+      return this.http.put(`${this.apiUrl}/${id}/status?status=${status}`, {}, {
+        headers: this.getHeaders()
+      });
+    }
     
     
 }
