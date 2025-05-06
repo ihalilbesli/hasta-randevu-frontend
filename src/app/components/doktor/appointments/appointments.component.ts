@@ -69,7 +69,7 @@ export class AppointmentsComponent  {
       error: (err) => {
         console.error('Durum güncellenemedi:', err);
       }
-    });
+    });//
   }
   
   
