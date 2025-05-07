@@ -9,7 +9,7 @@ import { HeaderComponent } from '../../header/header.component';
 @Component({
   selector: 'app-prescription',
   standalone: true,
-  imports: [CommonModule, FormsModule,HeaderComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent],
   templateUrl: './prescription.component.html',
   styleUrls: ['./prescription.component.css']
 })
@@ -33,8 +33,7 @@ export class PrescriptionComponent implements OnInit {
   constructor(
     private prescriptionService: PrescriptionService,
     private doctorPatientService: DoctorPatientService,
-    private userService: UserService,
-  
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +42,6 @@ export class PrescriptionComponent implements OnInit {
       next: (user) => {
         this.doctorId = user.id;
         this.loadPatients();
-        this.loadPrescriptions();
         this.isLoading = false;
       },
       error: (error) => {
@@ -68,25 +66,34 @@ export class PrescriptionComponent implements OnInit {
     this.patientMode = mode;
     this.selectedPatientId = null;
     this.activeTab = '';
+    this.prescriptions = [];
     this.loadPatients();
   }
 
   onPatientChange(): void {
     this.activeTab = '';
+    this.prescriptions = [];
+
+    // Sadece kendi hastalarına reçete sorgulaması yapılır
+    if (this.patientMode === 'today' && this.selectedPatientId) {
+      this.loadPrescriptions();
+    }
   }
 
   loadPrescriptions(): void {
-    if (this.selectedPatientId) {
-      this.prescriptionService.getPrescriptionsByPatient(this.selectedPatientId).subscribe({
-        next: (prescriptions) => this.prescriptions = prescriptions,
-        error: (error) => console.error('Reçeteler yüklenemedi:', error)
-      });
-    } else {
-      this.prescriptions = [];
-    }
+    if (!this.selectedPatientId) return;
+
+    this.prescriptionService.getPrescriptionsByPatient(this.selectedPatientId).subscribe({
+      next: (prescriptions) => this.prescriptions = prescriptions,
+      error: (error) => {
+        if (error.status === 403) {
+          alert("Bu hastanın reçetelerine erişim yetkiniz yok.");
+        } else {
+          console.error('Reçeteler yüklenemedi:', error);
+        }
+      }
+    });
   }
-  
-  
 
   createPrescription(): void {
     if (this.selectedPatientId && this.medications.trim() && this.description.trim()) {
@@ -117,12 +124,11 @@ export class PrescriptionComponent implements OnInit {
     this.medications = '';
     this.description = '';
   }
+
   filterPrescriptions(): void {
-    if (this.filterPeriod !== 'all' && this.selectedPatientId !== null) {
-      this.prescriptionService.getPrescriptionsByPeriod(this.selectedPatientId, this.filterPeriod).subscribe({
-        next: (prescriptions) => {
-          this.prescriptions = prescriptions;
-        },
+    if (this.filterPeriod !== 'all' && this.doctorId !== null) {
+      this.prescriptionService.getPrescriptionsByDoctorAndPeriod(this.doctorId, this.filterPeriod).subscribe({
+        next: (prescriptions) => this.prescriptions = prescriptions,
         error: (error) => {
           console.error('Reçeteler filtrelenemedi:', error);
         }
@@ -135,9 +141,7 @@ export class PrescriptionComponent implements OnInit {
   searchPrescriptions(): void {
     if (this.searchKeyword.trim()) {
       this.prescriptionService.searchPrescriptions(this.searchKeyword).subscribe({
-        next: (prescriptions) => {
-          this.prescriptions = prescriptions;
-        },
+        next: (prescriptions) => this.prescriptions = prescriptions,
         error: (error) => {
           console.error('Reçete araması başarısız:', error);
         }
@@ -160,6 +164,7 @@ export class PrescriptionComponent implements OnInit {
       });
     }
   }
+
   selectListTab(): void {
     this.activeTab = 'list';
     this.loadPrescriptions();

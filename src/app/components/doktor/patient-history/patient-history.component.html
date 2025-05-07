@@ -86,7 +86,7 @@
     <p><strong>Tedavi:</strong> {{ history.treatment || '-' }}</p>
     <p><strong>Notlar:</strong> {{ history.notes || '-' }}</p>
     <p><strong>Tarih:</strong> {{ history.date }}</p>
-
+    <p><strong>Doktor:</strong> Dr. {{ history.doctor?.name.charAt(0) }}.{{ history.doctor?.surname }}</p>
     <button (click)="editHistory(history)">✏️ Düzenle</button>
     <button (click)="deleteHistory(history.id)">🗑️ Sil</button>
   </div>

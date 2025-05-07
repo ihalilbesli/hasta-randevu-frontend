@@ -69,8 +69,10 @@
     <p><strong>Hasta:</strong> {{ report.patient?.name }} {{ report.patient?.surname }}</p>
     <p><strong>Tür:</strong> {{ report.reportType }}</p>
     <p><strong>Tarih:</strong> {{ report.reportDate }}</p>
+    <p><strong>Doktor:</strong> Dr. {{ report.doctor?.name.charAt(0) }}.{{ report.doctor?.surname }}</p>
     <p><a [href]="report.fileUrl" target="_blank">📎 Dosyayı Aç</a></p>
     <button (click)="editReport(report)">✏️ Düzenle</button>
     <button (click)="deleteReport(report.id)">🗑️ Sil</button>
   </div>
+  
 </div>

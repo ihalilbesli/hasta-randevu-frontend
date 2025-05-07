@@ -20,7 +20,7 @@
 <!-- 🔘 Hasta seçildiyse geçiş butonları -->
 <div *ngIf="selectedPatientId && activeTab === ''" class="form-group">
   <button *ngIf="patientMode === 'today'" (click)="activeTab = 'write'">Reçete Yaz</button>
-  <button (click)="activeTab = 'list'">Reçeteleri Gör</button>
+  <button (click)="selectListTab()">Reçeteleri Gör</button>
 </div>
 
 <!-- 📝 Reçete Yazma Formu -->
