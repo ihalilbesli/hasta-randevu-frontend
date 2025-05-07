@@ -76,17 +76,17 @@ export class PrescriptionComponent implements OnInit {
   }
 
   loadPrescriptions(): void {
-    if (this.doctorId !== null) {
-      this.prescriptionService.getPrescriptionsByDoctor(this.doctorId).subscribe({
-        next: (prescriptions) => {
-          this.prescriptions = prescriptions;
-        },
-        error: (error) => {
-          console.error('Reçeteler yüklenemedi:', error);
-        }
+    if (this.selectedPatientId) {
+      this.prescriptionService.getPrescriptionsByPatient(this.selectedPatientId).subscribe({
+        next: (prescriptions) => this.prescriptions = prescriptions,
+        error: (error) => console.error('Reçeteler yüklenemedi:', error)
       });
+    } else {
+      this.prescriptions = [];
     }
   }
+  
+  
 
   createPrescription(): void {
     if (this.selectedPatientId && this.medications.trim() && this.description.trim()) {
@@ -117,10 +117,9 @@ export class PrescriptionComponent implements OnInit {
     this.medications = '';
     this.description = '';
   }
-
   filterPrescriptions(): void {
-    if (this.filterPeriod !== 'all' && this.doctorId !== null) {
-      this.prescriptionService.getPrescriptionsByDoctorAndPeriod(this.doctorId, this.filterPeriod).subscribe({
+    if (this.filterPeriod !== 'all' && this.selectedPatientId !== null) {
+      this.prescriptionService.getPrescriptionsByPeriod(this.selectedPatientId, this.filterPeriod).subscribe({
         next: (prescriptions) => {
           this.prescriptions = prescriptions;
         },
@@ -160,5 +159,9 @@ export class PrescriptionComponent implements OnInit {
         }
       });
     }
+  }
+  selectListTab(): void {
+    this.activeTab = 'list';
+    this.loadPrescriptions();
   }
 }
