@@ -139,6 +139,20 @@ export const routes: Routes = [
            .then(({ MyPatientsComponent }) => MyPatientsComponent),
            canActivate: [authGuard,roleGuard(["DOKTOR"])] 
       },
+      {
+        path: 'users',
+        loadComponent: () =>
+          import('./components/admin/admin-user-list/admin-user-list.component')
+           .then(({ AdminUserListComponent }) => AdminUserListComponent),
+           canActivate: [authGuard,roleGuard(["ADMIN"])] 
+      },
+      {
+        path: 'admin/users/:id/details',
+        loadComponent: () =>
+          import('./components/admin/admin-user-details/admin-user-details.component')
+           .then(({ AdminUserDetailsComponent }) => AdminUserDetailsComponent),
+           canActivate: [authGuard,roleGuard(["ADMIN"])] 
+      },
 
       
 ];

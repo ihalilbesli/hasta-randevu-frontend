@@ -1,0 +1,89 @@
+<app-header></app-header>
+<h2>Kullanıcı Listesi</h2>
+
+<!-- Arama Alanları -->
+<div class="filter-container">
+  <input type="text" placeholder="İsme göre ara" [(ngModel)]="nameFilter" (input)="filterUsers()">
+  <input type="text" placeholder="E-posta ile ara" [(ngModel)]="emailFilter" (input)="filterUsers()">
+</div>
+
+<!-- Kullanıcı Tablosu -->
+<table>
+  <thead>
+    <tr>
+      <th>Ad</th>
+      <th>Soyad</th>
+      <th>Email</th>
+      <th>Telefon</th>
+      <th>Rol</th>
+      <th>İşlemler</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of filteredUsers">
+      <td>{{ user.name }}</td>
+      <td>{{ user.surname }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <button (click)="updateUser(user)">✏️ Güncelle</button>
+        <button (click)="deleteUser(user.id)">🗑️ Sil</button>
+        <button (click)="goToUserDetails(user.id)">🔍 Detay</button>
+      </td>
+    </tr>
+  </tbody>
+  <div class="modal-backdrop" *ngIf="showEditModal">
+    <div class="modal">
+      <h3>Kullanıcıyı Güncelle</h3>
+      <form (ngSubmit)="saveEditUser()">
+        <label>Ad:</label>
+        <input [(ngModel)]="editedUser.name" name="name">
+  
+        <label>Soyad:</label>
+        <input [(ngModel)]="editedUser.surname" name="surname">
+  
+        <label>Email:</label>
+        <input [(ngModel)]="editedUser.email" name="email">
+  
+        <label>Telefon:</label>
+        <input [(ngModel)]="editedUser.phoneNumber" name="phoneNumber">
+  
+        <label>Doğum Tarihi:</label>
+        <input type="date" [(ngModel)]="editedUser.birthDate" name="birthDate">
+  
+        <label>Rol:</label>
+        <select [(ngModel)]="editedUser.role" name="role">
+          <option value="HASTA">Hasta</option>
+          <option value="DOKTOR">Doktor</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+  
+        <label>Cinsiyet:</label>
+        <select [(ngModel)]="editedUser.gender" name="gender">
+          <option value="ERKEK">Erkek</option>
+          <option value="KADIN">Kadın</option>
+          <option value="BELIRTILMEMIS">BELIRTILMEMIS</option>
+        </select>
+  
+        <label>Kan Grubu:</label>
+        <select [(ngModel)]="editedUser.bloodType" name="bloodType">
+          <option value="ARH_POS">A Rh+</option>
+          <option value="ARH_NEG">A Rh-</option>
+          <option value="BRH_POS">B Rh+</option>
+          <option value="BRH_NEG">B Rh-</option>
+          <option value="ABRH_POS">AB Rh+</option>
+          <option value="ABRH_NEG">AB Rh-</option>
+          <option value="ORH_POS">O Rh+</option>
+          <option value="ORH_NEG">O Rh-</option>
+          
+        </select>
+  
+        <div class="modal-buttons">
+          <button type="submit">💾 Kaydet</button>
+          <button type="button" (click)="closeEditModal()">❌ Kapat</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</table>

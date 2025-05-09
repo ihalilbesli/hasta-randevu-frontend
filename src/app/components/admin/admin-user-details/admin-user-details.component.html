@@ -1,0 +1,14 @@
+<app-header></app-header>
+<h2>Kullanıcı Detayları</h2>
+<div *ngIf="user">
+  <p><strong>Ad:</strong> {{ user.name }}</p>
+  <p><strong>Soyad:</strong> {{ user.surname }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Telefon:</strong> {{ user.phoneNumber }}</p>
+  <p><strong>Doğum Tarihi:</strong> {{ user.birthDate }}</p>
+  <p><strong>Cinsiyet:</strong> {{ user.gender }}</p>
+  <p><strong>Rol:</strong> {{ user.role }}</p>
+  <p><strong>Kan Grubu:</strong> {{ user.bloodType }}</p>
+  <p><strong>Kronik Hastalık:</strong> {{ user.chronicDiseases }}</p>
+  <p><strong>Uzmanlık:</strong> {{ user.specialization }}</p>
+</div>

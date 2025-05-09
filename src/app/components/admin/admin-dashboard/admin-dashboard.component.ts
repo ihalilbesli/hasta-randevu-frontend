@@ -40,8 +40,7 @@ currentUser:any;
     this.authService.logout();
   }
   goTo(path:string){
-    alert(path+" sayfası daha sonra eklenecek.");
-   // this.router.navigate([`/${path}`]);
+    this.router.navigate([`/${path}`]);
     console.log(path+" navigate edildi");
     
   }

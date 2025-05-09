@@ -74,4 +74,16 @@ export class UserService {
   getAllPatients(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/patients`, { headers: this.getHeaders() });
   }
+  deleteUserById(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+  updateUser(user: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${user.id}`, user, {
+      headers: this.getHeaders()
+    });
+  }
+  
+  
 }
