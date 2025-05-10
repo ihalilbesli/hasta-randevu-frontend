@@ -84,6 +84,13 @@ export class UserService {
       headers: this.getHeaders()
     });
   }
+  create(user: any): Observable<any> {
+    const token = this.authService.getToken();
+    return this.http.post(`http://localhost:8080/hastarandevu/auth/register`, user, {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+    });
+  }
+  
   
   
 }

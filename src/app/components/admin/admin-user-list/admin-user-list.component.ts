@@ -8,28 +8,60 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-user-list',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent],
   templateUrl: './admin-user-list.component.html',
   styleUrl: './admin-user-list.component.css'
 })
 export class AdminUserListComponent {
   users: any[] = [];
   filteredUsers: any[] = [];
+
+  selectedRole: string = 'HASTA';
+  newUser: any = {};
+
   nameFilter: string = '';
   emailFilter: string = '';
+  genderFilter: string = '';
+  bloodTypeFilter: string = '';
+  specializationFilter: string = '';
+
   showEditModal = false;
   editedUser: any = {};
-  
+
+  showNewUserForm = false;
 
   constructor(
     private userService: UserService,
-    private router:Router
+    private router: Router
   ) {}
-
 
   ngOnInit(): void {
     this.getAllUsers();
   }
+
+  selectRole(role: string) {
+    this.selectedRole = role;
+
+    // Formları kapat
+    this.showEditModal = false;
+    this.showNewUserForm = false;
+  
+    // Filtre alanlarını sıfırla
+    this.nameFilter = '';
+    this.emailFilter = '';
+    this.genderFilter = '';
+    this.bloodTypeFilter = '';
+    this.specializationFilter = '';
+    
+    this.newUser = {};       // yeni kullanıcı formu da sıfırlansın
+    this.editedUser = {}; 
+
+    
+    
+  
+    this.filterUsers(); // filtreyi yeniden uygula
+  }
+
   goToUserDetails(id: number) {
     this.router.navigate([`/admin/users/${id}/details`]);
   }
@@ -39,8 +71,13 @@ export class AdminUserListComponent {
       next: (patients) => {
         this.userService.getUsersByRole('DOKTOR').subscribe({
           next: (doctors) => {
-            this.users = [...patients, ...doctors];
-            this.filteredUsers = this.users;
+            this.userService.getUsersByRole('ADMIN').subscribe({
+              next: (admins) => {
+                this.users = [...patients, ...doctors, ...admins];
+                this.filterUsers();
+              },
+              error: () => console.error('Adminler getirilemedi.')
+            });
           },
           error: () => console.error('Doktorlar getirilemedi.')
         });
@@ -50,10 +87,30 @@ export class AdminUserListComponent {
   }
 
   filterUsers() {
-    this.filteredUsers = this.users.filter(u =>
-      u.name.toLowerCase().includes(this.nameFilter.toLowerCase()) &&
-      u.email.toLowerCase().includes(this.emailFilter.toLowerCase())
+    this.filteredUsers = this.users.filter(user =>
+      user.role === this.selectedRole &&
+      user.name.toLowerCase().includes(this.nameFilter.toLowerCase()) &&
+      user.email.toLowerCase().includes(this.emailFilter.toLowerCase()) &&
+      (this.genderFilter === '' || user.gender === this.genderFilter) &&
+      (this.bloodTypeFilter === '' || user.bloodType === this.bloodTypeFilter) &&
+      (this.specializationFilter === '' || (user.specialization || '').toLowerCase().includes(this.specializationFilter.toLowerCase()))
     );
+  }
+
+  createUser() {
+    this.newUser.role = this.selectedRole;
+
+    this.userService.create(this.newUser).subscribe({
+      next: (createdUser) => {
+        this.users.push(createdUser);
+        this.newUser = {};
+        this.filterUsers();
+        alert(`${this.selectedRole} başarıyla eklendi.`);
+      },
+      error: () => {
+        alert('Kullanıcı eklenemedi.');
+      }
+    });
   }
 
   deleteUser(userId: number) {
@@ -62,7 +119,7 @@ export class AdminUserListComponent {
         next: () => {
           alert('Kullanıcı başarıyla silindi.');
           this.users = this.users.filter(u => u.id !== userId);
-          this.filterUsers(); 
+          this.filterUsers();
         },
         error: (err) => {
           console.error('Silme hatası:', err);
@@ -71,11 +128,15 @@ export class AdminUserListComponent {
       });
     }
   }
+
   updateUser(user: any) {
     this.openEditModal(user);
   }
+
   openEditModal(user: any) {
-    this.editedUser = {  id: user.id,
+    this.showNewUserForm = false; 
+    this.editedUser = {
+      id: user.id,
       name: user.name,
       surname: user.surname,
       email: user.email,
@@ -85,15 +146,16 @@ export class AdminUserListComponent {
       role: user.role,
       bloodType: user.bloodType,
       chronicDiseases: user.chronicDiseases,
-      specialization: user.specialization };
+      specialization: user.specialization
+    };
     this.showEditModal = true;
   }
-  
+
   closeEditModal() {
     this.showEditModal = false;
     this.editedUser = {};
   }
-  
+
   saveEditUser() {
     this.userService.updateUser(this.editedUser).subscribe({
       next: () => {
@@ -106,5 +168,9 @@ export class AdminUserListComponent {
       }
     });
   }
-  
+  toggleNewUserForm() {
+    this.showNewUserForm = !this.showNewUserForm;
+    this.showEditModal = false; // güncelleme kapanır
+
+  }
 }

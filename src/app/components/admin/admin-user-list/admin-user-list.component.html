@@ -1,13 +1,90 @@
 <app-header></app-header>
-<h2>Kullanıcı Listesi</h2>
+<h2>Kullanıcı Yönetimi</h2>
 
-<!-- Arama Alanları -->
+<!-- 🔘 Rol Seçimi -->
+<div class="role-buttons">
+  <button (click)="selectRole('HASTA')">👤 Hastalar</button>
+  <button (click)="selectRole('DOKTOR')">🩺 Doktorlar</button>
+  <button (click)="selectRole('ADMIN')">🛡️ Adminler</button>
+</div>
+
+<!-- 🔍 Filtre Alanları -->
 <div class="filter-container">
   <input type="text" placeholder="İsme göre ara" [(ngModel)]="nameFilter" (input)="filterUsers()">
   <input type="text" placeholder="E-posta ile ara" [(ngModel)]="emailFilter" (input)="filterUsers()">
+
+  <select [(ngModel)]="genderFilter" (change)="filterUsers()">
+    <option value="">Cinsiyet (Tümü)</option>
+    <option value="ERKEK">Erkek</option>
+    <option value="KADIN">Kadın</option>
+    <option value="BELIRTILMEMIS">Belirtilmemiş</option>
+  </select>
+
+  <select *ngIf="selectedRole === 'HASTA'" [(ngModel)]="bloodTypeFilter" (change)="filterUsers()">
+    <option value="">Kan Grubu (Tümü)</option>
+    <option value="ARH_POS">A Rh+</option>
+    <option value="ARH_NEG">A Rh-</option>
+    <option value="BRH_POS">B Rh+</option>
+    <option value="BRH_NEG">B Rh-</option>
+    <option value="ABRH_POS">AB Rh+</option>
+    <option value="ABRH_NEG">AB Rh-</option>
+    <option value="ORH_POS">O Rh+</option>
+    <option value="ORH_NEG">O Rh-</option>
+  </select>
+
+  <input *ngIf="selectedRole === 'DOKTOR'"
+   type="text"
+    placeholder="Uzmanlık (Doktorlar)" 
+    [(ngModel)]="specializationFilter"
+     (input)="filterUsers()">
+    </div>
+
+<!-- ➕ Ekle Butonu -->
+<button (click)="toggleNewUserForm()">➕ Yeni {{ selectedRole }} Ekle</button>
+
+<!-- ➕ Yeni Kullanıcı Ekleme Formu -->
+<div *ngIf="showNewUserForm">
+  <h3>Yeni {{ selectedRole }} Ekle</h3>
+  <form (ngSubmit)="createUser()" class="new-user-form">
+    <input [(ngModel)]="newUser.name" name="name" placeholder="Ad">
+    <input [(ngModel)]="newUser.surname" name="surname" placeholder="Soyad">
+    <input [(ngModel)]="newUser.email" name="email" placeholder="Email">
+    <input [(ngModel)]="newUser.password" name="password" placeholder="Şifre" type="password">
+    <input [(ngModel)]="newUser.phoneNumber" name="phoneNumber" placeholder="Telefon">
+    <input [(ngModel)]="newUser.birthDate" name="birthDate" type="date">
+
+    <select [(ngModel)]="newUser.gender" name="gender">
+      <option value="ERKEK">Erkek</option>
+      <option value="KADIN">Kadın</option>
+      <option value="BELIRTILMEMIS">Belirtilmemiş</option>
+    </select>
+
+    <!-- Doktor için alan -->
+    <div *ngIf="selectedRole === 'DOKTOR'">
+      <input [(ngModel)]="newUser.specialization" name="specialization" placeholder="Uzmanlık">
+    </div>
+
+    <!-- Hasta için alan -->
+    <div *ngIf="selectedRole === 'HASTA'">
+      <select [(ngModel)]="newUser.bloodType" name="bloodType">
+        <option value="ARH_POS">A Rh+</option>
+        <option value="ARH_NEG">A Rh-</option>
+        <option value="BRH_POS">B Rh+</option>
+        <option value="BRH_NEG">B Rh-</option>
+        <option value="ABRH_POS">AB Rh+</option>
+        <option value="ABRH_NEG">AB Rh-</option>
+        <option value="ORH_POS">O Rh+</option>
+        <option value="ORH_NEG">O Rh-</option>
+      </select>
+      <input [(ngModel)]="newUser.chronicDiseases" name="chronicDiseases" placeholder="Kronik Rahatsızlık">
+    </div>
+
+    <button type="submit">➕ Ekle</button>
+  </form>
 </div>
 
-<!-- Kullanıcı Tablosu -->
+<!-- 📋 Kullanıcı Listesi -->
+<h3>{{ selectedRole }} Listesi</h3>
 <table>
   <thead>
     <tr>
@@ -16,6 +93,7 @@
       <th>Email</th>
       <th>Telefon</th>
       <th>Rol</th>
+      <th>Uzmanlık</th>
       <th>İşlemler</th>
     </tr>
   </thead>
@@ -26,6 +104,7 @@
       <td>{{ user.email }}</td>
       <td>{{ user.phoneNumber }}</td>
       <td>{{ user.role }}</td>
+      <td>{{ user.role === 'DOKTOR' ? user.specialization : '-' }}</td>
       <td>
         <button (click)="updateUser(user)">✏️ Güncelle</button>
         <button (click)="deleteUser(user.id)">🗑️ Sil</button>
@@ -33,39 +112,48 @@
       </td>
     </tr>
   </tbody>
-  <div class="modal-backdrop" *ngIf="showEditModal">
-    <div class="modal">
-      <h3>Kullanıcıyı Güncelle</h3>
-      <form (ngSubmit)="saveEditUser()">
-        <label>Ad:</label>
-        <input [(ngModel)]="editedUser.name" name="name">
-  
-        <label>Soyad:</label>
-        <input [(ngModel)]="editedUser.surname" name="surname">
-  
-        <label>Email:</label>
-        <input [(ngModel)]="editedUser.email" name="email">
-  
-        <label>Telefon:</label>
-        <input [(ngModel)]="editedUser.phoneNumber" name="phoneNumber">
-  
-        <label>Doğum Tarihi:</label>
-        <input type="date" [(ngModel)]="editedUser.birthDate" name="birthDate">
-  
-        <label>Rol:</label>
-        <select [(ngModel)]="editedUser.role" name="role">
-          <option value="HASTA">Hasta</option>
-          <option value="DOKTOR">Doktor</option>
-          <option value="ADMIN">Admin</option>
-        </select>
-  
-        <label>Cinsiyet:</label>
-        <select [(ngModel)]="editedUser.gender" name="gender">
-          <option value="ERKEK">Erkek</option>
-          <option value="KADIN">Kadın</option>
-          <option value="BELIRTILMEMIS">BELIRTILMEMIS</option>
-        </select>
-  
+</table>
+
+<!-- ✏️ Güncelleme Modalı -->
+<div class="modal-backdrop" *ngIf="showEditModal">
+  <div class="modal">
+    <h3>Kullanıcıyı Güncelle</h3>
+    <form (ngSubmit)="saveEditUser()">
+      <label>Ad:</label>
+      <input [(ngModel)]="editedUser.name" name="name">
+
+      <label>Soyad:</label>
+      <input [(ngModel)]="editedUser.surname" name="surname">
+
+      <label>Email:</label>
+      <input [(ngModel)]="editedUser.email" name="email">
+
+      <label>Telefon:</label>
+      <input [(ngModel)]="editedUser.phoneNumber" name="phoneNumber">
+
+      <label>Doğum Tarihi:</label>
+      <input type="date" [(ngModel)]="editedUser.birthDate" name="birthDate">
+
+      <label>Rol:</label>
+      <select [(ngModel)]="editedUser.role" name="role">
+        <option value="HASTA">Hasta</option>
+        <option value="DOKTOR">Doktor</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+
+      <label>Cinsiyet:</label>
+      <select [(ngModel)]="editedUser.gender" name="gender">
+        <option value="ERKEK">Erkek</option>
+        <option value="KADIN">Kadın</option>
+        <option value="BELIRTILMEMIS">Belirtilmemiş</option>
+      </select>
+
+      <div *ngIf="editedUser.role === 'DOKTOR'">
+        <label>Uzmanlık:</label>
+        <input [(ngModel)]="editedUser.specialization" name="specialization">
+      </div>
+
+      <div *ngIf="editedUser.role === 'HASTA'">
         <label>Kan Grubu:</label>
         <select [(ngModel)]="editedUser.bloodType" name="bloodType">
           <option value="ARH_POS">A Rh+</option>
@@ -76,14 +164,16 @@
           <option value="ABRH_NEG">AB Rh-</option>
           <option value="ORH_POS">O Rh+</option>
           <option value="ORH_NEG">O Rh-</option>
-          
         </select>
-  
-        <div class="modal-buttons">
-          <button type="submit">💾 Kaydet</button>
-          <button type="button" (click)="closeEditModal()">❌ Kapat</button>
-        </div>
-      </form>
-    </div>
+
+        <label>Kronik Rahatsızlık:</label>
+        <input [(ngModel)]="editedUser.chronicDiseases" name="chronicDiseases">
+      </div>
+
+      <div class="modal-buttons">
+        <button type="submit">💾 Kaydet</button>
+        <button type="button" (click)="closeEditModal()">❌ Kapat</button>
+      </div>
+    </form>
   </div>
-</table>
+</div>
