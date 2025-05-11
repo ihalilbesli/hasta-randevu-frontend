@@ -1,13 +1,14 @@
+<app-header></app-header>
 <div class="dashboard-container">
  
   <!-- Yönetim İşlemleri -->
   <div class="main-actions">
     <button (click)="goTo('users')">👥 Kullanıcıları Yönet</button>
-    <button (click)="goTo('complaints')">📢 Şikayetleri Görüntüle</button>
-    <button (click)="goTo('appointments')">📅 Randevuları Görüntüle</button>
-    <button (click)="goTo('analytics')">📊 İstatistik ve Analiz</button>
+    <button (click)="goTo('admin-complaints')">📢 Şikayetleri Görüntüle</button>
+    <button (click)="goTo('admin-appointments')">📅 Randevuları Görüntüle</button>
+    <button (click)="goTo('admin-analytics')">📊 İstatistik ve Analiz</button>
     <button (click)="goTo('export')">📤 Verileri Dışa Aktar</button>
     <button (click)="goTo('access-logs')">📜 Erişim Kayıtları</button>
-    <button (click)="goTo('ai-suggestions')">🤖 AI Klinik Önerileri</button>
+    <button (click)="goTo('admin-ai')">🤖 AI Klinik Önerileri</button>
   </div>
 </div>

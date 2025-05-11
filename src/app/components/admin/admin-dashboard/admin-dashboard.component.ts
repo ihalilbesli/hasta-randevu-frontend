@@ -3,11 +3,12 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { Router } from '@angular/router';
 import { AuthService } from '../../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from "../../header/header.component";
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })

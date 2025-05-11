@@ -153,6 +153,24 @@ export const routes: Routes = [
            .then(({ AdminUserDetailsComponent }) => AdminUserDetailsComponent),
            canActivate: [authGuard,roleGuard(["ADMIN"])] 
       },
+      {
+        path: 'admin-complaints',
+        loadComponent: () =>
+          import('./components/admin/admin-complaints/admin-complaints.component')
+           .then(({ AdminComplaintsComponent }) => AdminComplaintsComponent),
+           canActivate: [authGuard,roleGuard(["ADMIN"])] 
+      },
+      {
+        path: 'admin-appointments',
+        loadComponent: () =>
+          import('./components/admin/admin-appointment/admin-appointment.component')
+           .then(({ AdminAppointmentComponent }) => AdminAppointmentComponent),
+           canActivate: [authGuard,roleGuard(["ADMIN"])] 
+      },
+      
+      
+      
+    
 
       
 ];

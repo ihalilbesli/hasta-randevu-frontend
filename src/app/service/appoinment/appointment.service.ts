@@ -84,6 +84,24 @@ export class AppointmentService {
         headers: this.getHeaders()
       });
     }
+    getAppointmentsByPeriod(period: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/filter?period=${period}`, {
+    headers: this.getHeaders()
+  });
+}
+countAppointmentsByStatus(status: string): Observable<number> {
+  return this.http.get<number>(`${this.apiUrl}/count?status=${status}`, {
+    headers: this.getHeaders()
+  });
+}
+searchAppointmentsByKeyword(keyword: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/search?keyword=${keyword}`, {
+    headers: this.getHeaders()
+  });
+}
+
+
+
     
     
 }

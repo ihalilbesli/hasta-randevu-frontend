@@ -1,0 +1,62 @@
+<app-header></app-header>
+<h2>Şikayet Yönetimi</h2>
+
+<!-- 🔍 Filtre Alanı -->
+<div class="filter-container">
+  <select [(ngModel)]="statusFilter" (change)="filterComplaints()">
+    <option value="">Durum (Tümü)</option>
+     <option value="BEKLEMEDE">Beklemede</option>
+    <option value="INCELEMEDE">İncelemede</option>
+    <option value="COZULDU">Çözüldü</option>
+  </select>
+
+ <input type="text" placeholder="İsim ile ara..." [(ngModel)]="searchKeyword" (input)="filterComplaints()">
+</div>
+
+<!-- 📋 Şikayet Listesi -->
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Kullanıcı</th>
+      <th>İçerik</th>
+      <th>Durum</th>
+      <th>Admin Notu</th>
+      <th>İşlemler</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let complaint of filteredComplaints">
+      <td>{{ complaint.id }}</td>
+      <td>{{ complaint.user?.name }} {{ complaint.user?.surname }}</td>
+      <td>{{ complaint.content }}</td>
+
+      <!-- 📝 Güncelleme Modu -->
+      <ng-container *ngIf="editingComplaintId === complaint.id; else showStatic">
+        <td>
+          <select [(ngModel)]="updatedStatus">
+            <option value="BEKLEMEDE">BEKLEMEDE</option>
+        <option value="INCELEMEDE">İncelemede</option>
+            <option value="COZULDU">Çözüldü</option>
+          </select>
+        </td>
+        <td>
+          <input [(ngModel)]="updatedNote" placeholder="Not giriniz">
+        </td>
+        <td>
+          <button (click)="saveEdit(complaint.id)">💾 Kaydet</button>
+          <button (click)="cancelEdit()">❌ İptal</button>
+        </td>
+      </ng-container>
+
+      <!-- 📄 Normal Görünüm -->
+      <ng-template #showStatic>
+        <td>{{ complaint.status }}</td>
+        <td>{{ complaint.adminNote || '-' }}</td>
+        <td>
+          <button (click)="startEditing(complaint)">✏️ Güncelle</button>
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+</table>

@@ -36,4 +36,31 @@ export class ComplaintService {
       }
     );
   }
+  // ✅ Tüm şikayetleri getir (Admin)
+  getAllComplaints(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // ✅ Duruma göre şikayetleri getir (Admin veya Doktor)
+  getComplaintsByStatus(status: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/status?status=${status}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // ✅ Şikayet güncelle (status + adminNote)
+  updateComplaint(id: number, updatedData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, updatedData, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // ✅ Şikayet sil (Admin)
+  deleteComplaint(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
 }

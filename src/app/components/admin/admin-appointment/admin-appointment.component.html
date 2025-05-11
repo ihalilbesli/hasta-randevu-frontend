@@ -1,0 +1,52 @@
+<app-header></app-header>
+<h2>Randevu Yönetimi</h2>
+
+<!-- 🔍 Filtre Alanları -->
+<div class="filter-container">
+  <label>Zaman Filtresi:</label>
+  <select [(ngModel)]="selectedPeriod" (change)="filterByPeriod()">
+    <option value="">Tümü</option>
+    <option value="day">Son 1 Gün</option>
+    <option value="week">Son 1 Hafta</option>
+    <option value="month">Son 1 Ay</option>
+    <option value="year">Son 1 Yıl</option>
+  </select>
+
+  <label>Durum Filtresi:</label>
+  <select [(ngModel)]="selectedStatus" (change)="filterByStatus()">
+    <option value="">Tümü</option>
+    <option value="AKTIF">Aktif</option>
+    <option value="IPTAL_EDILDI">İptal Edildi</option>
+    <option value="GEC_KALINDI">Geç Kalındı</option>
+  </select>
+
+  <input type="text" placeholder="Açıklamada ara..." [(ngModel)]="keyword" (input)="onKeywordChange()">
+</div>
+
+<!-- 📋 Randevu Listesi -->
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Hasta</th>
+      <th>Doktor</th>
+      <th>Klinik</th>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th>Durum</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let appointment of filteredAppointments">
+      <td>{{ appointment.id }}</td>
+      <td>{{ appointment.patient?.name }} {{ appointment.patient?.surname }}</td>
+      <td>{{ appointment.doctor?.name }} {{ appointment.doctor?.surname }}</td>
+      <td>{{ appointment.clinic }}</td>
+      <td>{{ appointment.date }}</td>
+      <td>{{ appointment.time }}</td>
+      <td>{{ appointment.status }}</td>
+      <td>{{ appointment.description || '-' }}</td>
+    </tr>
+  </tbody>
+</table>
