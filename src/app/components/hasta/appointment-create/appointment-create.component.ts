@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CLINICS } from '../../../data/clinics';
 import { UserService } from '../../../service/user-service/user-service.service';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
 import { HeaderComponent } from '../../header/header.component';
+import { ClinicsService } from '../../../service/clinics/clinics.service';
+
 
 @Component({
   selector: 'app-appointment-create',
@@ -15,7 +16,7 @@ import { HeaderComponent } from '../../header/header.component';
   styleUrl: './appointment-create.component.css'
 })
 export class AppointmentCreateComponent implements OnInit {
-  clinics: string[] = CLINICS;
+  clinics: any[] = [];
   doctors: any[] = [];
 
   groupedTimeSlots: { hour: string, slots: string[] }[] = [];
@@ -24,7 +25,7 @@ export class AppointmentCreateComponent implements OnInit {
   minDate = new Date().toISOString().split('T')[0];
   maxDate = new Date(new Date().setMonth(new Date().getMonth() + 2)).toISOString().split('T')[0];
 
-  selectedClinic = '';
+  selectedClinicId: number | null = null;
   selectedDoctorId: number | null = null;
   selectedDate = '';
   selectedTime = '';
@@ -35,29 +36,37 @@ export class AppointmentCreateComponent implements OnInit {
 
   description = '';
   invalidDate = false;
-
-  // Açık grup saatleri takibi
   openGroups: { [hour: string]: boolean } = {};
 
   constructor(
     private userService: UserService,
     private appointmentService: AppointmentService,
+    private clinicService:ClinicsService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      if (params["clinic"]) {
-        this.selectedClinic = params["clinic"];
-        this.onClinicChange();
-      }
+    this.clinicService.getAllClinics().subscribe({
+      next: (data) => {
+        this.clinics = data;
+
+        this.route.queryParams.subscribe(params => {
+          if (params["clinic"]) {
+            const match = this.clinics.find(c => c.name === params["clinic"]);
+            if (match) {
+              this.selectedClinicId = match.id;
+              this.onClinicChange();
+            }
+          }
+        });
+      },
+      error: (err) => console.error('Klinikler alınamadı:', err)
     });
 
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
         this.patientId = user.id;
-        this.getPatientAppointments(user.id);
       },
       error: (err) => console.error('Kullanıcı alınamadı:', err)
     });
@@ -65,9 +74,7 @@ export class AppointmentCreateComponent implements OnInit {
 
   getPatientAppointments(patientId: number) {
     this.appointmentService.getAppointmentsByPatientId(patientId).subscribe({
-      next: (data) => {
-        this.allAppointments = data;
-      },
+      next: (data) => this.allAppointments = data,
       error: (err) => console.error('Hasta randevuları alınamadı:', err)
     });
   }
@@ -82,17 +89,20 @@ export class AppointmentCreateComponent implements OnInit {
     this.openGroups = {};
   }
 
-  onClinicChange() {
-    this.resetSelections();
-    this.doctors = [];
+ onClinicChange() {
+  this.resetSelections();
+  this.doctors = [];
 
-    this.userService.getUsersBySpecialization(this.selectedClinic).subscribe({
-      next: (data) => {
-        this.doctors = data;
-      },
-      error: (err) => console.error('Doktorlar alınamadı:', err)
-    });
-  }
+  if (!this.selectedClinicId) return;
+
+  this.clinicService.getDoctorsByClinicId(this.selectedClinicId).subscribe({
+    next: (data) => {
+      console.log("Gelen doktorlar:", data); // DEBUG
+      this.doctors = data;
+    },
+    error: (err) => console.error('Doktorlar alınamadı:', err)
+  });
+}
 
   onDateChange(event: any) {
     const selected = new Date(event.target.value);
@@ -115,6 +125,14 @@ export class AppointmentCreateComponent implements OnInit {
       });
     }
   }
+  onDoctorChange() {
+  this.selectedDate = '';
+  this.selectedTime = '';
+  this.groupedTimeSlots = [];
+  this.pastTimes = [];
+  this.doctorAppointments = [];
+}
+
 
   generateTimeSlots() {
     const startHour = 8;
@@ -147,7 +165,7 @@ export class AppointmentCreateComponent implements OnInit {
       if (slots.length > 0) {
         const hourLabel = `${hour.toString().padStart(2, '0')}:00`;
         this.groupedTimeSlots.push({ hour: hourLabel, slots });
-        this.openGroups[hourLabel] = false; // ilk başta tüm gruplar kapalı
+        this.openGroups[hourLabel] = false;
       }
     }
   }
@@ -165,15 +183,12 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.patientId || !this.selectedDoctorId || !this.selectedTime || !this.selectedDate) return;
+    if (!this.patientId || !this.selectedDoctorId || !this.selectedClinicId || !this.selectedTime || !this.selectedDate) return;
 
     this.getPatientAppointments(this.patientId);
 
     const sameClinicAppointment = this.allAppointments.find(
-      a =>
-        a.patient?.id === this.patientId &&
-        a.clinic === this.selectedClinic &&
-        a.status === 'AKTIF'
+      a => a.patient?.id === this.patientId && a.clinic?.id === this.selectedClinicId && a.status === 'AKTIF'
     );
 
     if (sameClinicAppointment) {
@@ -186,7 +201,7 @@ export class AppointmentCreateComponent implements OnInit {
         a.patient?.id === this.patientId &&
         a.date === this.selectedDate &&
         a.time?.substring(0, 5) === this.selectedTime &&
-        a.clinic !== this.selectedClinic &&
+        a.clinic?.id !== this.selectedClinicId &&
         a.status === 'AKTIF'
     );
 
@@ -196,7 +211,7 @@ export class AppointmentCreateComponent implements OnInit {
     }
 
     const appointmentData = {
-      clinic: this.selectedClinic,
+      clinic: { id: this.selectedClinicId },
       date: this.selectedDate,
       time: this.selectedTime,
       description: this.description || "Online randevu alındı.",
@@ -217,7 +232,7 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   resetForm() {
-    this.selectedClinic = '';
+    this.selectedClinicId = null;
     this.description = '';
     this.doctors = [];
     this.allAppointments = [];

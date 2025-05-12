@@ -4,6 +4,8 @@ import { HeaderComponent } from '../../header/header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ClinicsService } from '../../../service/clinics/clinics.service';
+
 
 @Component({
   selector: 'app-admin-user-list',
@@ -18,6 +20,8 @@ export class AdminUserListComponent {
 
   selectedRole: string = 'HASTA';
   newUser: any = {};
+  clinics: any[] = [];
+
 
   nameFilter: string = '';
   emailFilter: string = '';
@@ -32,11 +36,16 @@ export class AdminUserListComponent {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private clinicService:ClinicsService
   ) {}
 
   ngOnInit(): void {
     this.getAllUsers();
+     this.clinicService.getAllClinics().subscribe({
+    next: (res) => this.clinics = res,
+    error: () => console.error('Klinikler getirilemedi')
+  });
   }
 
   selectRole(role: string) {

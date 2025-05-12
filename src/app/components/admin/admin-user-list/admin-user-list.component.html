@@ -4,7 +4,7 @@
 <!-- 🔘 Rol Seçimi -->
 <div class="role-buttons">
   <button (click)="selectRole('HASTA')">👤 Hastalar</button>
-  <button (click)="selectRole('DOKTOR')">🩺 Doktorlar</button>
+  <button (click)="selectRole('DOKTOR')">🧺 Doktorlar</button>
   <button (click)="selectRole('ADMIN')">🛡️ Adminler</button>
 </div>
 
@@ -32,12 +32,9 @@
     <option value="ORH_NEG">O Rh-</option>
   </select>
 
-  <input *ngIf="selectedRole === 'DOKTOR'"
-   type="text"
-    placeholder="Uzmanlık (Doktorlar)" 
-    [(ngModel)]="specializationFilter"
-     (input)="filterUsers()">
-    </div>
+  <input *ngIf="selectedRole === 'DOKTOR'" type="text" placeholder="Uzmanlık (Doktorlar)"
+    [(ngModel)]="specializationFilter" (input)="filterUsers()">
+</div>
 
 <!-- ➕ Ekle Butonu -->
 <button (click)="toggleNewUserForm()">➕ Yeni {{ selectedRole }} Ekle</button>
@@ -45,15 +42,15 @@
 <!-- ➕ Yeni Kullanıcı Ekleme Formu -->
 <div *ngIf="showNewUserForm">
   <h3>Yeni {{ selectedRole }} Ekle</h3>
-  <form (ngSubmit)="createUser()" class="new-user-form">
-    <input [(ngModel)]="newUser.name" name="name" placeholder="Ad">
-    <input [(ngModel)]="newUser.surname" name="surname" placeholder="Soyad">
-    <input [(ngModel)]="newUser.email" name="email" placeholder="Email">
-    <input [(ngModel)]="newUser.password" name="password" placeholder="Şifre" type="password">
-    <input [(ngModel)]="newUser.phoneNumber" name="phoneNumber" placeholder="Telefon">
-    <input [(ngModel)]="newUser.birthDate" name="birthDate" type="date">
+  <form (ngSubmit)="createUser()" #newUserForm="ngForm" class="new-user-form">
+    <input [(ngModel)]="newUser.name" name="name" placeholder="Ad" required>
+    <input [(ngModel)]="newUser.surname" name="surname" placeholder="Soyad" required>
+    <input [(ngModel)]="newUser.email" name="email" placeholder="Email" required email>
+    <input [(ngModel)]="newUser.password" name="password" placeholder="Şifre" type="password" required>
+    <input [(ngModel)]="newUser.phoneNumber" name="phoneNumber" placeholder="Telefon" required>
+    <input [(ngModel)]="newUser.birthDate" name="birthDate" type="date" required>
 
-    <select [(ngModel)]="newUser.gender" name="gender">
+    <select [(ngModel)]="newUser.gender" name="gender" required>
       <option value="ERKEK">Erkek</option>
       <option value="KADIN">Kadın</option>
       <option value="BELIRTILMEMIS">Belirtilmemiş</option>
@@ -61,12 +58,19 @@
 
     <!-- Doktor için alan -->
     <div *ngIf="selectedRole === 'DOKTOR'">
-      <input [(ngModel)]="newUser.specialization" name="specialization" placeholder="Uzmanlık">
+      <input [(ngModel)]="newUser.specialization" name="specialization" placeholder="Uzmanlık" required>
+      <label>Klinik Seçin:</label>
+      <select [(ngModel)]="newUser.clinic" name="clinic" required>
+        <option [ngValue]="null" disabled selected>-- Seçin --</option>
+        <option *ngFor="let clinic of clinics" [ngValue]="clinic">
+          {{ clinic.name }}
+        </option>
+      </select>
     </div>
 
     <!-- Hasta için alan -->
     <div *ngIf="selectedRole === 'HASTA'">
-      <select [(ngModel)]="newUser.bloodType" name="bloodType">
+      <select [(ngModel)]="newUser.bloodType" name="bloodType" required>
         <option value="ARH_POS">A Rh+</option>
         <option value="ARH_NEG">A Rh-</option>
         <option value="BRH_POS">B Rh+</option>
@@ -79,7 +83,7 @@
       <input [(ngModel)]="newUser.chronicDiseases" name="chronicDiseases" placeholder="Kronik Rahatsızlık">
     </div>
 
-    <button type="submit">➕ Ekle</button>
+    <button type="submit" [disabled]="!newUserForm.form.valid">➕ Ekle</button>
   </form>
 </div>
 
@@ -120,42 +124,51 @@
     <h3>Kullanıcıyı Güncelle</h3>
     <form (ngSubmit)="saveEditUser()">
       <label>Ad:</label>
-      <input [(ngModel)]="editedUser.name" name="name">
+      <input [(ngModel)]="editedUser.name" name="name" required>
 
       <label>Soyad:</label>
-      <input [(ngModel)]="editedUser.surname" name="surname">
+      <input [(ngModel)]="editedUser.surname" name="surname" required>
 
       <label>Email:</label>
-      <input [(ngModel)]="editedUser.email" name="email">
+      <input [(ngModel)]="editedUser.email" name="email" required>
 
       <label>Telefon:</label>
-      <input [(ngModel)]="editedUser.phoneNumber" name="phoneNumber">
+      <input [(ngModel)]="editedUser.phoneNumber" name="phoneNumber" required>
 
       <label>Doğum Tarihi:</label>
-      <input type="date" [(ngModel)]="editedUser.birthDate" name="birthDate">
+      <input type="date" [(ngModel)]="editedUser.birthDate" name="birthDate" required>
 
       <label>Rol:</label>
-      <select [(ngModel)]="editedUser.role" name="role">
+      <select [(ngModel)]="editedUser.role" name="role" required>
         <option value="HASTA">Hasta</option>
         <option value="DOKTOR">Doktor</option>
         <option value="ADMIN">Admin</option>
       </select>
 
       <label>Cinsiyet:</label>
-      <select [(ngModel)]="editedUser.gender" name="gender">
+      <select [(ngModel)]="editedUser.gender" name="gender" required>
         <option value="ERKEK">Erkek</option>
         <option value="KADIN">Kadın</option>
         <option value="BELIRTILMEMIS">Belirtilmemiş</option>
       </select>
 
+      <!-- Güncelleme Modalı içindeki doktor için -->
       <div *ngIf="editedUser.role === 'DOKTOR'">
         <label>Uzmanlık:</label>
-        <input [(ngModel)]="editedUser.specialization" name="specialization">
+        <input [(ngModel)]="editedUser.specialization" name="specialization" required>
+
+        <label>Klinik Seçin:</label>
+        <select [(ngModel)]="editedUser.clinic" name="clinic" required>
+          <option [ngValue]="null" disabled>-- Seçin --</option>
+          <option *ngFor="let clinic of clinics" [ngValue]="clinic">
+            {{ clinic.name }}
+          </option>
+        </select>
       </div>
 
       <div *ngIf="editedUser.role === 'HASTA'">
         <label>Kan Grubu:</label>
-        <select [(ngModel)]="editedUser.bloodType" name="bloodType">
+        <select [(ngModel)]="editedUser.bloodType" name="bloodType" required>
           <option value="ARH_POS">A Rh+</option>
           <option value="ARH_NEG">A Rh-</option>
           <option value="BRH_POS">B Rh+</option>

@@ -11,8 +11,9 @@
   <label>Hasta Seçin:</label>
   <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
     <option [value]="null">-- Hasta Seçin --</option>
-    <option *ngFor="let p of patients" [value]="p.id">{{ p.name }} {{ p.surname }}</option>
-  </select>
+<option *ngFor="let p of patients" [value]="p.id">
+  {{ p.name }} {{ p.surname }} 
+</option>  </select>
 </div>
 
 <!-- Geçiş Butonları -->

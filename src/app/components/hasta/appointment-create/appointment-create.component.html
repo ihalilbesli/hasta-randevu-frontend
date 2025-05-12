@@ -4,25 +4,35 @@
 
   <form (ngSubmit)="onSubmit()" #appointmentForm="ngForm">
 
-    <!-- Klinik Seçimi -->
-    <div class="form-group">
-      <label for="clinic">Klinik Seçiniz</label>
-      <select id="clinic" [(ngModel)]="selectedClinic" name="clinic" required (change)="onClinicChange()">
-        <option value="" disabled selected>-- Seçiniz --</option>
-        <option *ngFor="let clinic of clinics" [value]="clinic">{{ clinic }}</option>
-      </select>
-    </div>
 
-    <!-- Doktor Seçimi -->
-    <div class="form-group">
-      <label for="doctor">Doktor Seçiniz</label>
-      <select id="doctor" [(ngModel)]="selectedDoctorId" name="doctor" required>
-        <option value="" disabled selected>-- Seçiniz --</option>
-        <option *ngFor="let doctor of doctors" [value]="doctor.id">
-          {{ doctor.name }} {{ doctor.surname }}
-        </option>
-      </select>
-    </div>
+
+<!-- Klinik Seçimi -->
+<div class="form-group">
+  <label for="clinic">Klinik Seçiniz</label>
+  <select id="clinic" [(ngModel)]="selectedClinicId" name="clinic" required (change)="onClinicChange()">
+    <option [ngValue]="null" disabled selected>-- Seçiniz --</option>
+    <option *ngFor="let clinic of clinics" [ngValue]="clinic.id">
+      {{ clinic.name }}
+    </option>
+  </select>
+</div>
+
+  <!-- Doktor Seçimi -->
+<div class="form-group" *ngIf="doctors.length > 0">
+  <label for="doctor">Doktor Seçiniz</label>
+  <select
+    id="doctor"
+    [(ngModel)]="selectedDoctorId"
+    name="doctor"
+    required
+    (change)="onDoctorChange()"
+  >
+    <option [ngValue]="null" disabled selected>-- Seçiniz --</option>
+    <option *ngFor="let doctor of doctors" [ngValue]="doctor.id">
+      {{ doctor.name }} {{ doctor.surname }}
+    </option>
+  </select>
+</div>
 
     <!-- Tarih Seçimi -->
     <div class="form-group">

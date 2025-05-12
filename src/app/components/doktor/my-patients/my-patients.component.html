@@ -21,6 +21,7 @@
   <h3>{{ patient.name }} {{ patient.surname }}</h3>
   <p>📧 {{ patient.email }}</p>
   <p>📱 {{ patient.phoneNumber }}</p>
+  <p>🏥 Klinik: {{ patient.clinic?.name || '-' }}</p>
   <p>🎂 Doğum: {{ patient.birthDate || '-' }} | 🩸 Kan Grubu: {{ patient.bloodType || '-' }}</p>
 
   <!-- 🔢 İstatistikler -->

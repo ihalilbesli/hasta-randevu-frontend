@@ -12,7 +12,7 @@
         <div class="patient-info">
           <div class="name">{{ patient.name }} {{ patient.surname }}</div>
           <div class="email">{{ patient.email }}</div>
-          <div class="clinic">Klinik: {{ patient.clinic }}</div>
+          <div class="clinic">Klinik: {{ patient.clinic?.name }}</div>
         </div>
         <button (click)="goToPatientDetail(patient.id)">Detaya Git</button>
       </div>

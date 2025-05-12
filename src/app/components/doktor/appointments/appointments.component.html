@@ -20,7 +20,7 @@
         <td>{{ appointment.patient?.name }} {{ appointment.patient?.surname }}</td>
         <td>{{ appointment.date }}</td>
         <td>{{ appointment.time?.substring(0,5) }}</td>
-        <td>{{ appointment.clinic }}</td>
+       <td>{{ appointment.clinic?.name }}</td>
         <td>{{ appointment.status }}</td>
         <td>
           <ng-container *ngIf="appointment.status === 'AKTIF'">

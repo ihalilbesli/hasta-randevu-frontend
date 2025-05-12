@@ -79,20 +79,31 @@ applyKeywordFilter(data: any[]): any[] {
   }
 
   saveEdit(complaintId: number) {
-    const existing = this.complaints.find(c => c.id === complaintId);
-    const updated = {
-      content: existing.content, // değişmeyecek alan
-      status: this.updatedStatus,
-      adminNote: this.updatedNote
-    };
+   if (!this.updatedStatus) {
+    alert("Lütfen bir durum seçin.");
+    return;
+  }
 
-    this.complaintService.updateComplaint(complaintId, updated).subscribe({
-      next: () => {
-        alert('Şikayet güncellendi.');
-        this.getAllComplaints();
-        this.cancelEdit();
-      },
-      error: () => alert('Güncelleme başarısız.')
-    });
+  // Eğer durum 'COZULDU' ise admin notu zorunlu
+  if (this.updatedStatus === 'COZULDU' && this.updatedNote.trim() === '') {
+    alert("Durum 'Çözüldü' seçildiyse, lütfen bir admin notu girin.");
+    return;
+  }
+
+  const existing = this.complaints.find(c => c.id === complaintId);
+  const updated = {
+    content: existing.content,
+    status: this.updatedStatus,
+    adminNote: this.updatedNote
+  };
+
+  this.complaintService.updateComplaint(complaintId, updated).subscribe({
+    next: () => {
+      alert('Şikayet güncellendi.');
+      this.getAllComplaints();
+      this.cancelEdit();
+    },
+    error: () => alert('Güncelleme başarısız.')
+  });
   }
 }

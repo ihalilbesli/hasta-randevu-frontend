@@ -12,8 +12,8 @@
   <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
     <option [ngValue]="null">-- Hasta Seçin --</option>
     <option *ngFor="let patient of patients" [ngValue]="patient.id">
-      {{ patient.name }} {{ patient.surname }}
-    </option>
+  {{ patient.name }} {{ patient.surname }}
+</option>
   </select>
 </div>
 
