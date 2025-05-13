@@ -104,6 +104,6 @@ applyKeywordFilter(data: any[]): any[] {
       this.cancelEdit();
     },
     error: () => alert('Güncelleme başarısız.')
-  });
+  });//
   }
 }
