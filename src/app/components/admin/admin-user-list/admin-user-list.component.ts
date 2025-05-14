@@ -143,22 +143,31 @@ export class AdminUserListComponent {
   }
 
   openEditModal(user: any) {
-    this.showNewUserForm = false; 
-    this.editedUser = {
-      id: user.id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      birthDate: user.birthDate,
-      gender: user.gender,
-      role: user.role,
-      bloodType: user.bloodType,
-      chronicDiseases: user.chronicDiseases,
-      specialization: user.specialization
-    };
-    this.showEditModal = true;
+  this.showNewUserForm = false; 
+
+  // Eğer doktor ise, kullanıcının mevcut clinic ID'sine göre clinic nesnesini bul
+  let selectedClinic = null;
+  if (user.role === 'DOKTOR' && user.clinic) {
+    selectedClinic = this.clinics.find(c => c.id === user.clinic.id);
   }
+
+  this.editedUser = {
+    id: user.id,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    birthDate: user.birthDate,
+    gender: user.gender,
+    role: user.role,
+    bloodType: user.bloodType,
+    chronicDiseases: user.chronicDiseases,
+    specialization: user.specialization,
+    clinic: selectedClinic || null
+  };
+
+  this.showEditModal = true;
+}
 
   closeEditModal() {
     this.showEditModal = false;
@@ -166,6 +175,7 @@ export class AdminUserListComponent {
   }
 
   saveEditUser() {
+    console.log('Güncellemeden önce editedUser:', this.editedUser);
     this.userService.updateUser(this.editedUser).subscribe({
       next: () => {
         alert('Kullanıcı güncellendi.');

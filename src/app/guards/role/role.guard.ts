@@ -10,17 +10,10 @@ export function roleGuard (expectedRole:string[]):CanActivateFn{
 
     
     const userRole = authService.getUserRole(); 
-
-    console.log('--- ROLE GUARD TEST ---');
-    console.log('Beklenen roller:', expectedRole);
-    console.log('Kullanıcının rolü:', userRole);
-
     if (userRole && expectedRole.includes(userRole)) {
       return true;
     }
-
-    // Yetkisizse welcome sayfasına at
-    console.log("Welcome yonlendirme")
+  
     router.navigate(['/welcome']);
     return false;
   };

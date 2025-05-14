@@ -167,7 +167,14 @@ export const routes: Routes = [
            .then(({ AdminAppointmentComponent }) => AdminAppointmentComponent),
            canActivate: [authGuard,roleGuard(["ADMIN"])] 
       },
-      
+      {
+        path: 'admin-analytics',
+        loadComponent: () =>
+          import('./components/admin/admin-analytics/admin-analytics.component')
+           .then(({ AdminAnalyticsComponent }) => AdminAnalyticsComponent),
+           canActivate: [authGuard,roleGuard(["ADMIN"])] 
+      },
+   
       
       
     

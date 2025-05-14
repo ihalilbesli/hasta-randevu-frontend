@@ -11,4 +11,8 @@
   <p><strong>Kan Grubu:</strong> {{ user.bloodType }}</p>
   <p><strong>Kronik Hastalık:</strong> {{ user.chronicDiseases }}</p>
   <p><strong>Uzmanlık:</strong> {{ user.specialization }}</p>
+ <p *ngIf="user.role === 'DOKTOR'">
+  <strong>Klinik:</strong>
+  {{ user.clinic?.name || 'Klinik atanmadı' }}
+</p>
 </div>

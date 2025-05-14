@@ -1,0 +1,25 @@
+<app-header></app-header>
+
+<h2>📊 İstatistik ve Analiz Paneli</h2>
+
+<!-- Sekmeler -->
+<div class="tab-buttons">
+  <button [class.active]="activeTab === 'appointment'" (click)="activeTab = 'appointment'">Randevu Analizi</button>
+  <button [class.active]="activeTab === 'user'" (click)="activeTab = 'user'">Kullanıcı Analizi</button>
+  <button [class.active]="activeTab === 'complaint'" (click)="activeTab = 'complaint'">Şikayet Analizi</button>
+</div>
+
+<hr />
+
+<!-- İçerikler -->
+<div *ngIf="activeTab === 'appointment'">
+  <app-appointment-analytics></app-appointment-analytics>
+</div>
+<div *ngIf="activeTab === 'user'">
+  <app-users-analytics></app-users-analytics>
+</div>
+<div *ngIf="activeTab === 'complaint'">
+  <app-complaints-analytics></app-complaints-analytics>
+</div>
+
+

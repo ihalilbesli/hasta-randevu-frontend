@@ -1,38 +1,40 @@
-<!-- Buton: Yapay zeka aç/kapat -->
+<!-- 🤖 Yapay Zeka Aç/Kapat Butonu -->
 <div class="ai-chat-button" *ngIf="!isOpen" (click)="toggle()">🤖</div>
 
-<!-- Yapay zeka sohbet kutusu -->
+<!-- 💬 Yapay Zeka Sohbet Kutusu -->
 <div class="ai-chat-box" *ngIf="isOpen">
   <div class="header">
     <span>Yapay Zeka Asistanı</span>
     <button (click)="toggle()">✖</button>
   </div>
 
+  <!-- ✍️ Şikayet Girişi -->
   <textarea
-   [(ngModel)]="complaintText"
-   placeholder="Şikayetinizi yazın..."
-   [readonly]="readonly">
+    [(ngModel)]="complaintText"
+    placeholder="Şikayetinizi yazın..."
+    [readonly]="readonly">
   </textarea>
 
-  <button (click)="submitComplaint()" [disabled]="isLoading || readonly">
+  <button (click)="submitComplaint()" [disabled]="isLoading || readonly || !complaintText.trim()">
     {{ isLoading ? 'Yükleniyor...' : 'Gönder' }}
   </button>
 
-  <!-- Yanıt varsa göster -->
+  <!-- ✅ Yanıt Varsa Göster -->
   <div class="response" *ngIf="response">
     <strong>Poliklinik Önerisi:</strong>
-    <div>{{ suggestedClinic || '-' }}</div>
+    <div>
+      {{ suggestedClinic || '⚠️ Sistemimizde bulunmayan bir poliklinik önerildi.' }}
+    </div>
 
     <br>
 
     <strong>Tavsiye:</strong>
     <div>
-      {{
-        (response.split('Tavsiye:')[1] || '-').trim()
-      }}
+      {{ (response.split('Tavsiye:')[1] || '-').trim() }}
     </div>
+
     <div class="actions">
-      <button (click)="goToAppointment()">Randevu Al</button>
+      <button (click)="goToAppointment()" [disabled]="!suggestedClinic">Randevu Al</button>
       <button (click)="reset()">Yeni Şikayet Yaz</button>
     </div>
   </div>

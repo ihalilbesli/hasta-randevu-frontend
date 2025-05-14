@@ -1,0 +1,24 @@
+<app-header></app-header>
+<h3>📍 Klinik Bazlı Randevu Dağılımı</h3>
+<canvas baseChart
+  [data]="{ labels: clinicLabels, datasets: [{ data: clinicData, label: 'Randevu Sayısı' }] }"
+  [type]="'bar'">
+</canvas>
+
+<h3>📅 Günlük Randevu Dağılımı</h3>
+<canvas baseChart
+  [data]="{ labels: dateLabels, datasets: [{ data: dateData, label: 'Günlük Toplam' }] }"
+  [type]="'line'">
+</canvas>
+
+<h3>📊 Randevu Durumlarına Göre Dağılım</h3>
+<canvas baseChart
+  [data]="{ labels: statusLabels, datasets: [{ data: statusData, label: 'Durum' }] }"
+  [type]="'pie'">
+</canvas>
+
+<h3>👨‍⚕️ Doktor Bazlı Randevu Yoğunluğu</h3>
+<canvas baseChart
+  [data]="{ labels: doctorLabels, datasets: [{ data: doctorData, label: 'Randevu Sayısı' }] }"
+  [type]="'bar'">
+</canvas>
