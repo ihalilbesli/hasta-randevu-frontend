@@ -34,10 +34,6 @@ export class AnalyticsService {
     return this.http.get<any[]>(`${this.apiUrl}/appointments/doctor`, { headers: this.getHeaders() });
   }
 
-  getMonthlyUserRegistration(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/users/monthly`, { headers: this.getHeaders() });
-  }
-
   getComplaintCountByStatus(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/complaints/status`, { headers: this.getHeaders() });
   }
@@ -49,4 +45,25 @@ export class AnalyticsService {
   getAppointmentCountByTimeSlot(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/appointments/time-slot`, { headers: this.getHeaders() });
   }
+  // Kullanıcı rol dağılımı (HASTA, DOKTOR, ADMIN)
+getUserCountByRole(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/users/roles`, { headers: this.getHeaders() });
+}
+
+// Cinsiyet dağılımı (ERKEK, KADIN, BELIRTILMEMIS)
+getUserCountByGender(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/users/genders`, { headers: this.getHeaders() });
+}
+
+// Kan grubu dağılımı (ARH_POS, ORH_NEG vs.)
+getUserCountByBloodType(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/users/blood-types`, { headers: this.getHeaders() });
+}
+
+// Kliniklere göre doktor sayısı
+getDoctorCountByClinic(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/clinics/doctor-count`, { headers: this.getHeaders() });
+}
+
+
 }

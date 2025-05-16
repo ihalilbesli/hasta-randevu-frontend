@@ -38,6 +38,7 @@ export class AppointmentCreateComponent implements OnInit {
   invalidDate = false;
   openGroups: { [hour: string]: boolean } = {};
 
+
   constructor(
     private userService: UserService,
     private appointmentService: AppointmentService,
@@ -97,7 +98,7 @@ export class AppointmentCreateComponent implements OnInit {
 
   this.clinicService.getDoctorsByClinicId(this.selectedClinicId).subscribe({
     next: (data) => {
-      console.log("Gelen doktorlar:", data); // DEBUG
+      console.log("Gelen doktorlar:", data); 
       this.doctors = data;
     },
     error: (err) => console.error('Doktorlar alınamadı:', err)

@@ -34,34 +34,36 @@ export class AppointmentAnalyticsComponent {
     this.loadDoctorData();
   }
 
-  loadClinicData() {
-    this.analyticsService.getAppointmentCountByClinic().subscribe(data => {
+loadClinicData() {
+  this.analyticsService.getAppointmentCountByClinic().subscribe(data => {
       this.clinicLabels = data.map(d => d.clinicName);
-      this.clinicData = data.map(d => d.count);
-    });
-  }
+    this.clinicData = data.map(d => d.appointmentCount);
+  });
+}
 
-  loadDateData() {
-    this.analyticsService.getAppointmentCountByDate().subscribe(data => {
-      this.dateLabels = data.map(d => d.date);
-      this.dateData = data.map(d => d.count);
-    });
-  }
+ loadDateData() {
+  this.analyticsService.getAppointmentCountByDate().subscribe(data => {
+    this.dateLabels = data.map(d => d.date);
+    this.dateData = data.map(d => d.appointmentCount);
+  });
+}
 
   loadStatusData() {
-    this.analyticsService.getAppointmentCountByStatus().subscribe(data => {
-      this.statusData = new Array(this.statusLabels.length).fill(0);
-      data.forEach(d => {
-        const idx = this.statusLabels.indexOf(d.status);
-        if (idx !== -1) this.statusData[idx] = d.count;
-      });
+  this.analyticsService.getAppointmentCountByStatus().subscribe(data => {
+    this.statusData = new Array(this.statusLabels.length).fill(0);
+    data.forEach(d => {
+      const idx = this.statusLabels.indexOf(d.status);
+   
+      if (idx !== -1) this.statusData[idx] = d.count;
     });
-  }
+  
+  });
+}
 
-  loadDoctorData() {
-    this.analyticsService.getAppointmentCountByDoctor().subscribe(data => {
-      this.doctorLabels = data.map(d => d.doctorName);
-      this.doctorData = data.map(d => d.count);
-    });
-  }
+ loadDoctorData() {
+  this.analyticsService.getAppointmentCountByDoctor().subscribe(data => {
+    this.doctorLabels = data.map(d => d.doctorName);
+    this.doctorData = data.map(d => d.appointmentCount);
+  });
+}
 }
