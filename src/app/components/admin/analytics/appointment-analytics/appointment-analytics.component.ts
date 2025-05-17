@@ -8,7 +8,7 @@ import { NgChartsModule } from 'ng2-charts'; //grafik modulu
 @Component({
   selector: 'app-appointment-analytics',
   standalone: true,
-  imports: [CommonModule,HeaderComponent,NgChartsModule],
+  imports: [CommonModule,NgChartsModule],
   templateUrl: './appointment-analytics.component.html',
   styleUrl: './appointment-analytics.component.css'
 })

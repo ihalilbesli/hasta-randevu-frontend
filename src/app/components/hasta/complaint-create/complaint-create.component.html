@@ -1,69 +1,75 @@
 <app-header></app-header>
 <app-ai-chat></app-ai-chat>
+
 <div class="complaint-form">
-    <h2>😠 Şikayet Oluştur</h2>
-    
-    <form (ngSubmit)="onSubmit()" #complaintForm="ngForm">
-        <div class="form-group">
-            <label for="subject">Konu</label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              [(ngModel)]="subject"
-              required
-              placeholder="Konu başlığı (örn: Randevu gecikmesi)"
-            />
-          </div>
-      <div class="form-group">
-        <label for="content">Şikayetiniz</label>
-        <textarea
-          id="content"
-          name="content"
-          [(ngModel)]="content"
-          required
-          rows="4"
-          placeholder="Şikayet içeriğini giriniz"
-        ></textarea>
-      </div>
-  
-      <button type="submit" [disabled]="!complaintForm.form.valid">
-        Gönder
-      </button>
-    </form>
-  
-    <h3 class="mt-4">📜 Önceki Şikayetlerim</h3>
-    <label>
-      Zaman filtresi:
-      <select [(ngModel)]="selectedPeriod" (change)="loadComplaints()">
-        <option value="all">Tümü</option>
-        <option value="week">Son 1 Hafta</option>
-        <option value="month">Son 1 Ay</option>
-        <option value="year">Son 1 Yıl</option>
+  <h2>😠 Şikayet Oluştur</h2>
+
+  <form (ngSubmit)="onSubmit()" #complaintForm="ngForm">
+    <!-- Konu seçimi -->
+    <div class="form-group">
+      <label for="subject">Konu</label>
+      <select [(ngModel)]="subject" name="subject" id="subject" required>
+        <option [ngValue]="''" disabled>-- Konu Seçiniz --</option>
+        <option *ngFor="let konu of konuListesi" [value]="konu">{{ konu }}</option>
       </select>
-    </label>
-  
-    <table *ngIf="complaints.length > 0">
-      <thead>
-        <tr>
-          <th>Konu</th>
-          <th>İçerik</th>
-          <th>Tarih</th>
-          <th>Durum</th>
-          <th>Açıklama</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let c of complaints">
-          <td>{{ c.subject }}</td>
-          <td>{{ c.content  }}</td>
-          <td>{{ c.createdAt }}</td>
-          <td>{{ c.status }}</td>
-          <td>{{ c.adminNote || "✉️ Henüz yanıtlanmadı" }}</td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <p *ngIf="complaints.length === 0">Şikayet bulunamadı.</p>
-  </div>
-  
+    </div>
+
+    <!-- Klinik seçimi sadece belirli konularda -->
+    <div class="form-group" *ngIf="showClinicSelect">
+      <label for="clinic">Klinik</label>
+      <select [(ngModel)]="selectedClinicId" name="clinic" id="clinic">
+        <option [ngValue]="null">-- Klinik seçiniz --</option>
+        <option *ngFor="let c of clinics" [ngValue]="c.id">{{ c.name }}</option>
+      </select>
+    </div>
+
+    <!-- Şikayet içeriği -->
+    <div class="form-group">
+      <label for="content">Şikayetiniz</label>
+      <textarea
+        id="content"
+        name="content"
+        [(ngModel)]="content"
+        required
+        rows="4"
+        [placeholder]="placeholderText"
+      ></textarea>
+    </div>
+
+    <button type="submit" [disabled]="!complaintForm.form.valid">Gönder</button>
+  </form>
+
+  <h3 class="mt-4">📜 Önceki Şikayetlerim</h3>
+  <label>
+    Zaman filtresi:
+    <select [(ngModel)]="selectedPeriod" (change)="loadComplaints()">
+      <option value="all">Tümü</option>
+      <option value="week">Son 1 Hafta</option>
+      <option value="month">Son 1 Ay</option>
+      <option value="year">Son 1 Yıl</option>
+    </select>
+  </label>
+
+  <table *ngIf="complaints.length > 0">
+    <thead>
+      <tr>
+        <th>Konu</th>
+        <th>İçerik</th>
+        <th>Tarih</th>
+        <th>Durum</th>
+        <th>Açıklama</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of complaints">
+        <td>{{ c.subject }}</td>
+        <td>{{ c.content }}</td>
+        <td>{{ c.createdAt }}</td>
+        <td>{{ c.status }}</td>
+        <td>{{ c.adminNote || '✉️ Henüz yanıtlanmadı' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="complaints.length === 0">Şikayet bulunamadı.</p>
+</div>
