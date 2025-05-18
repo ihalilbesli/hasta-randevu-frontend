@@ -10,3 +10,8 @@
   [data]="{ labels: complaintClinicLabels, datasets: [{ data: complaintClinicData, label: 'Şikayet Sayısı' }] }"
   [type]="'bar'">
 </canvas>
+<h3>📚 Şikayet Konularına Göre Dağılım</h3>
+<canvas baseChart
+  [data]="{ labels: complaintSubjectLabels, datasets: [{ data: complaintSubjectData, label: 'Konuya Göre Sayı' }] }"
+  [type]="'doughnut'">
+</canvas>

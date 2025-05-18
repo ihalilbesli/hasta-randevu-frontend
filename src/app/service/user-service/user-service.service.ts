@@ -90,7 +90,10 @@ export class UserService {
       headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
     });
   }
-  
-  
+  getAllUsers(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}`, {
+    headers: this.getHeaders()
+  });
+}
   
 }

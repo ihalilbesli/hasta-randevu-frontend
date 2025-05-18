@@ -1,0 +1,28 @@
+<h3>💊 Reçete Verileri</h3>
+<table *ngIf="prescriptions.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Reçete Kodu</th>
+      <th>Tarih</th>
+      <th>Açıklama</th>
+      <th>İlaçlar</th>
+      <th>Doktor</th>
+      <th>Hasta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let prescription of prescriptions">
+      <td>{{ prescription.id }}</td>
+      <td>{{ prescription.prescriptionCode }}</td>
+      <td>{{ prescription.date }}</td>
+      <td>{{ prescription.description }}</td>
+      <td>{{ prescription.medications }}</td>
+      <td>{{ prescription.doctor?.name }} {{ prescription.doctor?.surname }}</td>
+      <td>{{ prescription.patient?.name }} {{ prescription.patient?.surname }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>

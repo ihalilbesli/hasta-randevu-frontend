@@ -21,6 +21,10 @@ export class ComplaintsAnalyticsComponent {
   complaintClinicLabels: string[] = [];
   complaintClinicData: number[] = [];
 
+  // 3. Konulara göre şikayet dağılımı
+complaintSubjectLabels: string[] = [];
+complaintSubjectData: number[] = [];
+
   constructor(
     private analyticsService: AnalyticsService,
     private clinicsService: ClinicsService
@@ -28,7 +32,8 @@ export class ComplaintsAnalyticsComponent {
 
   ngOnInit(): void {
     this.loadComplaintStatusData();
-    this.loadAllClinicsThenComplaints(); // Klinikler ve şikayet verisi eş zamanlı yönetilir
+    this.loadAllClinicsThenComplaints();
+      this.loadComplaintSubjectData(); // Klinikler ve şikayet verisi eş zamanlı yönetilir
   }
 
   // Şikayet durumu (status) verisi
@@ -49,16 +54,20 @@ export class ComplaintsAnalyticsComponent {
     this.clinicsService.getAllClinics().subscribe(clinics => {
       const allClinicNames = clinics.map(c => c.name);
       this.analyticsService.getComplaintCountByClinic().subscribe(complaints => {
-        console.log('🏥 Kliniklere Göre Şikayet Verisi:', complaints);
-        
+
         const complaintMap = new Map(complaints.map(c => [c.clinicName, c.complaintCount]));
 
         this.complaintClinicLabels = allClinicNames;
         this.complaintClinicData = allClinicNames.map(name => complaintMap.get(name) || 0);
 
-        console.log('📋 Klinik Labels:', this.complaintClinicLabels);
-        console.log('📈 Klinik Şikayet Sayısı:', this.complaintClinicData);
       });
     });
   }
+  loadComplaintSubjectData() {
+  this.analyticsService.getComplaintCountBySubject().subscribe(data => {
+    console.log('📚 Şikayet Konu Verisi:', data);
+    this.complaintSubjectLabels = data.map(d => d.subject);
+    this.complaintSubjectData = data.map(d => d.count);
+  });
+}
 }

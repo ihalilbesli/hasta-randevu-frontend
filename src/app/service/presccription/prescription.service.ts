@@ -77,4 +77,9 @@ export class PrescriptionService {
       headers: this.getHeaders()
     });
   }
+  getAll(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}`, {
+    headers: this.getHeaders()
+  });
+}
 }

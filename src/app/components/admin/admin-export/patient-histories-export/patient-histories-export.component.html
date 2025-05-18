@@ -1,0 +1,28 @@
+<h3>📚 Hasta Geçmişi Verileri</h3>
+
+<table *ngIf="histories.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Hasta</th>
+      <th>Doktor</th>
+      <th>Teşhis</th>
+      <th>Tedavi</th>
+      <th>Notlar</th>
+      <th>Tarih</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let history of histories">
+      <td>{{ history.id }}</td>
+      <td>{{ history.patient?.name }} {{ history.patient?.surname }}</td>
+      <td>{{ history.doctor?.name }} {{ history.doctor?.surname }}</td>
+      <td>{{ history.diagnosis }}</td>
+      <td>{{ history.treatment }}</td>
+      <td>{{ history.notes || '-' }}</td>
+      <td>{{ history.date }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>

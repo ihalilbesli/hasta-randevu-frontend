@@ -50,7 +50,7 @@ export class AppointmentCreateComponent implements OnInit {
   ngOnInit(): void {
     this.clinicService.getAllClinics().subscribe({
       next: (data) => {
-        this.clinics = data;
+        this.clinics = data.filter(clinic => clinic.isActive); 
 
         this.route.queryParams.subscribe(params => {
           if (params["clinic"]) {

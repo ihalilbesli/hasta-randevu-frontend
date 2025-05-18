@@ -174,10 +174,64 @@ export const routes: Routes = [
            .then(({ AdminAnalyticsComponent }) => AdminAnalyticsComponent),
            canActivate: [authGuard,roleGuard(["ADMIN"])] 
       },
-   
-      
-      
-    
 
+     {
+        path: 'admin-clinics',
+        loadComponent: () =>
+          import('./components/admin/admin-clinics/admin-clinics.component')
+           .then(({ AdminClinicsComponent }) => AdminClinicsComponent),
+           canActivate: [authGuard,roleGuard(["ADMIN"])] 
+      },
+      {
+  path: 'export',
+  loadComponent: () =>
+    import('./components/admin/admin-export/export/export.component')
+      .then(({ ExportComponent }) => ExportComponent),
+  canActivate: [authGuard, roleGuard(['ADMIN'])],
+  children: [
+    {
+      path: 'users',
+      loadComponent: () =>
+        import('./components/admin/admin-export/users-export/users-export.component')
+          .then(({ UsersExportComponent }) => UsersExportComponent)
+    },
+    {
+      path: 'appointments',
+      loadComponent: () =>
+        import('./components/admin/admin-export/appointments-export/appointments-export.component')
+          .then(({ AppointmentsExportComponent }) => AppointmentsExportComponent)
+    },
+    {
+      path: 'complaints',
+      loadComponent: () =>
+        import('./components/admin/admin-export/complaints-export/complaints-export.component')
+          .then(({ ComplaintsExportComponent }) => ComplaintsExportComponent)
+    },
+    {
+      path: 'prescriptions',
+      loadComponent: () =>
+        import('./components/admin/admin-export/prescriptions-export/prescriptions-export.component')
+          .then(({ PrescriptionsExportComponent }) => PrescriptionsExportComponent)
+    },
+    {
+      path: 'test-results',
+      loadComponent: () =>
+        import('./components/admin/admin-export/test-result-export/test-result-export.component')
+          .then(({ TestResultExportComponent }) => TestResultExportComponent)
+    },
+    {
+      path: 'histories',
+      loadComponent: () =>
+        import('./components/admin/admin-export/patient-histories-export/patient-histories-export.component')
+          .then(({ PatientHistoriesExportComponent }) => PatientHistoriesExportComponent)
+    },
+    {
+      path: 'reports',
+      loadComponent: () =>
+        import('./components/admin/admin-export/patient-reports-export/patient-reports-export.component')
+          .then(({ PatientReportsExportComponent }) => PatientReportsExportComponent)
+    }
+  ]
+}
       
 ];

@@ -75,4 +75,10 @@ export class PatientReportService {
       headers: this.getHeaders()
     });
   }
+  getAllReports(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}`, {
+    headers: this.getHeaders()
+  });
+}
+
 }

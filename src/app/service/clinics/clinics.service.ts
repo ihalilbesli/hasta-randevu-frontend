@@ -26,4 +26,29 @@ export class ClinicsService {
       headers: this.getHeaders()
     });
   }
+  createClinic(clinicData: any): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}`, clinicData, {
+    headers: this.getHeaders()
+  });
+}
+updateClinic(id: number, updatedClinic: any): Observable<any> {
+  return this.http.put<any>(`${this.apiUrl}/${id}`, updatedClinic, {
+    headers: this.getHeaders()
+  });
+}
+deactivateClinic(id: number): Observable<void> {
+  return this.http.put<void>(`${this.apiUrl}/${id}/passive`, {}, {
+    headers: this.getHeaders()
+  });
+}
+activateClinic(id: number): Observable<void> {
+  return this.http.put<void>(`${this.apiUrl}/${id}/activate`, {}, {
+    headers: this.getHeaders()
+  });
+}
+
+
+
+
+
 }

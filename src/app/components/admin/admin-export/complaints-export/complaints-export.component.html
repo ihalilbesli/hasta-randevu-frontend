@@ -1,0 +1,30 @@
+<h3>📋 Şikayet Verileri</h3>
+<table *ngIf="complaints.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Konu</th>
+      <th>İçerik</th>
+      <th>Durum</th>
+      <th>Oluşturulma Tarihi</th>
+      <th>Yönetici Notu</th>
+      <th>Klinik</th>
+      <th>Kullanıcı</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let complaint of complaints">
+      <td>{{ complaint.id }}</td>
+      <td>{{ complaint.subject }}</td>
+      <td>{{ complaint.content }}</td>
+      <td>{{ complaint.status }}</td>
+      <td>{{ complaint.createdAt }}</td>
+      <td>{{ complaint.adminNote || '-' }}</td>
+      <td>{{ complaint.clinic?.name }}</td>
+      <td>{{ complaint.user?.name }} {{ complaint.user?.surname }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>

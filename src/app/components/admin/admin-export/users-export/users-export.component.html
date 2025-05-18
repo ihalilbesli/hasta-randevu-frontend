@@ -1,0 +1,36 @@
+<h3>👤 Kullanıcı Verileri</h3>
+
+  <thead>
+    <tr>
+      <th>Dogum Tarhi</th>
+      <th>ID</th>
+      <th>Ad</th>
+      <th>Soyad</th>
+      <th>Email</th>
+      <th>Telefon</th>
+      <th>Rol</th>
+      <th>Cinsiyet</th>
+      <th>Kan Grubu</th>
+      <th>Kronik Hastalık</th>
+      <th>Uzmanlık</th>
+      <th>Klinik</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.birthDate}}</td> 
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.surname }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>{{ user.role }}</td>
+      <td>{{ user.gender }}</td>
+      <td>{{ user.bloodType }}</td>
+      <td>{{ user.chronicDiseases || '-' }}</td>
+      <td>{{ user.specialization || '-' }}</td>
+      <td>{{ user.clinic?.name || '-' }}</td> <!-- 👈 ÖNEMLİ KISIM -->
+    </tr>
+  </tbody>
+
+<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>

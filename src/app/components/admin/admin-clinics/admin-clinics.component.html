@@ -1,0 +1,46 @@
+<app-header></app-header>
+<h2>Klinik Yönetimi</h2>
+
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label>Klinik Adı:</label>
+    <input type="text" [(ngModel)]="name" name="name" required />
+  </div>
+
+  <div>
+    <label>Açıklama:</label>
+    <textarea [(ngModel)]="description" name="description"></textarea>
+  </div>
+
+  <button type="submit">
+    {{ selectedClinic ? 'Güncelle' : 'Ekle' }}
+  </button>
+  <button type="button" (click)="resetForm()" *ngIf="selectedClinic">İptal</button>
+</form>
+
+<hr />
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Ad</th>
+      <th>Açıklama</th>
+      <th>Durum</th>
+      <th>İşlemler</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let clinic of clinics">
+      <td>{{ clinic.id }}</td>
+      <td>{{ clinic.name }}</td>
+      <td>{{ clinic.description }}</td>
+      <td>{{ clinic.isActive ? 'Aktif' : 'Pasif' }}</td>
+      <td>
+        <button (click)="editClinic(clinic)">Düzenle</button>
+        <button *ngIf="clinic.isActive" (click)="deactivateClinic(clinic.id)">Pasifleştir</button>
+        <button *ngIf="!clinic.isActive" (click)="activateClinic(clinic.id)">Aktifleştir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

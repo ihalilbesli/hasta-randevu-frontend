@@ -75,6 +75,11 @@ getDoctorCountByClinic(): Observable<any[]> {
   return this.http.get<any[]>(`${this.apiUrl}/clinics/doctor-count`, { 
     headers: this.getHeaders() });
 }
+getComplaintCountBySubject(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/complaints/subject`, {
+    headers: this.getHeaders()
+  });
+}
 
 
 }

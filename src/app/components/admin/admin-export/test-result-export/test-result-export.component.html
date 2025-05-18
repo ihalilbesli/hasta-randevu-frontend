@@ -1,0 +1,30 @@
+<h3>🧪 Test Sonuçları Verileri</h3>
+
+<table *ngIf="testResults.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Hasta</th>
+      <th>Doktor</th>
+      <th>Test Tarihi</th>
+      <th>Test Adı</th>
+      <th>Test Türü</th>
+      <th>Sonuç</th>
+      <th>Doktor Yorumu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let result of testResults">
+      <td>{{ result.id }}</td>
+      <td>{{ result.patient?.name }} {{ result.patient?.surname }}</td>
+      <td>{{ result.doctor?.name }} {{ result.doctor?.surname }}</td>
+      <td>{{ result.testDate }}</td>
+      <td>{{ result.testName }}</td>
+      <td>{{ result.testType }}</td>
+      <td>{{ result.result }}</td>
+      <td>{{ result.doctorComment || '-' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>
