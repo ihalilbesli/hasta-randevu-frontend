@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from '../../../header/header.component';
 import { AnalyticsService } from '../../../../service/analytics/analytics.service';
 import { NgChartsModule } from 'ng2-charts'; //grafik modulu
+import { ClinicsService } from '../../../../service/clinics/clinics.service';
 
 
 @Component({
@@ -25,7 +26,9 @@ export class AppointmentAnalyticsComponent {
   doctorLabels: string[] = [];
   doctorData: number[] = [];
 
-  constructor(private analyticsService: AnalyticsService) {}
+  constructor(
+    private analyticsService: AnalyticsService,
+    private clinicsService:ClinicsService) {}
 
   ngOnInit(): void {
     this.loadClinicData();
@@ -35,16 +38,39 @@ export class AppointmentAnalyticsComponent {
   }
 
 loadClinicData() {
-  this.analyticsService.getAppointmentCountByClinic().subscribe(data => {
-      this.clinicLabels = data.map(d => d.clinicName);
-    this.clinicData = data.map(d => d.appointmentCount);
+  this.clinicsService.getAllClinics().subscribe(clinics => {
+    const allClinicNames = clinics.map(c => c.name);
+    this.analyticsService.getAppointmentCountByClinic().subscribe(data => {
+      const map = new Map(data.map(d => [d.clinicName, d.appointmentCount]));
+      this.clinicLabels = allClinicNames;
+      this.clinicData = allClinicNames.map(name => map.get(name) || 0);
+    });
   });
 }
 
- loadDateData() {
+
+loadDateData() {
   this.analyticsService.getAppointmentCountByDate().subscribe(data => {
-    this.dateLabels = data.map(d => d.date);
-    this.dateData = data.map(d => d.appointmentCount);
+    if (data.length === 0) return;
+
+    // Mevcut verileri Map'e çevir
+    const countMap = new Map(data.map(d => [d.date, d.appointmentCount]));
+
+    const start = new Date(data[0].date);
+    const end = new Date(data[data.length - 1].date);
+    const dateList: string[] = [];
+    const countList: number[] = [];
+
+    const current = new Date(start);
+    while (current <= end) {
+      const iso = current.toISOString().slice(0, 10);
+      dateList.push(iso);
+      countList.push(countMap.get(iso) || 0);
+      current.setDate(current.getDate() + 1);
+    }
+
+    this.dateLabels = dateList;
+    this.dateData = countList;
   });
 }
 

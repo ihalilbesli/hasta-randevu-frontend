@@ -31,6 +31,7 @@ export class AdminComplaintsComponent {
   getAllComplaints() {
     this.complaintService.getAllComplaints().subscribe({
       next: (data) => {
+        console.log('📦 Admin JSON Şikayet Verisi:', data); 
         this.complaints = data;
         this.filteredComplaints = data;
       },

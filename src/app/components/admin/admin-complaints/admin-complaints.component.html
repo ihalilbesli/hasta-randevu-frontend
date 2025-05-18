@@ -19,7 +19,9 @@
     <tr>
       <th>ID</th>
       <th>Kullanıcı</th>
+      <th>Konu</th>
       <th>İçerik</th>
+      <th>Klinik</th> <!-- EKLENDİ -->
       <th>Durum</th>
       <th>Admin Notu</th>
       <th>İşlemler</th>
@@ -29,19 +31,21 @@
     <tr *ngFor="let complaint of filteredComplaints">
       <td>{{ complaint.id }}</td>
       <td>{{ complaint.user?.name }} {{ complaint.user?.surname }}</td>
+      <td>{{ complaint.subject }}</td>
       <td>{{ complaint.content }}</td>
+      <td>{{ complaint.clinic?.name || 'Belirtilmemiş' }}</td> 
 
       <!-- 📝 Güncelleme Modu -->
       <ng-container *ngIf="editingComplaintId === complaint.id; else showStatic">
         <td>
           <select [(ngModel)]="updatedStatus">
             <option value="BEKLEMEDE">BEKLEMEDE</option>
-        <option value="INCELEMEDE">İncelemede</option>
-            <option value="COZULDU">Çözüldü</option>
+            <option value="INCELEMEDE">İNCELEMEDE</option>
+            <option value="COZULDU">ÇÖZÜLDÜ</option>
           </select>
         </td>
         <td>
-          <input [(ngModel)]="updatedNote" placeholder="Not giriniz">
+          <input [(ngModel)]="updatedNote" placeholder="Not giriniz" />
         </td>
         <td>
           <button (click)="saveEdit(complaint.id)">💾 Kaydet</button>
@@ -52,7 +56,7 @@
       <!-- 📄 Normal Görünüm -->
       <ng-template #showStatic>
         <td>{{ complaint.status }}</td>
-        <td>{{ complaint.adminNote || '-' }}</td>
+        <td>{{ complaint.adminNote || '—' }}</td>
         <td>
           <button (click)="startEditing(complaint)">✏️ Güncelle</button>
         </td>

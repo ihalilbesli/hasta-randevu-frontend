@@ -47,15 +47,18 @@ get placeholderText(): string {
 }
 
 // Klinik seçimi sadece "Klinikle İlgili Sorun" seçilirse gösterilecek
-get showClinicSelect(): boolean {
-  return this.subject === 'Klinikle İlgili Sorun';
-}
+
   
   constructor(
     private complaintService: ComplaintService,
     private userService: UserService,
     private clinicsService: ClinicsService
   ) {}
+
+  get showClinicSelect(): boolean {
+  return this.subject === 'Klinikle İlgili Sorun';
+}
+
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
