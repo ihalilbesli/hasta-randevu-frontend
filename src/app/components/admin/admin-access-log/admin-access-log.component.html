@@ -1,0 +1,65 @@
+<app-header></app-header>
+<h2>Erişim Logları</h2>
+
+<div class="filter-container">
+  <label>Zaman:</label>
+  <select [(ngModel)]="selectedPeriod" (change)="filterByPeriod()">
+    <option value="">Tümü</option>
+    <option value="day">Son 1 Gün</option>
+    <option value="week">Son 1 Hafta</option>
+    <option value="month">Son 1 Ay</option>
+    <option value="year">Son 1 Yıl</option>
+  </select>
+
+  <label>Rol:</label>
+  <select [(ngModel)]="selectedRole" (change)="applyFilters()">
+    <option value="">Tümü</option>
+    <option value="ADMIN">Admin</option>
+    <option value="DOKTOR">Doktor</option>
+    <option value="HASTA">Hasta</option>
+  </select>
+
+  <label>Durum:</label>
+  <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
+    <option value="">Tümü</option>
+    <option value="BAŞARILI">Başarılı</option>
+    <option value="HATA">Hata</option>
+  </select>
+
+  <input type="text" placeholder="Endpoint içinde ara..." [(ngModel)]="keyword" (input)="onKeywordChange()">
+  <button (click)="exportToCSV()">CSV Olarak İndir</button>
+
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Zaman</th>
+      <th>Email</th>
+      <th>Rol</th>
+      <th>Endpoint</th>
+      <th>Method</th>
+      <th>Entity</th>
+      <th>İşlem</th>
+      <th>Durum</th>
+      <th>Hata Mesajı</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let log of filteredLogs">
+      <td>{{ log.id }}</td>
+      <td>{{ log.timestamp }}</td>
+      <td>{{ log.userEmail }}</td>
+      <td>{{ log.role }}</td>
+      <td>{{ log.endpoint }}</td>
+      <td>{{ log.method }}</td>
+      <td>{{ log.entity }}</td>
+      <td>{{ log.actionType }}</td>
+      <td>{{ log.status }}</td>
+      <td>{{ log.errorMessage || '-' }}</td>
+      
+    </tr>
+    
+  </tbody>
+</table>

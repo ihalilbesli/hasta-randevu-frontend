@@ -232,6 +232,13 @@ export const routes: Routes = [
           .then(({ PatientReportsExportComponent }) => PatientReportsExportComponent)
     }
   ]
-}
+},  
+{
+        path: 'admin-access-logs',
+        loadComponent: () =>
+          import('./components/admin/admin-access-log/admin-access-log.component')
+           .then(({ AdminAccessLogComponent }) => AdminAccessLogComponent),
+           canActivate: [authGuard,roleGuard(["ADMIN"])] 
+      },
       
 ];
