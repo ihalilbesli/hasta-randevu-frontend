@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AIService {
-  private apiUrl = 'http://localhost:8080/hastarandevu/ai/analyze';
+  private baseUrl  = 'http://localhost:8080/hastarandevu/ai';
 
   constructor(
     private http: HttpClient,
@@ -23,9 +23,43 @@ export class AIService {
   }
 
   analyzeComplaint(complaintText: string): Observable<string> {
-    return this.http.post(this.apiUrl, { complaintText }, {
+  return this.http.post(`${this.baseUrl}/analyze`, { complaintText }, {
+    headers: this.getHeaders(),
+    responseType: 'text' 
+  });
+}
+  // 2️⃣ Admin: Şikayetlerden klinik önerisi ve analiz
+  analyzeComplaintsForAdmin(): Observable<string> {
+    return this.http.get(`${this.baseUrl}/admin/analyze-complaints`, {
       headers: this.getHeaders(),
-      responseType: 'text' 
+      responseType: 'text'
     });
   }
+
+  // 3️⃣ Admin: Klinik yoğunluğu analizi
+  analyzeClinicLoad(): Observable<string> {
+    return this.http.get(`${this.baseUrl}/admin/analyze-clinic-load`, {
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
+
+ 
+
+  // 5️⃣ Admin: Kullanıcı davranış analizi
+  analyzeUserBehavior(): Observable<string> {
+    return this.http.get(`${this.baseUrl}/admin/analyze-user-behavior`, {
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
+
+  // 6️⃣ Admin: Riskli durumları ve erken uyarıları getir
+  generateRiskAlerts(): Observable<string> {
+    return this.http.get(`${this.baseUrl}/admin/risk-alerts`, {
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
+
 }

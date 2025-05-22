@@ -1,0 +1,15 @@
+<h2>🤖 AI Destekli Analizler</h2>
+
+<div class="analysis-buttons">
+  <button (click)="runAnalysis('complaints')">1️⃣ Şikayetleri Analiz Et</button>
+  <button (click)="runAnalysis('clinicLoad')">2️⃣ Klinik Yoğunluğu</button>
+  <button (click)="runAnalysis('userBehavior')">4️⃣ Kullanıcı Davranışları</button>
+  <button (click)="runAnalysis('riskAlerts')">5️⃣ Riskli Durumlar</button>
+</div>
+
+<div *ngIf="loading" class="loading">⏳ Yükleniyor, lütfen bekleyin...</div>
+
+<div *ngIf="!loading && result" class="result">
+  <h3>📋 Sonuç:</h3>
+  <pre>{{ result }}</pre>
+</div>

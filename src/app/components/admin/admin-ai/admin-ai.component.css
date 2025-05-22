@@ -1,0 +1,27 @@
+.analysis-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 8px 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.loading {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.result {
+  background: #f4f4f4;
+  padding: 15px;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  max-height: 400px;
+  overflow-y: auto;
+}

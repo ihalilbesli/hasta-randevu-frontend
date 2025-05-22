@@ -240,5 +240,12 @@ export const routes: Routes = [
            .then(({ AdminAccessLogComponent }) => AdminAccessLogComponent),
            canActivate: [authGuard,roleGuard(["ADMIN"])] 
       },
+      {
+        path: 'admin-ai',
+        loadComponent: () =>
+          import('./components/admin/admin-ai/admin-ai.component')
+           .then(({ AdminAiComponent }) => AdminAiComponent),
+           canActivate: [authGuard,roleGuard(["ADMIN"])] 
+      },
       
 ];

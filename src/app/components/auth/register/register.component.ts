@@ -35,35 +35,37 @@ export class RegisterComponent {
   submitted: boolean = false;
   showPrivacy: boolean = false;
 
-  onSubmit() {
-    this.submitted = true;
+ onSubmit() {
+  this.submitted = true;
 
-    if (!this.privacyAccepted) {
-      return; // Gizlilik onayı yapılmadıysa devam etme
-    }
-
-    const userData = {
-      name: this.name,
-      surname: this.surname,
-      email: this.email,
-      password: this.password,
-      phoneNumber: this.phoneNumber,
-      gender: this.gender,
-      birthDate: this.birthDate,
-  
-    };
-
-    this.authService.register(userData).subscribe({
-      next: () => {
-        alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        console.error('Kayıt başarısız:', err);
-        alert('Kayıt başarısız! Lütfen bilgilerinizi kontrol edin.');
-      },
-    });
+  if (!this.privacyAccepted) {
+    return;
   }
+
+  const userData = {
+    name: this.name,
+    surname: this.surname,
+    email: this.email,
+    password: this.password,
+    phoneNumber: this.phoneNumber,
+    gender: this.gender,
+    birthDate: this.birthDate,
+  };
+
+  console.log('Kayıt isteği gönderiliyor:', userData);  // <-- BURAYA EKLE
+
+  this.authService.register(userData).subscribe({
+    next: () => {
+      alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
+      this.router.navigate(['/login']);
+    },
+    error: (err) => {
+      console.error('Kayıt başarısız:', err);
+      alert('Kayıt başarısız! Lütfen bilgilerinizi kontrol edin.');
+    },
+  });
+}
+
 
   openPrivacyPolicy(event: Event) {
     event.preventDefault();
