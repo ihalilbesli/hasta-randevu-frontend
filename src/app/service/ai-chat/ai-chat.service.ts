@@ -46,7 +46,7 @@ export class AIService {
 
  
 
-  // 5️⃣ Admin: Kullanıcı davranış analizi
+  // 5️⃣ Admin: Kullanıcı  analizi
   analyzeUserBehavior(): Observable<string> {
     return this.http.get(`${this.baseUrl}/admin/analyze-user-behavior`, {
       headers: this.getHeaders(),
@@ -61,5 +61,18 @@ export class AIService {
       responseType: 'text'
     });
   }
+  analyzeGraph(chartTitle: string, labels: string[], values: number[]): Observable<string> {
+  const body = {
+    chartTitle: chartTitle,
+    labels: labels,
+    values: values
+  };
+
+  return this.http.post(`${this.baseUrl}/analyze-graph`, body, {
+    headers: this.getHeaders(),
+    responseType: 'text'
+  });
+}
+  
 
 }

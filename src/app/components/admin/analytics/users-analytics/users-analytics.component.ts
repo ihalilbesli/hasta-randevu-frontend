@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AnalyticsService } from '../../../../service/analytics/analytics.service';
 import { CommonModule } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
+import { AIService } from '../../../../service/ai-chat/ai-chat.service';
 
 @Component({
   selector: 'app-users-analytics',
@@ -13,7 +14,10 @@ import { NgChartsModule } from 'ng2-charts';
 export class UsersAnalyticsComponent {
 
 
-  constructor(private analyticsService: AnalyticsService) {}
+  constructor(
+    private analyticsService: AnalyticsService,
+    private aiService:AIService
+  ) {}
   // 1. Kullanıcı Rol Dağılımı
   roleLabels: string[] = [];
   roleData: number[] = [];
@@ -29,6 +33,12 @@ export class UsersAnalyticsComponent {
   // 4. Kliniklere Göre Doktor Sayısı
   clinicLabels: string[] = [];
   clinicDoctorData: number[] = [];
+
+  // Yorum metinlerini tutar (chartKey -> yorum)
+aiCommentMap: { [key: string]: string } = {};
+
+// Her grafik için yüklenme durumu (chartKey -> loading true/false)
+loadingMap: { [key: string]: boolean } = {};
 
   ngOnInit(): void {
     this.loadUserRoles();
@@ -76,6 +86,21 @@ loadDoctorCountByClinic() {
     console.log('📈 Klinik Data:', this.clinicDoctorData);
   });
 }
+getAiComment(chartKey: string, chartTitle: string, labels: string[], values: number[]) {
+  this.loadingMap[chartKey] = true;
+
+  this.aiService.analyzeGraph(chartTitle, labels, values).subscribe({
+    next: (result) => {
+      this.aiCommentMap[chartKey] = result;
+      this.loadingMap[chartKey] = false;
+    },
+    error: () => {
+      this.aiCommentMap[chartKey] = '❌ Yorum alınamadı.';
+      this.loadingMap[chartKey] = false;
+    }
+  });
+}
+
 
 
 }

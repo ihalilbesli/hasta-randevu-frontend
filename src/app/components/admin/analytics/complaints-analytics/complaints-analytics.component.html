@@ -1,17 +1,26 @@
-<p>complaints-analytics works!</p>
 <h3>📊 Şikayet Durum Dağılımı</h3>
 <canvas baseChart
   [data]="{ labels: complaintStatusLabels, datasets: [{ data: complaintStatusData, label: 'Durum' }] }"
   [type]="'pie'">
 </canvas>
+<button (click)="getAiComment('complaintStatus', 'Şikayet Durum Dağılımı (Beklemede / İncelemede / Çözüldü)', complaintStatusLabels, complaintStatusData)">🧠 Yorumu Gör</button>
+<div *ngIf="loadingMap['complaintStatus']">⏳ Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['complaintStatus']">{{ aiCommentMap['complaintStatus'] }}</div>
 
 <h3>🏥 Kliniklere Göre Şikayet Sayısı</h3>
 <canvas baseChart
   [data]="{ labels: complaintClinicLabels, datasets: [{ data: complaintClinicData, label: 'Şikayet Sayısı' }] }"
   [type]="'bar'">
 </canvas>
+<button (click)="getAiComment('complaintClinic', 'Kliniklere Göre Şikayet Sayısı', complaintClinicLabels, complaintClinicData)">🧠 Yorumu Gör</button>
+<div *ngIf="loadingMap['complaintClinic']">⏳ Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['complaintClinic']">{{ aiCommentMap['complaintClinic'] }}</div>
+
 <h3>📚 Şikayet Konularına Göre Dağılım</h3>
 <canvas baseChart
   [data]="{ labels: complaintSubjectLabels, datasets: [{ data: complaintSubjectData, label: 'Konuya Göre Sayı' }] }"
   [type]="'doughnut'">
 </canvas>
+<button (click)="getAiComment('complaintSubject', 'Şikayet Konularına Göre Dağılım (Randevu, İletişim, Sistem vb.)', complaintSubjectLabels, complaintSubjectData)">🧠 Yorumu Gör</button>
+<div *ngIf="loadingMap['complaintSubject']">⏳ Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['complaintSubject']">{{ aiCommentMap['complaintSubject'] }}</div>

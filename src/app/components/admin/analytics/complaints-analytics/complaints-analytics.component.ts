@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NgChartsModule } from 'ng2-charts';
 import { AnalyticsService } from '../../../../service/analytics/analytics.service';
 import { ClinicsService } from '../../../../service/clinics/clinics.service';
+import { AIService } from '../../../../service/ai-chat/ai-chat.service';
 
 @Component({
   selector: 'app-complaints-analytics',
@@ -24,10 +25,14 @@ export class ComplaintsAnalyticsComponent {
   // 3. Konulara göre şikayet dağılımı
 complaintSubjectLabels: string[] = [];
 complaintSubjectData: number[] = [];
+// AI yorumları ve yüklenme durumları için iki obje
+aiCommentMap: { [key: string]: string } = {};
+loadingMap: { [key: string]: boolean } = {};
 
   constructor(
     private analyticsService: AnalyticsService,
-    private clinicsService: ClinicsService
+    private clinicsService: ClinicsService,
+     private aiService: AIService
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +73,20 @@ complaintSubjectData: number[] = [];
     console.log('📚 Şikayet Konu Verisi:', data);
     this.complaintSubjectLabels = data.map(d => d.subject);
     this.complaintSubjectData = data.map(d => d.count);
+  });
+}
+getAiComment(chartKey: string, chartTitle: string, labels: string[], values: number[]) {
+  this.loadingMap[chartKey] = true;
+
+  this.aiService.analyzeGraph(chartTitle, labels, values).subscribe({
+    next: (result) => {
+      this.aiCommentMap[chartKey] = result;
+      this.loadingMap[chartKey] = false;
+    },
+    error: () => {
+      this.aiCommentMap[chartKey] = '❌ Yorum alınamadı.';
+      this.loadingMap[chartKey] = false;
+    }
   });
 }
 }

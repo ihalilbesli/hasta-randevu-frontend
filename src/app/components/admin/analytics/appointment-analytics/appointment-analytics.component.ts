@@ -4,6 +4,7 @@ import { HeaderComponent } from '../../../header/header.component';
 import { AnalyticsService } from '../../../../service/analytics/analytics.service';
 import { NgChartsModule } from 'ng2-charts'; //grafik modulu
 import { ClinicsService } from '../../../../service/clinics/clinics.service';
+import { AIService } from '../../../../service/ai-chat/ai-chat.service';
 
 
 @Component({
@@ -26,9 +27,14 @@ export class AppointmentAnalyticsComponent {
   doctorLabels: string[] = [];
   doctorData: number[] = [];
 
+  // AI yorumları ve yüklenme durumları için iki obje
+aiCommentMap: { [key: string]: string } = {};
+loadingMap: { [key: string]: boolean } = {};
+
   constructor(
     private analyticsService: AnalyticsService,
-    private clinicsService:ClinicsService) {}
+    private clinicsService:ClinicsService, 
+    private aiService: AIService) {}
 
   ngOnInit(): void {
     this.loadClinicData();
@@ -90,6 +96,20 @@ loadDateData() {
   this.analyticsService.getAppointmentCountByDoctor().subscribe(data => {
     this.doctorLabels = data.map(d => d.doctorName);
     this.doctorData = data.map(d => d.appointmentCount);
+  });
+}
+getAiComment(chartKey: string, chartTitle: string, labels: string[], values: number[]) {
+  this.loadingMap[chartKey] = true;
+
+  this.aiService.analyzeGraph(chartTitle, labels, values).subscribe({
+    next: (result) => {
+      this.aiCommentMap[chartKey] = result;
+      this.loadingMap[chartKey] = false;
+    },
+    error: () => {
+      this.aiCommentMap[chartKey] = '❌ Yorum alınamadı.';
+      this.loadingMap[chartKey] = false;
+    }
   });
 }
 }
