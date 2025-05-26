@@ -8,8 +8,12 @@
       <p>Yeni bir randevu oluşturmak için tıklayın.</p>
       <button (click)="goTo('appointment-create')">Randevu Al</button>
     </div>
-  </div>
 
+    <div class="card eczane-card">
+      <h3>💊 Nöbetçi Eczane</h3>
+      <button (click)="goTo('pharmacy-search')">Eczane Sorgula</button>
+    </div>
+  </div>
   <div class="right-column">
     <div class="tabs">
       <button [class.active]="activeTab === 'aktif'" (click)="activeTab = 'aktif'">Aktif Randevular</button>

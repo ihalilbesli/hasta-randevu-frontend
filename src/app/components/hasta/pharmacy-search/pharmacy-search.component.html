@@ -1,0 +1,38 @@
+<div class="pharmacy-card">
+  <h3>🏥 Nöbetçi Eczane Sorgulama</h3>
+
+  <div class="form-group">
+    <label for="city">Şehir Seçin</label>
+    <select id="city" [(ngModel)]="selectedCity" (change)="onCityChange()" required>
+      <option value="" disabled selected>Şehir seçin</option>
+      <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
+    </select>
+  </div>
+
+  <div class="form-group" *ngIf="districts.length > 0">
+    <label for="district">İlçe Seçin</label>
+    <select id="district" [(ngModel)]="selectedDistrict">
+      <option value="" selected>Tüm İlçeler</option>
+      <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+    </select>
+  </div>
+
+ <!-- ✨ Güncel Buton: -->
+<button (click)="searchPharmacies()">🔍 Eczane Ara</button>
+
+  <div *ngIf="pharmacies.length > 0" class="result-list">
+    <h4>🔽 Sonuçlar</h4>
+    <ul>
+      <li *ngFor="let eczane of pharmacies" class="pharmacy-item">
+        <strong>{{ eczane.name }}</strong><br />
+        🏙️ {{ eczane.dist }}<br />
+        📍 {{ eczane.address }}<br />
+        ☎️ {{ eczane.phone || 'Telefon Yok' }}
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="pharmacies.length === 0 && selectedCity" class="no-result">
+    <p>🔔 Eczane bulunamadı.</p>
+  </div>
+</div>

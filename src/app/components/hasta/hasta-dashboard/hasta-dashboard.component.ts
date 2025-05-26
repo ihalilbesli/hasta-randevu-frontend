@@ -6,11 +6,13 @@ import { AuthService } from '../../../service/auth/auth.service';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
 import { HeaderComponent } from '../../header/header.component';
 import { AiChatComponent } from '../ai-chat/ai-chat.component';
+import { PharmacySearchComponent } from '../pharmacy-search/pharmacy-search.component';
+
 
 @Component({
   selector: 'app-hasta-dashboard',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, AiChatComponent],
+  imports: [CommonModule, HeaderComponent, AiChatComponent,PharmacySearchComponent],
   templateUrl: './hasta-dashboard.component.html',
   styleUrl: './hasta-dashboard.component.css'
 })

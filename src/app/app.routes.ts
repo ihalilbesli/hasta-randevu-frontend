@@ -98,6 +98,13 @@ export const routes: Routes = [
            canActivate: [authGuard,roleGuard(["HASTA"])]
       },
       {
+  path: 'pharmacy-search',
+  loadComponent: () =>
+    import('./components/hasta/pharmacy-search/pharmacy-search.component')
+      .then(({ PharmacySearchComponent }) => PharmacySearchComponent),
+  canActivate: [authGuard, roleGuard(['HASTA'])]
+},
+      {
         path: 'appointments',
         loadComponent: () =>
           import('./components/doktor/appointments/appointments.component')
@@ -207,6 +214,8 @@ export const routes: Routes = [
         import('./components/admin/admin-export/complaints-export/complaints-export.component')
           .then(({ ComplaintsExportComponent }) => ComplaintsExportComponent)
     },
+    
+    
     {
       path: 'prescriptions',
       loadComponent: () =>
