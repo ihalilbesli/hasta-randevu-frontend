@@ -184,53 +184,60 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.patientId || !this.selectedDoctorId || !this.selectedClinicId || !this.selectedTime || !this.selectedDate) return;
+  if (!this.patientId || !this.selectedDoctorId || !this.selectedClinicId || !this.selectedTime || !this.selectedDate) return;
 
-    this.getPatientAppointments(this.patientId);
+  this.appointmentService.getAppointmentsByPatientId(this.patientId).subscribe({
+    next: (appointments) => {
+      this.allAppointments = appointments;
 
-    const sameClinicAppointment = this.allAppointments.find(
-      a => a.patient?.id === this.patientId && a.clinic?.id === this.selectedClinicId && a.status === 'AKTIF'
-    );
+      const sameClinicAppointment = appointments.find(
+        a => a.clinic?.id === this.selectedClinicId && a.status === 'AKTIF'
+      );
 
-    if (sameClinicAppointment) {
-      const confirmReplace = confirm("Bu klinikte daha önce alınmış aktif bir randevunuz bulunuyor. Yeni randevu alırsanız, önceki iptal edilecek. Devam etmek istiyor musunuz?");
-      if (!confirmReplace) return;
-    }
-
-    const sameDateTimeOtherClinicAppointment = this.allAppointments.find(
-      a =>
-        a.patient?.id === this.patientId &&
-        a.date === this.selectedDate &&
-        a.time?.substring(0, 5) === this.selectedTime &&
-        a.clinic?.id !== this.selectedClinicId &&
-        a.status === 'AKTIF'
-    );
-
-    if (sameDateTimeOtherClinicAppointment) {
-      alert(`${this.selectedDate} ${this.selectedTime} zaman aralığı ile çakışan başka bir klinikten aktif bir randevunuz bulunmaktadır. Lütfen farklı bir zaman seçiniz.`);
-      return;
-    }
-
-    const appointmentData = {
-      clinic: { id: this.selectedClinicId },
-      date: this.selectedDate,
-      time: this.selectedTime,
-      description: this.description || "Online randevu alındı.",
-      doctor: { id: this.selectedDoctorId },
-      patient: { id: this.patientId }
-    };
-
-    this.appointmentService.createAppointment(appointmentData).subscribe({
-      next: () => {
-        alert('Randevu başarıyla oluşturuldu!');
-        this.resetForm();
-      },
-      error: (err) => {
-        console.error('Randevu sırasında hata oluştu:', err);
-        alert('Randevu oluşturulamadı.');
+      if (sameClinicAppointment) {
+        const confirmReplace = confirm("Bu klinikte daha önce alınmış aktif bir randevunuz bulunuyor. Yeni randevu alırsanız, önceki iptal edilecek. Devam etmek istiyor musunuz?");
+        if (!confirmReplace) return;
       }
-    });
-  }
+
+      const sameDateTimeOtherClinicAppointment = appointments.find(
+        a =>
+          a.date === this.selectedDate &&
+          a.time?.substring(0, 5) === this.selectedTime &&
+          a.clinic?.id !== this.selectedClinicId &&
+          a.status === 'AKTIF'
+      );
+
+      if (sameDateTimeOtherClinicAppointment) {
+        alert(`${this.selectedDate} ${this.selectedTime} zaman aralığı ile çakışan başka bir klinikten aktif bir randevunuz bulunmaktadır. Lütfen farklı bir zaman seçiniz.`);
+        return;
+      }
+
+      const appointmentData = {
+        clinic: { id: this.selectedClinicId },
+        date: this.selectedDate,
+        time: this.selectedTime,
+        description: this.description || "Online randevu alındı.",
+        doctor: { id: this.selectedDoctorId },
+        patient: { id: this.patientId }
+      };
+
+      this.appointmentService.createAppointment(appointmentData).subscribe({
+        next: () => {
+          alert('Randevu başarıyla oluşturuldu!');
+          this.resetForm();
+        },
+        error: (err) => {
+          console.error('Randevu sırasında hata oluştu:', err);
+          alert('Randevu oluşturulamadı.');
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Hasta randevuları alınamadı:', err);
+    }
+  });
+}
+
 
   resetForm() {
     this.selectedClinicId = null;

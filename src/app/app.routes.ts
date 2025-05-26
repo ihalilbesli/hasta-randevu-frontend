@@ -247,5 +247,12 @@ export const routes: Routes = [
            .then(({ AdminAiComponent }) => AdminAiComponent),
            canActivate: [authGuard,roleGuard(["ADMIN"])] 
       },
+      {
+  path: 'examination/:id',
+  loadComponent: () =>
+    import('./components/doktor/examination/examination.component')
+      .then(({ ExaminationComponent }) => ExaminationComponent),
+  canActivate: [authGuard, roleGuard(["DOKTOR"])]
+}
       
 ];

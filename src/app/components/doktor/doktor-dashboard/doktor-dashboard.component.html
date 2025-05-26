@@ -10,15 +10,16 @@
     <div *ngIf="!isLoading && patientsToday.length > 0" class="patient-list">
       <div class="patient-card" *ngFor="let patient of patientsToday">
         <div class="patient-info">
-          <div class="name">{{ patient.name }} {{ patient.surname }}</div>
-          <div class="email">{{ patient.email }}</div>
-          <div class="clinic">Klinik: {{ patient.clinic?.name }}</div>
+          <div class="name">{{ patient.name }} {{ patient.surname }}</div> 
         </div>
         <button (click)="goToPatientDetail(patient.id)">Detaya Git</button>
+        <button *ngIf="patient.appointmentId" (click)="goToExaminationForPatient(patient.id)">Muayene Et</button>
       </div>
     </div>
 
-    <p *ngIf="!isLoading && patientsToday.length === 0" class="no-patient">Bugün için hasta bulunmamaktadır.</p>
+    <p *ngIf="!isLoading && patientsToday.length === 0" class="no-patient">
+      Bugün için hasta bulunmamaktadır.
+    </p>
   </div>
 
   <!-- Sağ Panel: Ana Butonlar -->

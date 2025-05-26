@@ -1,0 +1,88 @@
+<app-header></app-header>
+
+<div *ngIf="appointment && patient" class="examination-container">
+  <h2>👨‍⚕️ Muayene Paneli</h2>
+
+  <div class="patient-info">
+    <p><strong>Ad Soyad:</strong> {{ patient.name }} {{ patient.surname }}</p>
+    <p><strong>Doğum Tarihi:</strong> {{ patient.birthDate || '-' }}</p>
+    <p><strong>Kan Grubu:</strong> {{ patient.bloodType || '-' }}</p>
+    <p><strong>Telefon:</strong> {{ patient.phoneNumber || '-' }}</p>
+    <p><strong>E-posta:</strong> {{ patient.email }}</p>
+    <p><strong>Klinik:</strong> {{ appointment.clinic?.name }}</p>
+    <p><strong>Randevu Tarihi:</strong> {{ appointment.date }} {{ appointment.time?.substring(0, 5) }}</p>
+    <p><strong>Şikayet:</strong> {{ appointment.description || 'Belirtilmemiş' }}</p>
+  </div>
+
+  <hr />
+
+  <div class="actions">
+    <button (click)="goTo('doctor-prescriptions')">💊 Reçete Yaz</button>
+    <button (click)="goTo('doctor-test-results')">🧪 Test Ekle</button>
+    <button (click)="goTo('doctor-patient-history')">📚 Geçmiş Ekle</button>
+    <button (click)="goTo('doctor-patient-reports')">📄 Rapor Ekle</button>
+  </div>
+</div>
+
+<div *ngIf="!appointment || !patient" class="loading">
+  <p>⏳ Yükleniyor...</p>
+</div>
+
+<!-- Aksiyon Butonları -->
+<div class="actions">
+  <button class="tab-btn" [class.active]="activeTab === 'prescriptions'" (click)="activeTab = 'prescriptions'">💊 Reçeteler</button>
+  <button class="tab-btn" [class.active]="activeTab === 'tests'" (click)="activeTab = 'tests'">🧪 Testler</button>
+  <button class="tab-btn" [class.active]="activeTab === 'histories'" (click)="activeTab = 'histories'">📚 Geçmişler</button>
+  <button class="tab-btn" [class.active]="activeTab === 'reports'" (click)="activeTab = 'reports'">📄 Raporlar</button>
+</div>
+
+<hr />
+
+<!-- Reçeteler -->
+<div class="tab-content" *ngIf="activeTab === 'prescriptions'">
+  <h4>💊 Reçeteler</h4>
+  <div *ngIf="prescriptions.length === 0">Reçete bulunamadı.</div>
+  <div *ngFor="let p of prescriptions">
+    <p><strong>Tarih:</strong> {{ p.date }} | <strong>İlaçlar:</strong> {{ p.medications }}</p>
+    <p><strong>Açıklama:</strong> {{ p.description }}</p>
+    <hr />
+  </div>
+</div>
+
+<!-- Testler -->
+<div class="tab-content" *ngIf="activeTab === 'tests'">
+  <h4>🧪 Test Sonuçları</h4>
+  <div *ngIf="testResults.length === 0">Test sonucu yok.</div>
+  <div *ngFor="let t of testResults">
+    <p><strong>Test:</strong> {{ t.testName }} | <strong>Tarih:</strong> {{ t.testDate }}</p>
+    <p><strong>Sonuç:</strong><br/> {{ t.result }}</p>
+    <p><strong>Yorum:</strong> {{ t.doctorComment || '-' }}</p>
+    <hr />
+  </div>
+</div>
+
+<!-- Geçmişler -->
+<div class="tab-content" *ngIf="activeTab === 'histories'">
+  <h4>📚 Hasta Geçmişi</h4>
+  <div *ngIf="histories.length === 0">Geçmiş kaydı yok.</div>
+  <div *ngFor="let h of histories">
+    <p><strong>Tanı:</strong> {{ h.diagnosis }}</p>
+    <p><strong>Tedavi:</strong> {{ h.treatment || '-' }}</p>
+    <p><strong>Not:</strong> {{ h.notes || '-' }}</p>
+    <p><strong>Tarih:</strong> {{ h.date }}</p>
+    <hr />
+  </div>
+</div>
+
+<!-- Raporlar -->
+<div class="tab-content" *ngIf="activeTab === 'reports'">
+  <h4>📄 Hasta Raporları</h4>
+  <div *ngIf="reports.length === 0">Rapor bulunamadı.</div>
+  <div *ngFor="let r of reports">
+    <p><strong>Tür:</strong> {{ r.reportType }}</p>
+    <p><strong>Tarih:</strong> {{ r.reportDate }}</p>
+    <p><a [href]="r.fileUrl" target="_blank">📎 Dosya</a></p>
+    <hr />
+  </div>
+</div>
+

@@ -24,7 +24,7 @@
         <td>{{ appointment.status }}</td>
         <td>
           <ng-container *ngIf="appointment.status === 'AKTIF'">
-            <button (click)="markAsCompleted(appointment.id)">Muayene Et</button>
+            <button (click)="goToExaminationForPatient(appointment.patient?.id)">Muayene Et</button>
             <button (click)="markAsLate(appointment.id)">Geç Kaldı</button>
           </ng-container>
           <span *ngIf="appointment.status !== 'AKTIF'">-</span>

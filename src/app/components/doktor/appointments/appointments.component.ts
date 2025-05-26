@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header/header.component';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-appointments',
@@ -21,7 +22,9 @@ export class AppointmentsComponent  {
    constructor(
     private doktorService: DoctorService,
     private userService: UserService,
-    private appointmentService:AppointmentService
+    private appointmentService:AppointmentService,
+    private router: Router // burada tanımlanmalı
+
   ) {}
   ngOnInit(): void {
     this.isLoading = true;
@@ -69,8 +72,38 @@ export class AppointmentsComponent  {
       error: (err) => {
         console.error('Durum güncellenemedi:', err);
       }
-    });//
+    });
   }
-  
+goToExaminationForPatient(patientId: number): void {
+  if (!patientId) {
+    alert('Hasta bilgisi bulunamadı.');
+    return;
+  }
+
+  this.userService.getCurrentUser().subscribe({
+    next: (doctor) => {
+      this.appointmentService.getAppointmentsByDoctorId(doctor.id).subscribe({
+        next: (appointments) => {
+          const activeAppointment = appointments.find(
+            (a: any) => a.patient?.id === patientId && a.status === 'AKTIF'
+          );
+
+          if (activeAppointment) {
+            this.router.navigate(['/examination', activeAppointment.id]);
+          } else {
+            alert('Bu hastanın aktif randevusu bulunmamaktadır.');
+          }
+        },
+        error: (err) => {
+          console.error('Doktorun randevuları alınamadı:', err);
+        }
+      });
+    },
+    error: () => {
+      alert('Doktor bilgisi alınamadı.');
+    }
+  });
+}
+
   
 }

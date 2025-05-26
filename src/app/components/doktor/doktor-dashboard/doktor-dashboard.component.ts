@@ -5,6 +5,7 @@ import { AuthService } from '../../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../header/header.component';
 import { DoctorPatientService } from '../../../service/doctorPatient/doctor-patient.service';
+import { AppointmentService } from '../../../service/appoinment/appointment.service';
 
 @Component({
   selector: 'app-doktor-dashboard',
@@ -22,7 +23,8 @@ export class DoktorDashboardComponent {
       private userService:UserService,
       private router:Router,
       private authService:AuthService,
-      private doctorPatientService:DoctorPatientService
+      private doctorPatientService:DoctorPatientService,
+       private appointmentService: AppointmentService 
     ){}
  ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
@@ -58,5 +60,13 @@ export class DoktorDashboardComponent {
   goToPatientDetail(patientId: number): void {
     this.router.navigate(['/my-patients'], { queryParams: { id: patientId } });
   }
+goToExaminationForPatient(patientId: number): void {
+  const matching = this.patientsToday.find(p => p.id === patientId && p.appointmentId);
+  if (matching) {
+    this.router.navigate(['/examination', matching.appointmentId]);
+  } else {
+    alert('Bu hastanın aktif randevusu bulunmamaktadır.');
+  }
+}
   
 }
