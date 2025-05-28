@@ -262,6 +262,13 @@ export const routes: Routes = [
     import('./components/doktor/examination/examination.component')
       .then(({ ExaminationComponent }) => ExaminationComponent),
   canActivate: [authGuard, roleGuard(["DOKTOR"])]
+},
+{
+  path: 'profil',
+  loadComponent: () =>
+    import('./components/header/profil/profil.component')
+      .then(({ ProfilComponent }) => ProfilComponent),
+  canActivate: [authGuard] // tüm roller erişebilir
 }
       
 ];

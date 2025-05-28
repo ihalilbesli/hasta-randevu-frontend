@@ -35,9 +35,9 @@ export class HeaderComponent {
     this.authService.logout();
   }
 
-  goToProfile() {
-    alert('Profil sayfası daha sonra eklenecek.');
-  }
+  goToProfile(tab: string = 'identity') {
+  this.router.navigate(['/profil'], { queryParams: { tab } });
+}
   navigateHome() {
     const token = this.authService.getToken();
     if (token) {

@@ -5,13 +5,26 @@
     <span class="system-name">Hasta Randevu Sistemi</span>
   </div>
 
-  <!-- Sağ taraf: kullanıcı bilgisi + menü -->
+  <!-- Sağ taraf: kullanıcı adı dropdown -->
   <div class="user-menu">
-    <span class="username">{{ currentUser?.email }}</span>
-    <button (click)="toggleMenu()">☰</button>
+    <button class="user-button" (click)="toggleMenu()">
+       👤 <span class="name-text">{{ currentUser?.name }} {{ currentUser?.surname }}</span> ▼
+    </button>
+
     <div *ngIf="showMenu" class="dropdown-menu">
-      <button (click)="goToProfile()">Profil</button>
-      <button (click)="logout()">Çıkış Yap</button>
+      <div class="dropdown-section">
+        <strong>Hesap Bilgileri</strong>
+        <button (click)="goToProfile('identity')">🆔 Profil Bilgileri</button>
+        <button (click)="goToProfile('contact')">📞 İletişim Bilgileri</button>
+        <button (click)="goToProfile('password')">🔐 Parola İşlemleri</button>
+      </div>
+      <hr />
+      <div class="dropdown-section">
+        <strong>Randevu Bilgileri</strong>
+        <button routerLink="/appointment-list">📅 Randevularım</button>
+      </div>
+      <hr />
+      <button (click)="logout()">🚪 Çıkış Yap</button>
     </div>
   </div>
 </div>

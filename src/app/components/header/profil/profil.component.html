@@ -1,0 +1,94 @@
+<app-header></app-header>
+
+<!-- KİMLİK BİLGİLERİ -->
+<div *ngIf="activeTab === 'identity'" class="tab-panel">
+  <h3>Kişisel Bilgiler</h3>
+
+  <div *ngIf="!isEditingIdentity">
+    <p><strong>Ad:</strong> {{ profileData.name }}</p>
+    <p><strong>Soyad:</strong> {{ profileData.surname }}</p>
+    <p><strong>Cinsiyet:</strong> {{ profileData.gender }}</p>
+    <p><strong>Doğum Tarihi:</strong> {{ profileData.birthDate }}</p>
+    <p><strong>Kan Grubu:</strong> {{ profileData.bloodType }}</p>
+    <p><strong>Kronik Rahatsızlıklar:</strong> {{ profileData.chronicDiseases }}</p>
+    <button (click)="isEditingIdentity = true">✏️ Düzenle</button>
+  </div>
+
+  <div *ngIf="isEditingIdentity">
+    <label>Ad:</label>
+    <input [(ngModel)]="profileData.name"><br>
+
+    <label>Soyad:</label>
+    <input [(ngModel)]="profileData.surname"><br>
+
+    <label>Cinsiyet:</label>
+    <select [(ngModel)]="profileData.gender">
+      <option value="ERKEK">Erkek</option>
+      <option value="KADIN">Kadın</option>
+      <option value="BELIRTILMEMIS">Belirtilmemiş</option>
+    </select><br>
+
+    <label>Doğum Tarihi:</label>
+    <input type="date" [(ngModel)]="profileData.birthDate"><br>
+
+    <label>Kan Grubu:</label>
+    <select [(ngModel)]="profileData.bloodType">
+      <option *ngFor="let type of ['ARH_POS','ARH_NEG','BRH_POS','BRH_NEG','ABRH_POS','ABRH_NEG','ORH_POS','ORH_NEG']" [value]="type">
+        {{ type }}
+      </option>
+    </select><br>
+
+    <label>Kronik Rahatsızlıklar:</label>
+    <textarea [(ngModel)]="profileData.chronicDiseases"></textarea><br>
+
+    <button (click)="saveIdentity()">💾 Kaydet</button>
+    <button (click)="cancelEdit('identity')">❌ İptal</button>
+  </div>
+</div>
+
+<!-- İLETİŞİM BİLGİLERİ -->
+<div *ngIf="activeTab === 'contact'" class="tab-panel">
+  <h3>İletişim Bilgileri</h3>
+
+  <div *ngIf="!isEditingContact">
+    <p><strong>Telefon:</strong> {{ profileData.phoneNumber }}</p>
+    <p><strong>E-Posta:</strong> {{ profileData.email }}</p>
+    <button (click)="isEditingContact = true">✏️ Düzenle</button>
+  </div>
+
+  <div *ngIf="isEditingContact">
+    <label>Telefon:</label>
+    <input [(ngModel)]="profileData.phoneNumber"><br>
+
+    <label>E-Posta:</label>
+    <input [value]="profileData.email" disabled><br>
+
+    <button (click)="saveContact()">💾 Kaydet</button>
+    <button (click)="cancelEdit('contact')">❌ İptal</button>
+  </div>
+</div>
+
+<!-- PAROLA BİLGİLERİ -->
+<div *ngIf="activeTab === 'password'" class="tab-panel">
+  <h3>Parola İşlemleri</h3>
+
+  <label>Geçerli Parolanız:</label>
+  <div class="input-group">
+    <input [type]="showOldPassword ? 'text' : 'password'" [(ngModel)]="oldPassword" />
+    <img src="assets/icons/{{ showOldPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('old')" />
+  </div>
+
+  <label>Yeni Parola:</label>
+  <div class="input-group">
+    <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="newPassword" />
+    <img src="assets/icons/{{ showNewPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('new')" />
+  </div>
+
+  <label>Yeni Parola (Tekrar):</label>
+  <div class="input-group">
+    <input [type]="showRepeatPassword ? 'text' : 'password'" [(ngModel)]="newPasswordRepeat" />
+    <img src="assets/icons/{{ showRepeatPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('repeat')" />
+  </div>
+
+  <button (click)="changePassword()">Parolayı Güncelle</button>
+</div>

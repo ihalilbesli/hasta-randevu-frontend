@@ -95,5 +95,26 @@ export class UserService {
     headers: this.getHeaders()
   });
 }
+getProfile(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/profile/me`, {
+    headers: this.getHeaders()
+  });
+}
+updateProfile(profileData: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}/profile/me`, profileData, {
+    headers: this.getHeaders()
+  });
+}
+changePassword(oldPassword: string, newPassword: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/profile/change-password`, {
+    oldPassword,
+    newPassword
+  }, {
+    headers: this.getHeaders()
+  });
+}
+
+
+
   
 }

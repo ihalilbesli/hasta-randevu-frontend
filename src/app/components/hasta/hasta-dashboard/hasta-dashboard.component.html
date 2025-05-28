@@ -62,7 +62,7 @@
                 </div>
                 <div class="right">
                   <div class="doctor">👨‍⚕️ {{ pastAppointments[i].doctor?.name }} {{ pastAppointments[i].doctor?.surname }}</div>
-                  <div class="clinic">🏥 {{ pastAppointments[i].clinic }}</div>
+                  <div class="clinic">🏥 {{ pastAppointments[i].clinic?.name  }}</div>
                   <button class="again-btn" (click)="goTo('appointment-create')">Tekrar Al</button>
                 </div>
               </ng-container>
