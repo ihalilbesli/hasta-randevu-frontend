@@ -5,10 +5,16 @@
     <span class="system-name">Hasta Randevu Sistemi</span>
   </div>
 
+  <!-- Orta kısım: Slogan + Saat -->
+  <div class="center-content">
+    <div class="tagline">"Sağlığınız için buradayız!"</div>
+    <div class="live-clock">{{ currentTime }}</div>
+  </div>
+
   <!-- Sağ taraf: kullanıcı adı dropdown -->
   <div class="user-menu">
     <button class="user-button" (click)="toggleMenu()">
-       👤 <span class="name-text">{{ currentUser?.name }} {{ currentUser?.surname }}</span> ▼
+      👤 <span class="name-text">{{ currentUser?.name }} {{ currentUser?.surname }}</span> ▼
     </button>
 
     <div *ngIf="showMenu" class="dropdown-menu">

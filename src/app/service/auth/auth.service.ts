@@ -60,4 +60,11 @@ getUserEmail(): string | null {
   const decoded = this.decodeToken(token);
   return decoded?.role || null;
   }
+
+resetPassword(payload: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/reset-password`, payload, {
+    responseType: 'text' 
+  });
+}
+
 }

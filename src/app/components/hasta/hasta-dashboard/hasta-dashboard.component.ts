@@ -12,7 +12,7 @@ import { PharmacySearchComponent } from '../pharmacy-search/pharmacy-search.comp
 @Component({
   selector: 'app-hasta-dashboard',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, AiChatComponent,PharmacySearchComponent],
+  imports: [CommonModule, HeaderComponent, AiChatComponent],
   templateUrl: './hasta-dashboard.component.html',
   styleUrl: './hasta-dashboard.component.css'
 })
@@ -28,7 +28,7 @@ export class HastaDashboardComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private appointmentService: AppointmentService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
@@ -44,14 +44,14 @@ export class HastaDashboardComponent implements OnInit {
 
   loadAppointments(patientId: number): void {
     console.log('loadAppointments çalıştı. Hasta ID:', patientId);
-  
+
     this.appointmentService.getAppointmentsByPatientId(patientId).subscribe({
       next: (appointments) => {
         console.log('Tüm randevular:', appointments);
-  
+
         this.activeAppointments = appointments.filter(app => app.status === 'AKTIF');
         console.log('Aktif Randevular:', this.activeAppointments);
-  
+
         this.pastAppointments = appointments
           .filter(app => app.status === 'IPTAL_EDILDI')
           .sort((a, b) => {
@@ -66,7 +66,7 @@ export class HastaDashboardComponent implements OnInit {
       }
     });
   }
-  
+
 
   toggleMenu() {
     this.showMenu = !this.showMenu;
@@ -94,17 +94,17 @@ export class HastaDashboardComponent implements OnInit {
   cancelAppointment(appointmentId: number): void {
     const confirmed = window.confirm("Randevunuzu iptal etmek istediğinize emin misiniz?");
     if (!confirmed) return;
-  
+
     this.appointmentService.cancelAppointment(appointmentId).subscribe({
       next: () => {
         console.log('Randevu iptal edildi:', appointmentId);
         this.loadAppointments(this.currentUser.id);
       },
-      error: (err) => {
-        console.error('İptal hatası:', err);
+                            error: (err) => {
+        console.error('İ  ptal hatası:',     err);
       }
     });
   }
-  
-  
+
+
 }

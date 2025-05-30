@@ -15,6 +15,7 @@ import { AuthService } from '../../service/auth/auth.service';
 export class HeaderComponent {
   currentUser: any;
   showMenu = false;
+  currentTime: string = '';
 
   constructor(
     private userService: UserService,
@@ -25,6 +26,10 @@ export class HeaderComponent {
       next: (user) => this.currentUser = user,
       error: () => this.currentUser = null
     });
+  }
+    ngOnInit() {
+    this.updateTime();
+    setInterval(() => this.updateTime(), 1000);
   }
 
   toggleMenu() {
@@ -54,5 +59,12 @@ export class HeaderComponent {
     } else {
       this.router.navigate(['/welcome']);
     }
+  }
+  updateTime() {
+    const now = new Date();
+    this.currentTime = now.toLocaleString('tr-TR', {
+      weekday: 'long', year: 'numeric', month: 'long',
+      day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
   }
 }

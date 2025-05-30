@@ -1,2 +1,11 @@
+<ng-container *ngIf="!isAuthPage">
+  <app-header></app-header>
+</ng-container>
 
-<router-outlet />
+<div class="main-layout">
+  <router-outlet></router-outlet>
+</div>
+
+<ng-container *ngIf="!isAuthPage">
+  <app-footer></app-footer>
+</ng-container>

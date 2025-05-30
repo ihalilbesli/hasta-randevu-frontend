@@ -3,6 +3,7 @@ import { PharmacyService } from '../../../service/PharmacyService/pharmacy-servi
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../service/auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-pharmacy-search',
@@ -25,9 +26,12 @@ export class PharmacySearchComponent {
   districts: string[] = [];
   pharmacies: any[] = [];
 
+  hasSearched: boolean = false;
+
   constructor(
     private pharmacyService: PharmacyService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr:ToastrService
   ) {}
 
   onCityChange(): void {
@@ -37,19 +41,21 @@ export class PharmacySearchComponent {
   }
 
   searchPharmacies(): void {
-    if (!this.selectedCity) {
-      alert('Lütfen bir şehir seçin.');
-      return;
-    }
-
-    this.pharmacyService.getPharmacies(this.selectedCity, this.selectedDistrict).subscribe({
-      next: (data) => {
-        this.pharmacies = data;
-      },
-      error: (err) => {
-        console.error('Eczane verisi alınamadı:', err);
-        alert('Eczane verisi alınamadı.');
-      }
-    });
+  if (!this.selectedCity) {
+      this.toastr.warning('Lütfen bir şehir seçin.', 'Uyarı');
+    return;
   }
+
+  this.hasSearched = true; 
+
+  this.pharmacyService.getPharmacies(this.selectedCity, this.selectedDistrict).subscribe({
+    next: (data) => {
+      this.pharmacies = data;
+    },
+    error: (err) => {
+      console.error('Eczane verisi alınamadı:', err);
+       this.toastr.error('Eczane verisi alınamadı.', 'Hata');
+    }
+  });
+}
 }

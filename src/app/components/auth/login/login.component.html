@@ -13,7 +13,13 @@
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
       <div class="input-group">
         <img src="assets/icons/user.png" class="input-icon" />
-        <input type="text" placeholder="Email" name="email" [(ngModel)]="email" required />
+        <input
+          type="text"
+          placeholder="Email"
+          name="email"
+          [(ngModel)]="email"
+          required
+        />
       </div>
 
       <div class="input-group">
@@ -32,8 +38,15 @@
         />
       </div>
 
-      <button type="submit" [disabled]="!loginForm.form.valid" class="login-btn">Giriş Yap</button>
+      <button type="submit" [disabled]="!loginForm.form.valid" class="login-btn">
+        Giriş Yap
+      </button>
       <button type="button" class="register-btn" (click)="goToRegister()">Üye Ol</button>
+
+      <!-- ✅ Şifremi unuttum bağlantısı -->
+      <div class="reset-line">
+        <a class="forgot-password" (click)="goToResetPassword()">Şifremi Unuttum</a>
+      </div>
     </form>
 
     <p class="help-text">

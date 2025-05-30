@@ -48,4 +48,7 @@ export class LoginComponent {
       }
     });
   }
+  goToResetPassword() {
+  this.router.navigate(['/reset-password']);
+}
 }
