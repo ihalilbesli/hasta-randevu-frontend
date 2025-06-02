@@ -9,7 +9,7 @@ import { AiChatComponent } from '../ai-chat/ai-chat.component';
 @Component({
   selector: 'app-test-result',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent,AiChatComponent],
+  imports: [CommonModule,FormsModule,AiChatComponent],
   templateUrl: './test-result.component.html',
   styleUrl: './test-result.component.css'
 })

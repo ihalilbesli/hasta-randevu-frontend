@@ -11,7 +11,7 @@ export class DoctorPatientService {
   constructor(
     private http: HttpClient,
     private authService: AuthService
-  ) {}
+  ) { }
   private getHeaders(): HttpHeaders {
     const token = this.authService.getToken();
     return new HttpHeaders({
@@ -40,5 +40,11 @@ export class DoctorPatientService {
       headers: this.getHeaders()
     });
   }
-  
+  getMyPatientsTodayFull(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/my-patients-today-full`, {
+      headers: this.getHeaders()
+    });
+  }
+
+
 }

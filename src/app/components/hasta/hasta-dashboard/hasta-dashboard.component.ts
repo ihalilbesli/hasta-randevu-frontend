@@ -12,7 +12,7 @@ import { PharmacySearchComponent } from '../pharmacy-search/pharmacy-search.comp
 @Component({
   selector: 'app-hasta-dashboard',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, AiChatComponent],
+  imports: [CommonModule, AiChatComponent],
   templateUrl: './hasta-dashboard.component.html',
   styleUrl: './hasta-dashboard.component.css'
 })
@@ -105,6 +105,13 @@ export class HastaDashboardComponent implements OnInit {
       }
     });
   }
+ goToAppointmentCreateByName(clinicName: string): void {
+  this.router.navigate(['/appointment-create'], {
+    queryParams: { clinic: clinicName }
+  });
+}
+
+
 
 
 }

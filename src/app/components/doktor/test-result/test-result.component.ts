@@ -9,7 +9,7 @@ import { UserService } from '../../../service/user-service/user-service.service'
 @Component({
   selector: 'app-test-result',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './test-result.component.html',
   styleUrl: './test-result.component.css'
 })

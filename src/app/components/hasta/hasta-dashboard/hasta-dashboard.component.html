@@ -6,7 +6,7 @@
   <!-- ÜST BÖLÜM -->
   <div class="dashboard-top">
     <div class="dashboard-grid">
-      
+
       <!-- SOL: Kartlar -->
       <div class="left-column">
         <div class="card randevu-card" (click)="goTo('appointment-create')">
@@ -64,7 +64,7 @@
               </ng-container>
             </ul>
             <div class="show-all-container full-width">
-              <button class="show-all-btn" (click)="goToGecmisRandevular()">
+              <button class="show-all-btn" (click)="goToActiveRandevular()">
                 <i class="fas fa-list-ul"></i>
                 Tümünü Göster
               </button>
@@ -87,7 +87,10 @@
                       <div class="doctor"><i class="fas fa-user-md"></i> {{ pastAppointments[i].doctor?.name }} {{
                         pastAppointments[i].doctor?.surname }}</div>
                       <div class="clinic"><i class="fas fa-hospital"></i> {{ pastAppointments[i].clinic?.name }}</div>
-                      <button class="again-btn" (click)="goTo('appointment-create')">Tekrar Al</button>
+                      <button class="again-btn" (click)="goToAppointmentCreateByName(pastAppointments[i].clinic?.name)">
+                        Tekrar Al
+                      </button>
+
                     </div>
                   </ng-container>
                   <ng-template #emptyCardPast>

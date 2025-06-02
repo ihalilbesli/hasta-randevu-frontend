@@ -3,30 +3,29 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { Router } from '@angular/router';
 import { AuthService } from '../../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../header/header.component';
 import { DoctorPatientService } from '../../../service/doctorPatient/doctor-patient.service';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
 
 @Component({
   selector: 'app-doktor-dashboard',
   standalone: true,
-  imports: [CommonModule,HeaderComponent],
+  imports: [CommonModule],
   templateUrl: './doktor-dashboard.component.html',
   styleUrl: './doktor-dashboard.component.css'
 })
 export class DoktorDashboardComponent {
-  currentUser:any;
+  currentUser: any;
   patientsToday: any[] = [];
   isLoading = false;
 
   constructor(
-      private userService:UserService,
-      private router:Router,
-      private authService:AuthService,
-      private doctorPatientService:DoctorPatientService,
-       private appointmentService: AppointmentService 
-    ){}
- ngOnInit(): void {
+    private userService: UserService,
+    private router: Router,
+    private authService: AuthService,
+    private doctorPatientService: DoctorPatientService,
+    private appointmentService: AppointmentService
+  ) { }
+  ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
         this.currentUser = user;
@@ -39,9 +38,11 @@ export class DoktorDashboardComponent {
   }
   loadPatientsToday(): void {
     this.isLoading = true;
-    this.doctorPatientService.getMyPatientsToday().subscribe({
+    this.doctorPatientService.getMyPatientsTodayFull().subscribe({
       next: (patients) => {
         this.patientsToday = patients;
+        console.log("Gelen hastalar (patientsToday):", this.patientsToday); // <--- BURASI
+
         this.isLoading = false;
       },
       error: (error) => {
@@ -52,21 +53,21 @@ export class DoktorDashboardComponent {
   }
 
 
-  goTo(path:string){
+  goTo(path: string) {
     this.router.navigate([`/${path}`]);
-  console.log(path+" navigate edildi");
-    
+    console.log(path + " navigate edildi");
+
   }
   goToPatientDetail(patientId: number): void {
     this.router.navigate(['/my-patients'], { queryParams: { id: patientId } });
   }
-goToExaminationForPatient(patientId: number): void {
-  const matching = this.patientsToday.find(p => p.id === patientId && p.appointmentId);
-  if (matching) {
-    this.router.navigate(['/examination', matching.appointmentId]);
-  } else {
-    alert('Bu hastanın aktif randevusu bulunmamaktadır.');
+  goToExaminationForPatient(patientId: number): void {
+    const matching = this.patientsToday.find(p => p.id === patientId && p.appointmentId);
+    if (matching) {
+      this.router.navigate(['/examination', matching.appointmentId]);
+    } else {
+      alert('Bu hastanın aktif randevusu bulunmamaktadır.');
+    }
   }
-}
-  
+
 }

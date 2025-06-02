@@ -9,7 +9,7 @@ import { HeaderComponent } from '../../header/header.component';
 @Component({
   selector: 'app-patient-report',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent],
+  imports: [CommonModule,FormsModule],
   templateUrl: './patient-report.component.html',
   styleUrl: './patient-report.component.css'
 })

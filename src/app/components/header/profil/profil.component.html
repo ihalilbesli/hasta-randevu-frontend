@@ -1,5 +1,3 @@
-<app-header></app-header>
-
 <!-- KİMLİK BİLGİLERİ -->
 <div *ngIf="activeTab === 'identity'" class="tab-panel">
   <h3>Kişisel Bilgiler</h3>
@@ -33,7 +31,8 @@
 
     <label>Kan Grubu:</label>
     <select [(ngModel)]="profileData.bloodType">
-      <option *ngFor="let type of ['ARH_POS','ARH_NEG','BRH_POS','BRH_NEG','ABRH_POS','ABRH_NEG','ORH_POS','ORH_NEG']" [value]="type">
+      <option *ngFor="let type of ['ARH_POS','ARH_NEG','BRH_POS','BRH_NEG','ABRH_POS','ABRH_NEG','ORH_POS','ORH_NEG']"
+        [value]="type">
         {{ type }}
       </option>
     </select><br>
@@ -75,19 +74,22 @@
   <label>Geçerli Parolanız:</label>
   <div class="input-group">
     <input [type]="showOldPassword ? 'text' : 'password'" [(ngModel)]="oldPassword" />
-    <img src="assets/icons/{{ showOldPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('old')" />
+    <img src="assets/icons/{{ showOldPassword ? 'show' : 'hide' }}.png" class="toggle-icon"
+      (click)="togglePassword('old')" />
   </div>
 
   <label>Yeni Parola:</label>
   <div class="input-group">
     <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="newPassword" />
-    <img src="assets/icons/{{ showNewPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('new')" />
+    <img src="assets/icons/{{ showNewPassword ? 'show' : 'hide' }}.png" class="toggle-icon"
+      (click)="togglePassword('new')" />
   </div>
 
   <label>Yeni Parola (Tekrar):</label>
   <div class="input-group">
     <input [type]="showRepeatPassword ? 'text' : 'password'" [(ngModel)]="newPasswordRepeat" />
-    <img src="assets/icons/{{ showRepeatPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('repeat')" />
+    <img src="assets/icons/{{ showRepeatPassword ? 'show' : 'hide' }}.png" class="toggle-icon"
+      (click)="togglePassword('repeat')" />
   </div>
 
   <button (click)="changePassword()">Parolayı Güncelle</button>

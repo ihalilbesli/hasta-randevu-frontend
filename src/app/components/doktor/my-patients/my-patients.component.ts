@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-my-patients',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent],
+  imports: [CommonModule,FormsModule],
   templateUrl: './my-patients.component.html',
   styleUrl: './my-patients.component.css'
 })

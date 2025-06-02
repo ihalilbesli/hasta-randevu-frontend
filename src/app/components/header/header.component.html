@@ -13,11 +13,11 @@
 
   <!-- Sağ taraf: kullanıcı adı dropdown -->
   <div class="user-menu">
-    <button class="user-button" (click)="toggleMenu()">
+    <button class="user-button" (click)="toggleMenu()" #toggleButtonRef>
       👤 <span class="name-text">{{ currentUser?.name }} {{ currentUser?.surname }}</span> ▼
     </button>
 
-    <div *ngIf="showMenu" class="dropdown-menu">
+    <div *ngIf="showMenu" class="dropdown-menu" #dropdownMenuRef>
       <div class="dropdown-section">
         <strong>Hesap Bilgileri</strong>
         <button (click)="goToProfile('identity')">🆔 Profil Bilgileri</button>
@@ -27,7 +27,7 @@
       <hr />
       <div class="dropdown-section">
         <strong>Randevu Bilgileri</strong>
-        <button routerLink="/appointment-list">📅 Randevularım</button>
+        <button (click)="goToAppointmentsByRole()">📅 Randevularım</button>
       </div>
       <hr />
       <button (click)="logout()">🚪 Çıkış Yap</button>

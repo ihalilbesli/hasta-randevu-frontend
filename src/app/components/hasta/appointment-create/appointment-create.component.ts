@@ -8,10 +8,11 @@ import { HeaderComponent } from '../../header/header.component';
 import { ClinicsService } from '../../../service/clinics/clinics.service';
 
 
+
 @Component({
   selector: 'app-appointment-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './appointment-create.component.html',
   styleUrl: './appointment-create.component.css'
 })

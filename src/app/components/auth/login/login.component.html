@@ -10,7 +10,7 @@
       <p>AI destekli hızlı ve kolay randevu sistemi</p>
     </div>
 
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+    <form (ngSubmit)="onSubmit()" class="login-form">
       <div class="input-group">
         <img src="assets/icons/user.png" class="input-icon" />
         <input
@@ -18,7 +18,6 @@
           placeholder="Email"
           name="email"
           [(ngModel)]="email"
-          required
         />
       </div>
 
@@ -29,7 +28,6 @@
           placeholder="Parola"
           name="password"
           [(ngModel)]="password"
-          required
         />
         <img
           src="assets/icons/{{ showPassword ? 'show' : 'hide' }}.png"
@@ -38,7 +36,7 @@
         />
       </div>
 
-      <button type="submit" [disabled]="!loginForm.form.valid" class="login-btn">
+      <button type="submit" class="login-btn">
         Giriş Yap
       </button>
       <button type="button" class="register-btn" (click)="goToRegister()">Üye Ol</button>

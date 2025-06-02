@@ -10,7 +10,7 @@ describe('DoktorDashboardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [DoktorDashboardComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(DoktorDashboardComponent);
     component = fixture.componentInstance;

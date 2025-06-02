@@ -58,3 +58,27 @@ h2 {
   font-size: 18px;
   color: #7f8c8d;
 }
+.complete-exam-btn-wrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.complete-btn {
+  padding: 12px 24px;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.complete-btn:hover {
+  background-color: #218838;
+}
+

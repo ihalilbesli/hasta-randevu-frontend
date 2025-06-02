@@ -1,7 +1,5 @@
-<app-header></app-header>
-
 <div *ngIf="appointment && patient" class="examination-container">
-  <h2>👨‍⚕️ Muayene Paneli</h2>
+  <h2><i class="fa-solid fa-user-doctor"></i> Muayene Paneli</h2>
 
   <div class="patient-info">
     <p><strong>Ad Soyad:</strong> {{ patient.name }} {{ patient.surname }}</p>
@@ -17,30 +15,42 @@
   <hr />
 
   <div class="actions">
-    <button (click)="goTo('doctor-prescriptions')">💊 Reçete Yaz</button>
-    <button (click)="goTo('doctor-test-results')">🧪 Test Ekle</button>
-    <button (click)="goTo('doctor-patient-history')">📚 Geçmiş Ekle</button>
-    <button (click)="goTo('doctor-patient-reports')">📄 Rapor Ekle</button>
+    <button (click)="goTo('doctor-prescriptions')"><i class="fa-solid fa-prescription-bottle-medical"></i> Reçete Yaz</button>
+    <button (click)="goTo('doctor-test-results')"><i class="fa-solid fa-vial-circle-check"></i> Test Ekle</button>
+    <button (click)="goTo('doctor-patient-history')"><i class="fa-solid fa-notes-medical"></i> Geçmiş Ekle</button>
+    <button (click)="goTo('doctor-patient-reports')"><i class="fa-solid fa-file-medical"></i> Rapor Ekle</button>
+  </div>
+
+  <div class="complete-exam-btn-wrapper" *ngIf="appointment?.status !== 'COMPLETED'">
+    <button class="complete-btn" (click)="markAppointmentCompleted()">
+      <i class="fa-solid fa-check"></i> Muayene Edildi
+    </button>
   </div>
 </div>
 
 <div *ngIf="!appointment || !patient" class="loading">
-  <p>⏳ Yükleniyor...</p>
+  <p><i class="fa-solid fa-spinner fa-spin"></i> Yükleniyor...</p>
 </div>
 
-<!-- Aksiyon Butonları -->
 <div class="actions">
-  <button class="tab-btn" [class.active]="activeTab === 'prescriptions'" (click)="activeTab = 'prescriptions'">💊 Reçeteler</button>
-  <button class="tab-btn" [class.active]="activeTab === 'tests'" (click)="activeTab = 'tests'">🧪 Testler</button>
-  <button class="tab-btn" [class.active]="activeTab === 'histories'" (click)="activeTab = 'histories'">📚 Geçmişler</button>
-  <button class="tab-btn" [class.active]="activeTab === 'reports'" (click)="activeTab = 'reports'">📄 Raporlar</button>
+  <button class="tab-btn" [class.active]="activeTab === 'prescriptions'" (click)="activeTab = 'prescriptions'">
+    <i class="fa-solid fa-prescription-bottle"></i> Reçeteler
+  </button>
+  <button class="tab-btn" [class.active]="activeTab === 'tests'" (click)="activeTab = 'tests'">
+    <i class="fa-solid fa-vials"></i> Testler
+  </button>
+  <button class="tab-btn" [class.active]="activeTab === 'histories'" (click)="activeTab = 'histories'">
+    <i class="fa-solid fa-book-medical"></i> Geçmişler
+  </button>
+  <button class="tab-btn" [class.active]="activeTab === 'reports'" (click)="activeTab = 'reports'">
+    <i class="fa-solid fa-file-medical-alt"></i> Raporlar
+  </button>
 </div>
 
 <hr />
 
-<!-- Reçeteler -->
 <div class="tab-content" *ngIf="activeTab === 'prescriptions'">
-  <h4>💊 Reçeteler</h4>
+  <h4><i class="fa-solid fa-prescription-bottle"></i> Reçeteler</h4>
   <div *ngIf="prescriptions.length === 0">Reçete bulunamadı.</div>
   <div *ngFor="let p of prescriptions">
     <p><strong>Tarih:</strong> {{ p.date }} | <strong>İlaçlar:</strong> {{ p.medications }}</p>
@@ -49,9 +59,8 @@
   </div>
 </div>
 
-<!-- Testler -->
 <div class="tab-content" *ngIf="activeTab === 'tests'">
-  <h4>🧪 Test Sonuçları</h4>
+  <h4><i class="fa-solid fa-vials"></i> Test Sonuçları</h4>
   <div *ngIf="testResults.length === 0">Test sonucu yok.</div>
   <div *ngFor="let t of testResults">
     <p><strong>Test:</strong> {{ t.testName }} | <strong>Tarih:</strong> {{ t.testDate }}</p>
@@ -61,9 +70,8 @@
   </div>
 </div>
 
-<!-- Geçmişler -->
 <div class="tab-content" *ngIf="activeTab === 'histories'">
-  <h4>📚 Hasta Geçmişi</h4>
+  <h4><i class="fa-solid fa-book-medical"></i> Hasta Geçmişi</h4>
   <div *ngIf="histories.length === 0">Geçmiş kaydı yok.</div>
   <div *ngFor="let h of histories">
     <p><strong>Tanı:</strong> {{ h.diagnosis }}</p>
@@ -74,15 +82,13 @@
   </div>
 </div>
 
-<!-- Raporlar -->
 <div class="tab-content" *ngIf="activeTab === 'reports'">
-  <h4>📄 Hasta Raporları</h4>
+  <h4><i class="fa-solid fa-file-medical-alt"></i> Hasta Raporları</h4>
   <div *ngIf="reports.length === 0">Rapor bulunamadı.</div>
   <div *ngFor="let r of reports">
     <p><strong>Tür:</strong> {{ r.reportType }}</p>
     <p><strong>Tarih:</strong> {{ r.reportDate }}</p>
-    <p><a [href]="r.fileUrl" target="_blank">📎 Dosya</a></p>
+    <p><a [href]="r.fileUrl" target="_blank"><i class="fa-solid fa-paperclip"></i> Dosya</a></p>
     <hr />
   </div>
 </div>
-

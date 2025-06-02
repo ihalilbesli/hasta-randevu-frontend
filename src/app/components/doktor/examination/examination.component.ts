@@ -13,7 +13,7 @@ import { DoctorPatientService } from '../../../service/doctorPatient/doctor-pati
 @Component({
   selector: 'app-examination',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule],
   templateUrl: './examination.component.html',
   styleUrls: ['./examination.component.css']
 })
@@ -144,4 +144,20 @@ export class ExaminationComponent {
       });
     }
   }
+  markAppointmentCompleted(): void {
+  if (!this.appointmentId) return;
+
+  this.appointmentService.updateAppointmentStatus(this.appointmentId, 'COMPLETED').subscribe({
+    next: () => {
+      console.log('🟢 Randevu durumu COMPLETED olarak güncellendi.');
+      this.appointment.status = 'COMPLETED'; // localde de güncelle
+      alert('Randevu başarıyla tamamlandı.');
+    },
+    error: (err) => {
+      console.error('❌ Randevu durumu güncellenemedi:', err);
+      alert('Randevu durumu güncellenemedi!');
+    }
+  });
+}
+
 }

@@ -6,11 +6,12 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { HeaderComponent } from '../../header/header.component';
 import { AIService } from '../../../service/ai-chat/ai-chat.service';
 import { AiChatComponent } from '../ai-chat/ai-chat.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [CommonModule, FormsModule,HeaderComponent,AiChatComponent],
+  imports: [CommonModule, FormsModule, AiChatComponent],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css'
 })
@@ -25,18 +26,25 @@ export class AppointmentListComponent implements OnInit {
 
   constructor(
     private appointmentService: AppointmentService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) { }
 
-  ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe({
-      next: (user) => {
-        this.patientId = user.id;
-        this.loadAppointments();
-      },
-      error: (err) => console.error('Kullanıcı alınamadı:', err)
-    });
+ngOnInit(): void {
+  const tabParam = this.route.snapshot.queryParamMap.get('tab');
+  if (tabParam === 'ACTIVE' || tabParam === 'CANCELED') {
+    this.filterOption = tabParam;
   }
+
+  this.userService.getCurrentUser().subscribe({
+    next: (user) => {
+      this.patientId = user.id;
+      this.loadAppointments();
+    },
+    error: (err) => console.error('Kullanıcı alınamadı:', err)
+  });
+}
+
 
   loadAppointments(): void {
     if (!this.patientId) return;
@@ -67,8 +75,13 @@ export class AppointmentListComponent implements OnInit {
         result = result.filter(a => a.status === 'AKTIF');
         break;
       case 'CANCELED':
-        result = result.filter(a => a.status === 'IPTAL_EDILDI');
+        result = result.filter(a =>
+          a.status === 'IPTAL_EDILDI' ||
+          a.status === 'COMPLETED' ||
+          a.status === 'GEC_KALINDI'
+        );
         break;
+
       case 'LAST_7_DAYS':
         result = result.filter(a => this.isWithinLastDays(a.date, 7));
         break;

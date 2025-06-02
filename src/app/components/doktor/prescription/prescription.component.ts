@@ -9,7 +9,7 @@ import { HeaderComponent } from '../../header/header.component';
 @Component({
   selector: 'app-prescription',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './prescription.component.html',
   styleUrls: ['./prescription.component.css']
 })

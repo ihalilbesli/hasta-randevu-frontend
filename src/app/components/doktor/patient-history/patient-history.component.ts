@@ -8,7 +8,7 @@ import { PatientHistoryService } from '../../../service/patient-history/patient-
 @Component({
   selector: 'app-patient-history',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './patient-history.component.html',
   styleUrl: './patient-history.component.css'
 })

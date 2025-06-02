@@ -9,7 +9,7 @@ import { AiChatComponent } from '../ai-chat/ai-chat.component';
 @Component({
   selector: 'app-prescription-list',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent,AiChatComponent],
+  imports: [CommonModule,FormsModule,AiChatComponent],
   templateUrl: './prescription-list.component.html',
   styleUrl: './prescription-list.component.css'
 })
