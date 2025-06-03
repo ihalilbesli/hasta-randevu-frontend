@@ -1,58 +1,62 @@
 <!-- 🔘 Randevulu / Randevusuz Seçimi -->
 <div class="form-group">
   <button (click)="selectPatientMode('today')" [disabled]="patientMode === 'today'">
-    Randevulu Hastalar
+    <i class="fa-solid fa-calendar-check"></i> Randevulu Hastalar
   </button>
   <button (click)="selectPatientMode('all')" [disabled]="patientMode === 'all'">
-    Randevusuz Hastalar
+    <i class="fa-solid fa-users"></i> Randevusuz Hastalar
   </button>
 </div>
 
 <!-- 🧑‍⚕️ Hasta Seçimi -->
 <div class="form-group">
-  <label>Hasta Seçin:</label>
+  <label><i class="fa-solid fa-user-injured"></i> Hasta Seçin:</label>
   <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
     <option [value]="null">-- Hasta Seçin --</option>
     <option *ngFor="let patient of patients" [value]="patient.id">
-  {{ patient.name }} {{ patient.surname }} 
-</option>
+      {{ patient.name }} {{ patient.surname }} 
+    </option>
   </select>
 </div>
 
 <!-- Geçiş Butonları -->
 <div *ngIf="selectedPatientId && activeTab === ''" class="form-group">
-  <button *ngIf="patientMode === 'today'" (click)="selectTab('add')">Geçmiş Ekle</button>
-  <button (click)="selectTab('list')">Geçmişleri Gör</button>
+  <button *ngIf="patientMode === 'today'" (click)="selectTab('add')">
+    <i class="fa-solid fa-plus"></i> Geçmiş Ekle
+  </button>
+  <button (click)="selectTab('list')">
+    <i class="fa-solid fa-folder-open"></i> Geçmişleri Gör
+  </button>
 </div>
 
 <!-- ➕ Geçmiş Ekleme -->
 <div *ngIf="activeTab === 'add'">
-  <button (click)="activeTab = ''">← Geri</button>
-  <h3>{{ editingHistoryId ? 'Geçmişi Güncelle' : 'Yeni Geçmiş Ekle' }}</h3>
+  <button (click)="activeTab = ''"><i class="fa-solid fa-arrow-left"></i> Geri</button>
+  <h3><i class="fa-solid fa-notes-medical"></i> {{ editingHistoryId ? 'Geçmişi Güncelle' : 'Yeni Geçmiş Ekle' }}</h3>
 
   <div class="form-group">
-    <label>Tanı *</label>
+    <label><i class="fa-solid fa-stethoscope"></i> Tanı *</label>
     <input type="text" [(ngModel)]="diagnosis" placeholder="Tanı girin" />
   </div>
 
   <div class="form-group">
-    <label>Tedavi</label>
+    <label><i class="fa-solid fa-syringe"></i> Tedavi</label>
     <input type="text" [(ngModel)]="treatment" placeholder="Tedavi bilgisi (opsiyonel)" />
   </div>
 
   <div class="form-group">
-    <label>Notlar</label>
+    <label><i class="fa-solid fa-note-sticky"></i> Notlar</label>
     <textarea [(ngModel)]="notes" placeholder="Varsa notlar"></textarea>
   </div>
 
   <button (click)="createOrUpdateHistory()">
-    {{ editingHistoryId ? 'Güncelle' : 'Kaydet' }}
+    <i class="fa-solid fa-save"></i> {{ editingHistoryId ? 'Güncelle' : 'Kaydet' }}
   </button>
 </div>
 
 <!-- 📄 Geçmiş Listeleme -->
 <div *ngIf="activeTab === 'list'">
-  <button (click)="activeTab = ''">← Geri</button>
+  <button (click)="activeTab = ''"><i class="fa-solid fa-arrow-left"></i> Geri</button>
 
   <!-- 🔍 Arama ve Filtre -->
   <div class="form-group">
@@ -61,9 +65,9 @@
       <option value="diagnosis">Tanı</option>
       <option value="treatment">Tedavi</option>
     </select>
-    <button (click)="searchHistories()">Ara</button>
+    <button (click)="searchHistories()"><i class="fa-solid fa-magnifying-glass"></i> Ara</button>
 
-    <label>Zaman Filtresi:</label>
+    <label><i class="fa-solid fa-clock"></i> Zaman Filtresi:</label>
     <select [(ngModel)]="selectedPeriod" (change)="loadHistories()">
       <option value="">Tümü</option>
       <option value="day">Son 1 Gün</option>
@@ -73,10 +77,10 @@
     </select>
   </div>
 
-  <h3>Geçmiş Kayıtları</h3>
+  <h3><i class="fa-solid fa-list"></i> Geçmiş Kayıtları</h3>
 
   <div *ngIf="histories.length === 0">
-    <p>Bu hastaya ait geçmiş kaydı bulunamadı.</p>
+    <p><i class="fa-solid fa-circle-exclamation"></i> Bu hastaya ait geçmiş kaydı bulunamadı.</p>
   </div>
 
   <div *ngFor="let history of histories" class="history-card">
@@ -85,7 +89,11 @@
     <p><strong>Notlar:</strong> {{ history.notes || '-' }}</p>
     <p><strong>Tarih:</strong> {{ history.date }}</p>
     <p><strong>Doktor:</strong> Dr. {{ history.doctor?.name.charAt(0) }}.{{ history.doctor?.surname }}</p>
-    <button (click)="editHistory(history)">✏️ Düzenle</button>
-    <button (click)="deleteHistory(history.id)">🗑️ Sil</button>
+    <button (click)="editHistory(history)">
+      <i class="fa-solid fa-pen-to-square"></i> Düzenle
+    </button>
+    <button (click)="deleteHistory(history.id)">
+      <i class="fa-solid fa-trash"></i> Sil
+    </button>
   </div>
 </div>

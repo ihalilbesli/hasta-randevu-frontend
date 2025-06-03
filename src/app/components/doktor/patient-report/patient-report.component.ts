@@ -5,11 +5,12 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header/header.component';
+import { ToastrService } from 'ngx-toastr'; // ✅ Toastr eklendi
 
 @Component({
   selector: 'app-patient-report',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './patient-report.component.html',
   styleUrl: './patient-report.component.css'
 })
@@ -31,7 +32,8 @@ export class PatientReportComponent {
   constructor(
     private reportService: PatientReportService,
     private doctorPatientService: DoctorPatientService,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService // ✅ inject edildi
   ) {}
 
   ngOnInit(): void {
@@ -39,20 +41,20 @@ export class PatientReportComponent {
       next: (res) => {
         this.doctorId = res.id;
         this.loadPatients();
-      }
+      },
+      error: () => this.toastr.error("Kullanıcı bilgisi alınamadı.")
     });
   }
 
   loadPatients(): void {
-    if (this.patientMode === 'today') {
-      this.doctorPatientService.getMyPatientsToday().subscribe({
-        next: (res) => this.patients = res
-      });
-    } else {
-      this.doctorPatientService.getMyPatients().subscribe({
-        next: (res) => this.patients = res
-      });
-    }
+    const obs = this.patientMode === 'today'
+      ? this.doctorPatientService.getMyPatientsToday()
+      : this.doctorPatientService.getMyPatients();
+
+    obs.subscribe({
+      next: (res) => this.patients = res,
+      error: () => this.toastr.error("Hastalar yüklenemedi.")
+    });
   }
 
   selectPatientMode(mode: 'today' | 'all'): void {
@@ -65,7 +67,7 @@ export class PatientReportComponent {
 
   selectTab(tab: 'add' | 'list') {
     if (tab === 'add' && this.patientMode === 'all') {
-      alert("Randevusuz hasta için rapor eklenemez.");
+      this.toastr.warning("Randevusuz hasta için rapor eklenemez.");
       return;
     }
     this.activeTab = tab;
@@ -73,6 +75,11 @@ export class PatientReportComponent {
   }
 
   createOrUpdateReport(): void {
+    if (!this.reportType.trim()) {
+      this.toastr.warning("Rapor tipi boş olamaz.");
+      return;
+    }
+
     const reportData = {
       patient: { id: this.selectedPatientId },
       reportType: this.reportType,
@@ -82,18 +89,20 @@ export class PatientReportComponent {
     if (this.editingReportId) {
       this.reportService.updateReport(this.editingReportId, reportData).subscribe({
         next: () => {
-          alert("Rapor güncellendi.");
+          this.toastr.success("Rapor başarıyla güncellendi.");
           this.resetForm();
           this.loadReports();
-        }
+        },
+        error: () => this.toastr.error("Rapor güncellenemedi.")
       });
     } else {
       this.reportService.createReport(reportData).subscribe({
         next: () => {
-          alert("Rapor eklendi.");
+          this.toastr.success("Rapor başarıyla eklendi.");
           this.resetForm();
           this.loadReports();
-        }
+        },
+        error: () => this.toastr.error("Rapor eklenemedi.")
       });
     }
   }
@@ -101,25 +110,17 @@ export class PatientReportComponent {
   loadReports(): void {
     if (!this.selectedPatientId || !this.doctorId) return;
 
-    if (this.patientMode === 'all') {
-      this.reportService.getReportsByPatientId(this.selectedPatientId).subscribe({
-        next: (res) => this.reports = res
-      });
-      return;
-    }
-
-    if (this.selectedPatientId) {
-      this.reportService.getReportsByPatientId(this.selectedPatientId).subscribe({
-        next: (res) => this.reports = res
-      });
-    }
-    
+    this.reportService.getReportsByPatientId(this.selectedPatientId).subscribe({
+      next: (res) => this.reports = res,
+      error: () => this.toastr.error("Raporlar yüklenemedi.")
+    });
   }
 
   searchReports(): void {
     if (!this.searchKeyword.trim()) return;
     this.reportService.searchByKeyword(this.searchKeyword).subscribe({
-      next: (res) => this.reports = res
+      next: (res) => this.reports = res,
+      error: () => this.toastr.error("Arama işlemi başarısız oldu.")
     });
   }
 
@@ -134,9 +135,10 @@ export class PatientReportComponent {
     if (confirm("Silmek istediğinize emin misiniz?")) {
       this.reportService.deleteReport(id).subscribe({
         next: () => {
-          alert("Rapor silindi.");
+          this.toastr.success("Rapor başarıyla silindi.");
           this.loadReports();
-        }
+        },
+        error: () => this.toastr.error("Silme işlemi başarısız oldu.")
       });
     }
   }
@@ -153,10 +155,9 @@ export class PatientReportComponent {
     this.fileUrl = '';
     this.editingReportId = null;
   }
+
   onPatientChange(): void {
-    this.activeTab = ''; // Böylece rapor ekle/gör butonları tekrar çıkar
-    this.reports = [];   // Önceki hasta raporları temizlensin
+    this.activeTab = '';
+    this.reports = [];
   }
 }
-
-

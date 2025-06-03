@@ -1,48 +1,62 @@
 <!-- 🔘 Randevulu / Randevusuz Butonları -->
 <div class="form-group">
-  <button (click)="selectPatientMode('today')" [disabled]="patientMode === 'today'">Randevulu Hastalar</button>
-  <button (click)="selectPatientMode('all')" [disabled]="patientMode === 'all'">Randevusuz Hastalar</button>
+  <button (click)="selectPatientMode('today')" [disabled]="patientMode === 'today'">
+    <i class="fa-solid fa-calendar-check"></i> Randevulu Hastalar
+  </button>
+  <button (click)="selectPatientMode('all')" [disabled]="patientMode === 'all'">
+    <i class="fa-solid fa-users"></i> Randevusuz Hastalar
+  </button>
 </div>
 
 <!-- 👤 Hasta Seçimi -->
 <div class="form-group">
-  <label>Hasta Seçin:</label>
+  <label><i class="fa-solid fa-user-injured"></i> Hasta Seçin:</label>
   <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
     <option [ngValue]="null">-- Hasta Seçin --</option>
     <option *ngFor="let patient of patients" [ngValue]="patient.id">
-  {{ patient.name }} {{ patient.surname }}
-</option>
+      {{ patient.name }} {{ patient.surname }}
+    </option>
   </select>
 </div>
 
-<!-- 🔘 Hasta seçildiyse geçiş butonları -->
+<!-- 🔘 Geçiş Butonları -->
 <div *ngIf="selectedPatientId && activeTab === ''" class="form-group">
-  <button *ngIf="patientMode === 'today'" (click)="activeTab = 'write'">Reçete Yaz</button>
-  <button (click)="selectListTab()">Reçeteleri Gör</button>
+  <button *ngIf="patientMode === 'today'" (click)="activeTab = 'write'">
+    <i class="fa-solid fa-prescription"></i> Reçete Yaz
+  </button>
+  <button (click)="selectListTab()">
+    <i class="fa-solid fa-file-medical"></i> Reçeteleri Gör
+  </button>
 </div>
 
 <!-- 📝 Reçete Yazma Formu -->
 <div *ngIf="selectedPatientId && activeTab === 'write'" class="tab-content">
-  <button (click)="activeTab = ''">← Geri</button>
-  <h2>Yeni Reçete Yaz</h2>
+  <button (click)="activeTab = ''">
+    <i class="fa-solid fa-arrow-left"></i> Geri
+  </button>
+  <h2><i class="fa-solid fa-prescription-bottle-medical"></i> Yeni Reçete Yaz</h2>
 
   <div class="form-group">
-    <label>İlaçlar:</label>
+    <label><i class="fa-solid fa-pills"></i> İlaçlar:</label>
     <input type="text" [(ngModel)]="medications" placeholder="İlaçları virgülle ayırarak yazın" />
   </div>
 
   <div class="form-group">
-    <label>Açıklama:</label>
+    <label><i class="fa-solid fa-note-sticky"></i> Açıklama:</label>
     <textarea [(ngModel)]="description" placeholder="Açıklama girin"></textarea>
   </div>
 
-  <button (click)="createPrescription()">Reçete Oluştur</button>
+  <button (click)="createPrescription()">
+    <i class="fa-solid fa-plus"></i> Reçete Oluştur
+  </button>
 </div>
 
 <!-- 📄 Reçeteler Listesi -->
 <div *ngIf="activeTab === 'list'" class="tab-content">
-  <button (click)="activeTab = ''">← Geri</button>
-  <h2>Reçetelerim</h2>
+  <button (click)="activeTab = ''">
+    <i class="fa-solid fa-arrow-left"></i> Geri
+  </button>
+  <h2><i class="fa-solid fa-file-medical-alt"></i> Reçetelerim</h2>
 
   <div class="filter-group">
     <input type="text" [(ngModel)]="searchKeyword" (input)="searchPrescriptions()" placeholder="Açıklamada Ara" />
@@ -56,14 +70,16 @@
   </div>
 
   <div *ngIf="prescriptions.length === 0">
-    <p>Henüz yazılmış bir reçeteniz bulunmamaktadır.</p>
+    <p><i class="fa-solid fa-circle-exclamation"></i> Henüz yazılmış bir reçeteniz bulunmamaktadır.</p>
   </div>
 
   <div *ngFor="let prescription of prescriptions" class="prescription-card">
-    <p><strong>Hasta:</strong> {{ prescription.patient?.name }} {{ prescription.patient?.surname }}</p>
-    <p><strong>İlaçlar:</strong> {{ prescription.medications }}</p>
-    <p><strong>Açıklama:</strong> {{ prescription.description }}</p>
-    <p><strong>Tarih:</strong> {{ prescription.date }}</p>
-    <button (click)="deletePrescription(prescription.id)">Sil</button>
+    <p><strong>👤 Hasta:</strong> {{ prescription.patient?.name }} {{ prescription.patient?.surname }}</p>
+    <p><strong>💊 İlaçlar:</strong> {{ prescription.medications }}</p>
+    <p><strong>📝 Açıklama:</strong> {{ prescription.description }}</p>
+    <p><strong>📅 Tarih:</strong> {{ prescription.date }}</p>
+    <button (click)="deletePrescription(prescription.id)">
+      <i class="fa-solid fa-trash"></i> Sil
+    </button>
   </div>
 </div>

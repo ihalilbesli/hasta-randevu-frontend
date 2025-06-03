@@ -9,6 +9,7 @@ import { PatientHistoryService } from '../../../service/patient-history/patient-
 import { PatientReportService } from '../../../service/patient-report/patient-report.service';
 import { UserService } from '../../../service/user-service/user-service.service';
 import { DoctorPatientService } from '../../../service/doctorPatient/doctor-patient.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-examination',
@@ -38,16 +39,14 @@ export class ExaminationComponent {
     private patientHistoryService: PatientHistoryService,
     private patientReportService: PatientReportService,
     private userService: UserService,
-    private doctorPatientService: DoctorPatientService
+    private doctorPatientService: DoctorPatientService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    console.log("🟡 ngOnInit çağrıldı");
-
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
         this.doctorId = user.id;
-        console.log("🧑‍⚕️ Giriş yapan doktor:", user);
       },
       complete: () => {
         this.route.paramMap.subscribe(params => {
@@ -55,7 +54,7 @@ export class ExaminationComponent {
           this.appointmentId = idParam ? +idParam : NaN;
 
           if (!this.appointmentId || isNaN(this.appointmentId)) {
-            alert('Geçersiz randevu ID!');
+            this.toastr.warning('Geçersiz randevu ID!');
             this.router.navigate(['/doktor-dashboard']);
             return;
           }
@@ -67,17 +66,13 @@ export class ExaminationComponent {
   }
 
   loadAppointment(): void {
-    console.log('📡 Randevu verisi çekiliyor...');
-
     this.appointmentService.getAppointmentById(this.appointmentId).subscribe({
       next: (res) => {
         this.appointment = res;
         this.patient = res.patient;
-        console.log('✅ Randevu ve hasta verisi alındı:', this.appointment);
-        console.log('🧑‍🤝‍🧑 Hasta ID:', this.patient?.id);
         this.checkIfDoctorOwnsPatient();
       },
-      error: (err) => console.error('❌ Randevu alınamadı:', err)
+      error: () => this.toastr.error('Randevu bilgisi alınamadı.')
     });
   }
 
@@ -88,76 +83,58 @@ export class ExaminationComponent {
       next: (myPatients) => {
         const isMine = myPatients.some(p => p.id === this.patient.id);
         if (isMine) {
-          console.log('✅ Bu hasta bu doktorun hastası, veriler yüklenecek...');
           this.loadPatientData();
         } else {
-          console.warn('❌ Bu hasta bu doktorun hastası değil. Veri çekilmeyecek.');
+          this.toastr.warning('Bu hasta size ait görünmüyor.');
         }
       },
-      error: (err) => {
-        console.error('❌ Doktor hastaları alınamadı:', err);
-      }
+      error: () => this.toastr.error('Doktorun hastaları alınamadı.')
     });
   }
 
   loadPatientData(): void {
-    if (!this.patient?.id || !this.doctorId) return;
+    if (!this.patient?.id) return;
 
     this.prescriptionService.getPrescriptionsByPatient(this.patient.id).subscribe({
-      next: (res) => {
-        this.prescriptions = res;
-        console.log("💊 Reçeteler yüklendi:", res);
-      },
-      error: (err) => console.error("Reçeteler alınamadı:", err)
+      next: (res) => this.prescriptions = res,
+      error: () => this.toastr.error('Reçeteler alınamadı.')
     });
 
     this.testResultService.getTestResultsByPatientId(this.patient.id).subscribe({
-      next: (res) => {
-        this.testResults = res;
-        console.log("🧪 Test sonuçları yüklendi:", res);
-      },
-      error: (err) => console.error("Test sonuçları alınamadı:", err)
+      next: (res) => this.testResults = res,
+      error: () => this.toastr.error('Test sonuçları alınamadı.')
     });
 
     this.patientHistoryService.getHistoriesByPatientId(this.patient.id).subscribe({
-      next: (res) => {
-        this.histories = res;
-        console.log("📚 Geçmişler yüklendi:", res);
-      },
-      error: (err) => console.error("Geçmişler alınamadı:", err)
+      next: (res) => this.histories = res,
+      error: () => this.toastr.error('Hasta geçmişi alınamadı.')
     });
 
     this.patientReportService.getReportsByPatientId(this.patient.id).subscribe({
-      next: (res) => {
-        this.reports = res;
-        console.log("📄 Raporlar yüklendi:", res);
-      },
-      error: (err) => console.error("Raporlar alınamadı:", err)
+      next: (res) => this.reports = res,
+      error: () => this.toastr.error('Hasta raporları alınamadı.')
     });
   }
 
   goTo(path: string): void {
     if (this.patient?.id) {
-      console.log('➡️ Yönlendirme yapılıyor:', path, 'hasta ID:', this.patient.id);
       this.router.navigate([`/${path}`], {
         queryParams: { patientId: this.patient.id }
       });
     }
   }
+
   markAppointmentCompleted(): void {
-  if (!this.appointmentId) return;
+    if (!this.appointmentId) return;
 
-  this.appointmentService.updateAppointmentStatus(this.appointmentId, 'COMPLETED').subscribe({
-    next: () => {
-      console.log('🟢 Randevu durumu COMPLETED olarak güncellendi.');
-      this.appointment.status = 'COMPLETED'; // localde de güncelle
-      alert('Randevu başarıyla tamamlandı.');
-    },
-    error: (err) => {
-      console.error('❌ Randevu durumu güncellenemedi:', err);
-      alert('Randevu durumu güncellenemedi!');
-    }
-  });
-}
-
+    this.appointmentService.updateAppointmentStatus(this.appointmentId, 'COMPLETED').subscribe({
+      next: () => {
+        this.appointment.status = 'COMPLETED';
+        this.toastr.success('Randevu başarıyla tamamlandı.');
+      },
+      error: () => {
+        this.toastr.error('Randevu durumu güncellenemedi.');
+      }
+    });
+  }
 }

@@ -1,0 +1,108 @@
+.test-result-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background-color: #f9fbff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Genel Form Grupları */
+.form-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 8px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Test Kartları */
+.test-card {
+  background-color: #ffffff;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.test-card p {
+  margin: 6px 0;
+  font-size: 15px;
+  color: #444;
+}
+
+/* Boş veri */
+.test-result-container div[ng-reflect-ng-if="true"] {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #888;
+  text-align: center;
+}
+
+/* Randevulu / Randevusuz Butonları */
+.form-group button {
+  margin-right: 8px;
+}
+
+/* Responsive Tasarım */
+@media screen and (max-width: 768px) {
+  .test-result-container {
+    padding: 16px;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+}

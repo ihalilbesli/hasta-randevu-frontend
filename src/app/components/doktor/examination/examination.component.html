@@ -51,44 +51,42 @@
 
 <div class="tab-content" *ngIf="activeTab === 'prescriptions'">
   <h4><i class="fa-solid fa-prescription-bottle"></i> Reçeteler</h4>
-  <div *ngIf="prescriptions.length === 0">Reçete bulunamadı.</div>
-  <div *ngFor="let p of prescriptions">
-    <p><strong>Tarih:</strong> {{ p.date }} | <strong>İlaçlar:</strong> {{ p.medications }}</p>
+  <div *ngIf="prescriptions.length === 0" class="empty-message">Reçete bulunamadı.</div>
+  <div *ngFor="let p of prescriptions" class="card">
+    <p><strong>Tarih:</strong> {{ p.date }}</p>
+    <p><strong>İlaçlar:</strong> {{ p.medications }}</p>
     <p><strong>Açıklama:</strong> {{ p.description }}</p>
-    <hr />
   </div>
 </div>
 
 <div class="tab-content" *ngIf="activeTab === 'tests'">
   <h4><i class="fa-solid fa-vials"></i> Test Sonuçları</h4>
-  <div *ngIf="testResults.length === 0">Test sonucu yok.</div>
-  <div *ngFor="let t of testResults">
-    <p><strong>Test:</strong> {{ t.testName }} | <strong>Tarih:</strong> {{ t.testDate }}</p>
-    <p><strong>Sonuç:</strong><br/> {{ t.result }}</p>
+  <div *ngIf="testResults.length === 0" class="empty-message">Test sonucu yok.</div>
+  <div *ngFor="let t of testResults" class="card">
+    <p><strong>Test:</strong> {{ t.testName }}</p>
+    <p><strong>Tarih:</strong> {{ t.testDate }}</p>
+    <p><strong>Sonuç:</strong><br /> {{ t.result }}</p>
     <p><strong>Yorum:</strong> {{ t.doctorComment || '-' }}</p>
-    <hr />
   </div>
 </div>
 
 <div class="tab-content" *ngIf="activeTab === 'histories'">
   <h4><i class="fa-solid fa-book-medical"></i> Hasta Geçmişi</h4>
-  <div *ngIf="histories.length === 0">Geçmiş kaydı yok.</div>
-  <div *ngFor="let h of histories">
+  <div *ngIf="histories.length === 0" class="empty-message">Geçmiş kaydı yok.</div>
+  <div *ngFor="let h of histories" class="card">
     <p><strong>Tanı:</strong> {{ h.diagnosis }}</p>
     <p><strong>Tedavi:</strong> {{ h.treatment || '-' }}</p>
     <p><strong>Not:</strong> {{ h.notes || '-' }}</p>
     <p><strong>Tarih:</strong> {{ h.date }}</p>
-    <hr />
   </div>
 </div>
 
 <div class="tab-content" *ngIf="activeTab === 'reports'">
   <h4><i class="fa-solid fa-file-medical-alt"></i> Hasta Raporları</h4>
-  <div *ngIf="reports.length === 0">Rapor bulunamadı.</div>
-  <div *ngFor="let r of reports">
+  <div *ngIf="reports.length === 0" class="empty-message">Rapor bulunamadı.</div>
+  <div *ngFor="let r of reports" class="card">
     <p><strong>Tür:</strong> {{ r.reportType }}</p>
     <p><strong>Tarih:</strong> {{ r.reportDate }}</p>
-    <p><a [href]="r.fileUrl" target="_blank"><i class="fa-solid fa-paperclip"></i> Dosya</a></p>
-    <hr />
+    <p><a [href]="r.fileUrl" target="_blank"><i class="fa-solid fa-paperclip"></i> Dosyayı Görüntüle</a></p>
   </div>
 </div>

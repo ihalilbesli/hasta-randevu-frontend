@@ -1,0 +1,93 @@
+.patient-history-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fbff;
+  color: #2c3e50;
+}
+
+.patient-history-container h3 {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+  margin-right: 8px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.history-card {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.history-card p {
+  margin: 6px 0;
+}
+
+.history-card button {
+  background-color: #6c757d;
+  margin-top: 8px;
+}
+
+.history-card button:hover {
+  background-color: #5a6268;
+}
+
+/* Mobil uyumlu */
+@media screen and (max-width: 768px) {
+  .form-group,
+  .history-card {
+    padding: 12px;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}

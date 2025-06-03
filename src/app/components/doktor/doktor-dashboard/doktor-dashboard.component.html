@@ -19,10 +19,12 @@
 
           <!-- Detaylı Bilgiler -->
           <div class="patient-details">
-            <div><i class="fas fa-calendar-alt"></i> <strong>Doğum Tarihi:</strong> {{ patient.patient.birthDate }}</div>
+            <div><i class="fas fa-calendar-alt"></i> <strong>Doğum Tarihi:</strong> {{ patient.patient.birthDate }}
+            </div>
             <div><i class="fas fa-venus-mars"></i> <strong>Cinsiyet:</strong> {{ patient.patient.gender }}</div>
             <div><i class="fas fa-tint"></i> <strong>Kan Grubu:</strong> {{ patient.patient.bloodType }}</div>
-            <div><i class="fas fa-heartbeat"></i> <strong>Kronik Hastalık:</strong> {{ patient.patient.chronicDiseases || 'Yok' }}</div>
+            <div><i class="fas fa-heartbeat"></i> <strong>Kronik Hastalık:</strong> {{ patient.patient.chronicDiseases
+              || 'Yok' }}</div>
             <div><i class="fas fa-clinic-medical"></i> <strong>Klinik:</strong> {{ patient.clinic.name }}</div>
             <div><i class="fas fa-clock"></i> <strong>Randevu:</strong> {{ patient.date }} - {{ patient.time }}</div>
             <div><i class="fas fa-file-medical-alt"></i> <strong>Şikayet:</strong> {{ patient.description }}</div>
@@ -30,11 +32,15 @@
           </div>
 
           <!-- Butonlar -->
+          
           <div class="patient-actions">
             <button (click)="goToPatientDetail(patient.patient.id)">Detaya Git</button>
-            <button (click)="goToExaminationForPatient(patient.patient.id)">Muayene Et</button>
-          </div>
 
+            <!-- SADECE AKTİF İSE GÖZÜKÜR -->
+            <button *ngIf="patient.status === 'AKTIF'" (click)="goToExaminationForPatient(patient.patient.id)">
+              Muayene Et
+            </button>
+          </div>
         </div>
       </div>
 

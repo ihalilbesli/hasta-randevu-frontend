@@ -5,6 +5,7 @@ import { AuthService } from '../../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { DoctorPatientService } from '../../../service/doctorPatient/doctor-patient.service';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-doktor-dashboard',
@@ -23,51 +24,51 @@ export class DoktorDashboardComponent {
     private router: Router,
     private authService: AuthService,
     private doctorPatientService: DoctorPatientService,
-    private appointmentService: AppointmentService
-  ) { }
+    private appointmentService: AppointmentService,
+    private toastr: ToastrService
+  ) {}
+
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
         this.currentUser = user;
         this.loadPatientsToday();
       },
-      error: (err) => {
-        console.error('Kullanıcı bilgisi alınamadı:', err);
+      error: () => {
+        this.toastr.error('Kullanıcı bilgisi alınamadı.');
       }
     });
   }
+
   loadPatientsToday(): void {
     this.isLoading = true;
     this.doctorPatientService.getMyPatientsTodayFull().subscribe({
       next: (patients) => {
-        this.patientsToday = patients;
-        console.log("Gelen hastalar (patientsToday):", this.patientsToday); // <--- BURASI
-
+        this.patientsToday = patients.filter(p => p.status !== 'IPTAL_EDILDI');
         this.isLoading = false;
       },
-      error: (error) => {
-        console.error('Bugünkü hastalar alınamadı:', error);
+      error: () => {
+        this.toastr.error('Bugünkü hastalar alınamadı.');
         this.isLoading = false;
       }
     });
   }
 
-
   goTo(path: string) {
     this.router.navigate([`/${path}`]);
-    console.log(path + " navigate edildi");
-
   }
+
   goToPatientDetail(patientId: number): void {
     this.router.navigate(['/my-patients'], { queryParams: { id: patientId } });
   }
+
   goToExaminationForPatient(patientId: number): void {
-    const matching = this.patientsToday.find(p => p.id === patientId && p.appointmentId);
+    const matching = this.patientsToday.find(p => p.patient?.id === patientId);
+
     if (matching) {
-      this.router.navigate(['/examination', matching.appointmentId]);
+      this.router.navigate(['/examination', matching.id]);
     } else {
-      alert('Bu hastanın aktif randevusu bulunmamaktadır.');
+      this.toastr.warning('Bu hastanın aktif randevusu bulunmamaktadır.');
     }
   }
-
 }

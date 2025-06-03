@@ -5,6 +5,7 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header/header.component';
+import { ToastrService } from 'ngx-toastr'; // ✅ Toastr eklendi
 
 @Component({
   selector: 'app-prescription',
@@ -33,7 +34,8 @@ export class PrescriptionComponent implements OnInit {
   constructor(
     private prescriptionService: PrescriptionService,
     private doctorPatientService: DoctorPatientService,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService // ✅ inject edildi
   ) {}
 
   ngOnInit(): void {
@@ -44,8 +46,8 @@ export class PrescriptionComponent implements OnInit {
         this.loadPatients();
         this.isLoading = false;
       },
-      error: (error) => {
-        console.error('Kullanıcı alınamadı:', error);
+      error: () => {
+        this.toastr.error('Kullanıcı bilgisi alınamadı.');
         this.isLoading = false;
       }
     });
@@ -58,7 +60,7 @@ export class PrescriptionComponent implements OnInit {
 
     observable.subscribe({
       next: (patients) => this.patients = patients,
-      error: (error) => console.error('Hastalar yüklenemedi:', error)
+      error: () => this.toastr.error('Hastalar yüklenemedi.')
     });
   }
 
@@ -74,7 +76,6 @@ export class PrescriptionComponent implements OnInit {
     this.activeTab = '';
     this.prescriptions = [];
 
-    // Sadece kendi hastalarına reçete sorgulaması yapılır
     if (this.patientMode === 'today' && this.selectedPatientId) {
       this.loadPrescriptions();
     }
@@ -87,9 +88,9 @@ export class PrescriptionComponent implements OnInit {
       next: (prescriptions) => this.prescriptions = prescriptions,
       error: (error) => {
         if (error.status === 403) {
-          alert("Bu hastanın reçetelerine erişim yetkiniz yok.");
+          this.toastr.warning("Bu hastanın reçetelerine erişim yetkiniz yok.");
         } else {
-          console.error('Reçeteler yüklenemedi:', error);
+          this.toastr.error('Reçeteler yüklenemedi.');
         }
       }
     });
@@ -105,17 +106,17 @@ export class PrescriptionComponent implements OnInit {
 
       this.prescriptionService.createPrescription(prescriptionData).subscribe({
         next: () => {
-          alert('Reçete başarıyla oluşturuldu!');
+          this.toastr.success('Reçete başarıyla oluşturuldu!');
           this.resetForm();
           this.loadPrescriptions();
           this.activeTab = '';
         },
-        error: (error) => {
-          console.error('Reçete oluşturulamadı:', error);
+        error: () => {
+          this.toastr.error('Reçete oluşturulamadı.');
         }
       });
     } else {
-      alert('Lütfen tüm alanları doldurun.');
+      this.toastr.warning('Lütfen tüm alanları doldurun.');
     }
   }
 
@@ -129,9 +130,7 @@ export class PrescriptionComponent implements OnInit {
     if (this.filterPeriod !== 'all' && this.doctorId !== null) {
       this.prescriptionService.getPrescriptionsByDoctorAndPeriod(this.doctorId, this.filterPeriod).subscribe({
         next: (prescriptions) => this.prescriptions = prescriptions,
-        error: (error) => {
-          console.error('Reçeteler filtrelenemedi:', error);
-        }
+        error: () => this.toastr.error('Reçeteler filtrelenemedi.')
       });
     } else {
       this.loadPrescriptions();
@@ -142,9 +141,7 @@ export class PrescriptionComponent implements OnInit {
     if (this.searchKeyword.trim()) {
       this.prescriptionService.searchPrescriptions(this.searchKeyword).subscribe({
         next: (prescriptions) => this.prescriptions = prescriptions,
-        error: (error) => {
-          console.error('Reçete araması başarısız:', error);
-        }
+        error: () => this.toastr.error('Reçete araması başarısız oldu.')
       });
     } else {
       this.loadPrescriptions();
@@ -155,12 +152,10 @@ export class PrescriptionComponent implements OnInit {
     if (confirm('Bu reçeteyi silmek istediğinize emin misiniz?')) {
       this.prescriptionService.deletePrescription(id).subscribe({
         next: () => {
-          alert('Reçete silindi.');
+          this.toastr.success('Reçete başarıyla silindi.');
           this.loadPrescriptions();
         },
-        error: (error) => {
-          console.error('Reçete silinemedi:', error);
-        }
+        error: () => this.toastr.error('Reçete silinemedi.')
       });
     }
   }

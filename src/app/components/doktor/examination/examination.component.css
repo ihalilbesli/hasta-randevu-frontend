@@ -52,12 +52,6 @@ h2 {
   background-color: #2980b9;
 }
 
-.loading {
-  text-align: center;
-  margin-top: 60px;
-  font-size: 18px;
-  color: #7f8c8d;
-}
 .complete-exam-btn-wrapper {
   position: fixed;
   bottom: 30px;
@@ -82,3 +76,81 @@ h2 {
   background-color: #218838;
 }
 
+.loading {
+  text-align: center;
+  margin-top: 60px;
+  font-size: 18px;
+  color: #7f8c8d;
+}
+
+/* ===== TAB BUTONLARI ===== */
+.tab-btn {
+  padding: 8px 16px;
+  background-color: #ecf0f1;
+  border: none;
+  border-radius: 6px;
+  margin: 0 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.tab-btn.active {
+  background-color: #3498db;
+  color: white;
+}
+
+.tab-btn:hover {
+  background-color: #d0d7de;
+}
+
+/* ===== TAB İÇERİKLERİ ===== */
+.tab-content {
+  margin-top: 20px;
+  padding: 0 10px;
+}
+
+.tab-content h4 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card p {
+  margin: 6px 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.card a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.card a:hover {
+  text-decoration: underline;
+}
+
+.empty-message {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 16px;
+  margin-top: 12px;
+}

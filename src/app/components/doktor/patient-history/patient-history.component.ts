@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header/header.component';
 import { DoctorPatientService } from '../../../service/doctorPatient/doctor-patient.service';
 import { PatientHistoryService } from '../../../service/patient-history/patient-history.service';
+import { ToastrService } from 'ngx-toastr'; // ✅ Toastr eklendi
 
 @Component({
   selector: 'app-patient-history',
@@ -33,7 +34,8 @@ export class PatientHistoryComponent {
 
   constructor(
     private doctorPatientService: DoctorPatientService,
-    private historyService: PatientHistoryService
+    private historyService: PatientHistoryService,
+    private toastr: ToastrService // ✅ inject edildi
   ) {}
 
   ngOnInit(): void {
@@ -41,15 +43,14 @@ export class PatientHistoryComponent {
   }
 
   loadPatients(): void {
-    if (this.patientMode === 'today') {
-      this.doctorPatientService.getMyPatientsToday().subscribe({
-        next: (res) => this.patients = res
-      });
-    } else {
-      this.doctorPatientService.getMyPatients().subscribe({
-        next: (res) => this.patients = res
-      });
-    }
+    const obs = this.patientMode === 'today'
+      ? this.doctorPatientService.getMyPatientsToday()
+      : this.doctorPatientService.getMyPatients();
+
+    obs.subscribe({
+      next: (res) => this.patients = res,
+      error: () => this.toastr.error('Hastalar yüklenemedi.')
+    });
   }
 
   selectPatientMode(mode: 'today' | 'all'): void {
@@ -67,7 +68,7 @@ export class PatientHistoryComponent {
 
   selectTab(tab: 'add' | 'list') {
     if (tab === 'add' && this.patientMode === 'all') {
-      alert("Randevusuz hastaya geçmiş eklenemez.");
+      this.toastr.warning("Randevusuz hastaya geçmiş eklenemez.");
       return;
     }
     this.activeTab = tab;
@@ -78,7 +79,7 @@ export class PatientHistoryComponent {
 
   createOrUpdateHistory(): void {
     if (!this.diagnosis.trim()) {
-      alert("Tanı alanı zorunludur.");
+      this.toastr.warning("Tanı alanı zorunludur.");
       return;
     }
 
@@ -92,19 +93,21 @@ export class PatientHistoryComponent {
     if (this.editingHistoryId) {
       this.historyService.updateHistory(this.editingHistoryId, historyData).subscribe({
         next: () => {
-          alert("Geçmiş güncellendi!");
+          this.toastr.success("Geçmiş başarıyla güncellendi.");
           this.resetForm();
           this.loadHistories();
           this.activeTab = 'list';
-        }
+        },
+        error: () => this.toastr.error("Güncelleme başarısız.")
       });
     } else {
       this.historyService.createHistory(historyData).subscribe({
         next: () => {
-          alert("Geçmiş eklendi!");
+          this.toastr.success("Geçmiş başarıyla eklendi.");
           this.resetForm();
           this.activeTab = '';
-        }
+        },
+        error: () => this.toastr.error("Geçmiş eklenemedi.")
       });
     }
   }
@@ -112,15 +115,14 @@ export class PatientHistoryComponent {
   loadHistories(): void {
     if (!this.selectedPatientId) return;
 
-    if (this.selectedPeriod) {
-      this.historyService.getHistoriesByPeriod(this.selectedPatientId, this.selectedPeriod).subscribe({
-        next: (res) => this.histories = res
-      });
-    } else {
-      this.historyService.getHistoriesByPatientId(this.selectedPatientId).subscribe({
-        next: (res) => this.histories = res
-      });
-    }
+    const obs = this.selectedPeriod
+      ? this.historyService.getHistoriesByPeriod(this.selectedPatientId, this.selectedPeriod)
+      : this.historyService.getHistoriesByPatientId(this.selectedPatientId);
+
+    obs.subscribe({
+      next: (res) => this.histories = res,
+      error: () => this.toastr.error("Geçmiş kayıtları alınamadı.")
+    });
   }
 
   searchHistories(): void {
@@ -131,7 +133,8 @@ export class PatientHistoryComponent {
       : this.historyService.searchByTreatment(this.searchKeyword);
 
     searchFn.subscribe({
-      next: (res) => this.histories = res
+      next: (res) => this.histories = res,
+      error: () => this.toastr.error("Arama işlemi başarısız oldu.")
     });
   }
 
@@ -147,9 +150,10 @@ export class PatientHistoryComponent {
     if (confirm("Bu kaydı silmek istiyor musunuz?")) {
       this.historyService.deleteHistory(id).subscribe({
         next: () => {
-          alert("Geçmiş kaydı silindi.");
+          this.toastr.success("Geçmiş kaydı silindi.");
           this.loadHistories();
-        }
+        },
+        error: () => this.toastr.error("Silme işlemi başarısız oldu.")
       });
     }
   }
@@ -161,5 +165,4 @@ export class PatientHistoryComponent {
     this.editingHistoryId = null;
     this.selectedPatientId = null;
   }
-  
 }

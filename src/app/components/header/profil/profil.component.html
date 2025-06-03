@@ -2,16 +2,29 @@
 <div *ngIf="activeTab === 'identity'" class="tab-panel">
   <h3>Kişisel Bilgiler</h3>
 
+  <!-- Görüntüleme Modu -->
   <div *ngIf="!isEditingIdentity">
     <p><strong>Ad:</strong> {{ profileData.name }}</p>
     <p><strong>Soyad:</strong> {{ profileData.surname }}</p>
-    <p><strong>Cinsiyet:</strong> {{ profileData.gender }}</p>
-    <p><strong>Doğum Tarihi:</strong> {{ profileData.birthDate }}</p>
-    <p><strong>Kan Grubu:</strong> {{ profileData.bloodType }}</p>
-    <p><strong>Kronik Rahatsızlıklar:</strong> {{ profileData.chronicDiseases }}</p>
+
+    <!-- Hasta: Cinsiyet, Doğum Tarihi, Kan Grubu, Kronik -->
+    <ng-container *ngIf="isPatient">
+      <p><strong>Cinsiyet:</strong> {{ profileData.gender }}</p>
+      <p><strong>Doğum Tarihi:</strong> {{ profileData.birthDate }}</p>
+      <p><strong>Kan Grubu:</strong> {{ profileData.bloodType }}</p>
+      <p><strong>Kronik Rahatsızlıklar:</strong> {{ profileData.chronicDiseases }}</p>
+    </ng-container>
+
+    <!-- Doktor: Uzmanlık ve Klinik -->
+    <ng-container *ngIf="isDoctor">
+      <p><strong>Uzmanlık Alanı:</strong> {{ profileData.specialization }}</p>
+      <p><strong>Klinik:</strong> {{ profileData.clinic?.name || '-' }}</p>
+    </ng-container>
+
     <button (click)="isEditingIdentity = true">✏️ Düzenle</button>
   </div>
 
+  <!-- Düzenleme Modu -->
   <div *ngIf="isEditingIdentity">
     <label>Ad:</label>
     <input [(ngModel)]="profileData.name"><br>
@@ -19,26 +32,38 @@
     <label>Soyad:</label>
     <input [(ngModel)]="profileData.surname"><br>
 
-    <label>Cinsiyet:</label>
-    <select [(ngModel)]="profileData.gender">
-      <option value="ERKEK">Erkek</option>
-      <option value="KADIN">Kadın</option>
-      <option value="BELIRTILMEMIS">Belirtilmemiş</option>
-    </select><br>
+    <!-- Hasta: Düzenlenebilir alanlar -->
+    <ng-container *ngIf="isPatient">
+      <label>Cinsiyet:</label>
+      <select [(ngModel)]="profileData.gender">
+        <option value="ERKEK">Erkek</option>
+        <option value="KADIN">Kadın</option>
+        <option value="BELIRTILMEMIS">Belirtilmemiş</option>
+      </select><br>
 
-    <label>Doğum Tarihi:</label>
-    <input type="date" [(ngModel)]="profileData.birthDate"><br>
+      <!-- Doğum Tarihi sadece gösterilir -->
+      <label>Doğum Tarihi:</label>
+      <input type="date" [value]="profileData.birthDate" disabled><br>
 
-    <label>Kan Grubu:</label>
-    <select [(ngModel)]="profileData.bloodType">
-      <option *ngFor="let type of ['ARH_POS','ARH_NEG','BRH_POS','BRH_NEG','ABRH_POS','ABRH_NEG','ORH_POS','ORH_NEG']"
-        [value]="type">
-        {{ type }}
-      </option>
-    </select><br>
+      <label>Kan Grubu:</label>
+      <select [(ngModel)]="profileData.bloodType">
+        <option *ngFor="let type of ['ARH_POS','ARH_NEG','BRH_POS','BRH_NEG','ABRH_POS','ABRH_NEG','ORH_POS','ORH_NEG']" [value]="type">
+          {{ type }}
+        </option>
+      </select><br>
 
-    <label>Kronik Rahatsızlıklar:</label>
-    <textarea [(ngModel)]="profileData.chronicDiseases"></textarea><br>
+      <label>Kronik Rahatsızlıklar:</label>
+      <textarea [(ngModel)]="profileData.chronicDiseases"></textarea><br>
+    </ng-container>
+
+    <!-- Doktor: Sadece görüntülenen alanlar -->
+    <ng-container *ngIf="isDoctor">
+      <label>Uzmanlık Alanı:</label>
+      <input [value]="profileData.specialization" disabled><br>
+
+      <label>Klinik:</label>
+      <input [value]="profileData.clinic?.name || '-'" disabled><br>
+    </ng-container>
 
     <button (click)="saveIdentity()">💾 Kaydet</button>
     <button (click)="cancelEdit('identity')">❌ İptal</button>
@@ -74,22 +99,19 @@
   <label>Geçerli Parolanız:</label>
   <div class="input-group">
     <input [type]="showOldPassword ? 'text' : 'password'" [(ngModel)]="oldPassword" />
-    <img src="assets/icons/{{ showOldPassword ? 'show' : 'hide' }}.png" class="toggle-icon"
-      (click)="togglePassword('old')" />
+    <img src="assets/icons/{{ showOldPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('old')" />
   </div>
 
   <label>Yeni Parola:</label>
   <div class="input-group">
     <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="newPassword" />
-    <img src="assets/icons/{{ showNewPassword ? 'show' : 'hide' }}.png" class="toggle-icon"
-      (click)="togglePassword('new')" />
+    <img src="assets/icons/{{ showNewPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('new')" />
   </div>
 
   <label>Yeni Parola (Tekrar):</label>
   <div class="input-group">
     <input [type]="showRepeatPassword ? 'text' : 'password'" [(ngModel)]="newPasswordRepeat" />
-    <img src="assets/icons/{{ showRepeatPassword ? 'show' : 'hide' }}.png" class="toggle-icon"
-      (click)="togglePassword('repeat')" />
+    <img src="assets/icons/{{ showRepeatPassword ? 'show' : 'hide' }}.png" class="toggle-icon" (click)="togglePassword('repeat')" />
   </div>
 
   <button (click)="changePassword()">Parolayı Güncelle</button>

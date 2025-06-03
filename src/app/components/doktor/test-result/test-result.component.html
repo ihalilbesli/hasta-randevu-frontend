@@ -1,34 +1,43 @@
 <!-- 🔘 Randevulu / Randevusuz Hasta Seçimi -->
 <div class="form-group">
-  <button (click)="selectPatientMode('today')" [disabled]="patientMode === 'today'">Randevulu Hastalar</button>
-  <button (click)="selectPatientMode('all')" [disabled]="patientMode === 'all'">Randevusuz Hastalar</button>
+  <button (click)="selectPatientMode('today')" [disabled]="patientMode === 'today'">
+    <i class="fa-solid fa-calendar-check"></i> Randevulu Hastalar
+  </button>
+  <button (click)="selectPatientMode('all')" [disabled]="patientMode === 'all'">
+    <i class="fa-solid fa-users"></i> Randevusuz Hastalar
+  </button>
 </div>
 
-<!-- Hasta Seçimi -->
+<!-- 🧑‍⚕️ Hasta Seçimi -->
 <div class="form-group">
-  <label>Hasta Seçin:</label>
+  <label><i class="fa-solid fa-user-injured"></i> Hasta Seçin:</label>
   <select [(ngModel)]="selectedPatientId" (change)="onPatientChange()">
     <option [value]="null">-- Hasta Seçin --</option>
     <option *ngFor="let patient of patients" [value]="patient.id">
-  {{ patient.name }} {{ patient.surname }} 
-</option>
-
+      {{ patient.name }} {{ patient.surname }}
+    </option>
   </select>
 </div>
 
-<!-- Tab Seçimi -->
+<!-- 🔘 Sekme Seçimi -->
 <div *ngIf="selectedPatientId && activeTab === ''" class="form-group">
-  <button *ngIf="patientMode === 'today'" (click)="selectTab('add')">Test Sonucu Ekle</button>
-  <button (click)="selectTab('list')">Test Sonuçlarını Gör</button>
+  <button *ngIf="patientMode === 'today'" (click)="selectTab('add')">
+    <i class="fa-solid fa-plus"></i> Test Sonucu Ekle
+  </button>
+  <button (click)="selectTab('list')">
+    <i class="fa-solid fa-folder-open"></i> Test Sonuçlarını Gör
+  </button>
 </div>
 
-<!-- 🔘 Ekleme Alanı -->
+<!-- ➕ Test Sonucu Ekleme -->
 <div *ngIf="activeTab === 'add' && selectedPatientId">
-  <button (click)="goBack()">← Geri</button>
-  <h3>Test Sonucu {{ editingTestId ? 'Güncelle' : 'Ekle' }}</h3>
+  <button (click)="goBack()">
+    <i class="fa-solid fa-arrow-left"></i> Geri
+  </button>
+  <h3><i class="fa-solid fa-vial"></i> Test Sonucu {{ editingTestId ? 'Güncelle' : 'Ekle' }}</h3>
 
   <div class="form-group">
-    <label>Test Türü:</label>
+    <label><i class="fa-solid fa-flask"></i> Test Türü:</label>
     <select [(ngModel)]="testType" (change)="onTestTypeChange()">
       <option value="DIGER">Diğer</option>
       <option value="KAN_TAHLILI">Kan Tahlili</option>
@@ -39,36 +48,46 @@
   </div>
 
   <div class="form-group" *ngFor="let param of testParameters">
-    <label>{{ param.name }}</label>
+    <label><i class="fa-solid fa-dna"></i> {{ param.name }}</label>
     <input type="text" [(ngModel)]="param.value" placeholder="Değer girin" />
   </div>
 
   <div class="form-group">
-    <label>Doktor Yorumu:</label>
+    <label><i class="fa-solid fa-comment-medical"></i> Doktor Yorumu:</label>
     <textarea [(ngModel)]="doctorComment" placeholder="Yorum (opsiyonel)"></textarea>
   </div>
 
   <div class="form-group">
-    <label>Tarih:</label>
+    <label><i class="fa-solid fa-calendar-days"></i> Tarih:</label>
     <input type="date" [(ngModel)]="testDate" />
   </div>
 
-  <button (click)="createTestResult()">Kaydet</button>
+  <button (click)="createTestResult()">
+    <i class="fa-solid fa-save"></i> Kaydet
+  </button>
 </div>
 
-<!-- 🔘 Listeleme Alanı -->
+<!-- 📄 Test Sonuçları Listesi -->
 <div *ngIf="activeTab === 'list' && selectedPatientId">
-  <button (click)="goBack()">← Geri</button>
-  <h3>Test Sonuçları</h3>
+  <button (click)="goBack()">
+    <i class="fa-solid fa-arrow-left"></i> Geri
+  </button>
+  <h3><i class="fa-solid fa-flask-vial"></i> Test Sonuçları</h3>
 
-  <div *ngIf="testResults.length === 0">Kayıt yok.</div>
+  <div *ngIf="testResults.length === 0">
+    <p><i class="fa-solid fa-circle-exclamation"></i> Kayıt yok.</p>
+  </div>
 
   <div *ngFor="let test of testResults" class="test-card">
-    <p><strong>Test:</strong> {{ test.testName }}</p>
-    <p><strong>Sonuç:</strong> <br /> {{ test.result }}</p>
-    <p><strong>Yorum:</strong> {{ test.doctorComment || '-' }}</p>
-    <p><strong>Tarih:</strong> {{ test.testDate }}</p>
-    <button (click)="editTestResult(test)">✏️ Düzenle</button>
-    <button (click)="deleteTestResult(test.id)">🗑️ Sil</button>
+    <p><strong><i class="fa-solid fa-vial-circle-check"></i> Test:</strong> {{ test.testName }}</p>
+    <p><strong><i class="fa-solid fa-microscope"></i> Sonuç:</strong><br /> {{ test.result }}</p>
+    <p><strong><i class="fa-solid fa-notes-medical"></i> Yorum:</strong> {{ test.doctorComment || '-' }}</p>
+    <p><strong><i class="fa-solid fa-calendar"></i> Tarih:</strong> {{ test.testDate }}</p>
+    <button (click)="editTestResult(test)">
+      <i class="fa-solid fa-pen-to-square"></i> Düzenle
+    </button>
+    <button (click)="deleteTestResult(test.id)">
+      <i class="fa-solid fa-trash"></i> Sil
+    </button>
   </div>
 </div>

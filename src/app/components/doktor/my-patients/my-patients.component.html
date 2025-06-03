@@ -1,4 +1,4 @@
-<h2>📋 Hastalarım</h2>
+<h2><i class="fa-solid fa-clipboard-list"></i> Hastalarım</h2>
 
 <!-- 🔍 Arama Kutusu -->
 <div class="search-bar">
@@ -17,25 +17,33 @@
 <!-- 🧾 Hasta Listesi -->
 <div *ngFor="let patient of filteredPatients" class="patient-card">
   <h3>{{ patient.name }} {{ patient.surname }}</h3>
-  <p>📧 {{ patient.email }}</p>
-  <p>📱 {{ patient.phoneNumber }}</p>
-  <p>🏥 Klinik: {{ patient.clinic?.name || '-' }}</p>
-  <p>🎂 Doğum: {{ patient.birthDate || '-' }} | 🩸 Kan Grubu: {{ patient.bloodType || '-' }}</p>
+  <p><i class="fa-solid fa-envelope"></i> {{ patient.email }}</p>
+  <p><i class="fa-solid fa-phone"></i> {{ patient.phoneNumber }}</p>
+  <p><i class="fa-solid fa-cake-candles"></i> Doğum: {{ patient.birthDate || '-' }} | 
+     <i class="fa-solid fa-droplet"></i> Kan Grubu: {{ patient.bloodType || '-' }}</p>
 
   <!-- 🔢 İstatistikler -->
   <div class="stats">
-    <p>📅 Randevu: {{ patient.appointmentCount || 0 }}</p>
-    <p>💊 Reçete: {{ patient.prescriptionCount || 0 }}</p>
-    <p>🧪 Test: {{ patient.testResultCount || 0 }}</p>
-    <p>📚 Geçmiş: {{ patient.historyCount || 0 }}</p>
-    <p>📄 Rapor: {{ patient.reportCount || 0 }}</p>
+    <p><i class="fa-solid fa-calendar-check"></i> Randevu: {{ patient.appointmentCount || 0 }}</p>
+    <p><i class="fa-solid fa-prescription-bottle-medical"></i> Reçete: {{ patient.prescriptionCount || 0 }}</p>
+    <p><i class="fa-solid fa-vial"></i> Test: {{ patient.testResultCount || 0 }}</p>
+    <p><i class="fa-solid fa-book-medical"></i> Geçmiş: {{ patient.historyCount || 0 }}</p>
+    <p><i class="fa-solid fa-file-medical"></i> Rapor: {{ patient.reportCount || 0 }}</p>
   </div>
 
   <!-- ⚡ Kısayol Butonları -->
- <div class="actions">
-  <button (click)="goToPrescription(patient.id)">📝 Reçete Yaz</button>
-  <button (click)="goToTest(patient.id)">🧪 Test Sonucu Ekle</button>
-  <button (click)="goToHistory(patient.id)">📚 Geçmiş Gör</button>
-  <button (click)="goToReport(patient.id)">📄 Raporları Gör</button>
-</div>
+  <div class="actions">
+    <button (click)="goToPrescription(patient.id)">
+      <i class="fa-solid fa-pen-to-square"></i> Reçete Yaz
+    </button>
+    <button (click)="goToTest(patient.id)">
+      <i class="fa-solid fa-flask"></i> Test Sonucu Ekle
+    </button>
+    <button (click)="goToHistory(patient.id)">
+      <i class="fa-solid fa-notes-medical"></i> Geçmiş Gör
+    </button>
+    <button (click)="goToReport(patient.id)">
+      <i class="fa-solid fa-file-medical-alt"></i> Raporları Gör
+    </button>
+  </div>
 </div>

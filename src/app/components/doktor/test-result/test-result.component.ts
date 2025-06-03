@@ -5,6 +5,7 @@ import { HeaderComponent } from '../../header/header.component';
 import { TestResultService } from '../../../service/test-result/test-result.service';
 import { DoctorPatientService } from '../../../service/doctorPatient/doctor-patient.service';
 import { UserService } from '../../../service/user-service/user-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-test-result',
@@ -33,7 +34,8 @@ export class TestResultComponent {
   constructor(
     private testResultService: TestResultService,
     private doctorPatientService: DoctorPatientService,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -56,15 +58,13 @@ export class TestResultComponent {
   }
 
   loadPatients(): void {
-    if (this.patientMode === 'today') {
-      this.doctorPatientService.getMyPatientsToday().subscribe({
-        next: (res) => this.patients = res
-      });
-    } else {
-      this.doctorPatientService.getMyPatients().subscribe({
-        next: (res) => this.patients = res
-      });
-    }
+    const service = this.patientMode === 'today' 
+      ? this.doctorPatientService.getMyPatientsToday() 
+      : this.doctorPatientService.getMyPatients();
+
+    service.subscribe({
+      next: (res) => this.patients = res
+    });
   }
 
   onPatientChange(): void {
@@ -74,7 +74,7 @@ export class TestResultComponent {
 
   selectTab(tab: 'add' | 'list'): void {
     if (tab === 'add' && this.patientMode === 'all') {
-      alert('Randevusuz hastaya test sonucu eklenemez.');
+      this.toastr.warning('Randevusuz hastaya test sonucu eklenemez.');
       return;
     }
     this.activeTab = tab;
@@ -129,7 +129,7 @@ export class TestResultComponent {
 
   createTestResult(): void {
     if (!this.selectedPatientId || !this.testDate) {
-      alert('Lütfen hasta ve tarih seçin.');
+      this.toastr.error('Lütfen hasta ve tarih seçin.');
       return;
     }
 
@@ -151,20 +151,22 @@ export class TestResultComponent {
       testDate: this.testDate
     };
 
-    if (this.editingTestId) {
-      this.testResultService.updateTestResult(this.editingTestId, testResultData).subscribe(() => {
-        alert('Güncellendi.');
+    const request = this.editingTestId
+      ? this.testResultService.updateTestResult(this.editingTestId, testResultData)
+      : this.testResultService.createTestResult(testResultData);
+
+    request.subscribe({
+      next: () => {
+        const msg = this.editingTestId ? 'Test sonucu güncellendi.' : 'Test sonucu eklendi.';
+        this.toastr.success(msg);
         this.resetForm();
-        this.loadTestResults();
-        this.activeTab = 'list';
-      });
-    } else {
-      this.testResultService.createTestResult(testResultData).subscribe(() => {
-        alert('Eklendi.');
-        this.resetForm();
-        this.activeTab = '';
-      });
-    }
+        if (this.editingTestId) this.loadTestResults();
+        this.activeTab = this.editingTestId ? 'list' : '';
+      },
+      error: () => {
+        this.toastr.error('İşlem sırasında hata oluştu.');
+      }
+    });
   }
 
   loadTestResults(): void {
@@ -197,8 +199,10 @@ export class TestResultComponent {
   deleteTestResult(id: number): void {
     if (confirm('Silmek istiyor musunuz?')) {
       this.testResultService.deleteTestResult(id).subscribe(() => {
-        alert('Silindi.');
+        this.toastr.success('Test sonucu silindi.');
         this.loadTestResults();
+      }, () => {
+        this.toastr.error('Silme işlemi başarısız.');
       });
     }
   }

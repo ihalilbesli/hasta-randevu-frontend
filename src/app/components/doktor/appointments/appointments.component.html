@@ -19,15 +19,21 @@
         <td>{{ appointment.patient?.name }} {{ appointment.patient?.surname }}</td>
         <td>{{ appointment.date }}</td>
         <td>{{ appointment.time?.substring(0,5) }}</td>
-       <td>{{ appointment.clinic?.name }}</td>
+        <td>{{ appointment.clinic?.name }}</td>
         <td>{{ appointment.status }}</td>
         <td>
           <ng-container *ngIf="appointment.status === 'AKTIF'">
             <button (click)="goToExaminationForPatient(appointment.patient?.id)">Muayene Et</button>
             <button (click)="markAsLate(appointment.id)">Geç Kaldı</button>
           </ng-container>
-          <span *ngIf="appointment.status !== 'AKTIF'">-</span>
+
+          <ng-container *ngIf="appointment.status === 'GEC_KALINDI'">
+            <button (click)="markAsActive(appointment.id)">Hasta Geldi</button>
+          </ng-container>
+
+          <span *ngIf="appointment.status !== 'AKTIF' && appointment.status !== 'GEC_KALINDI'">-</span>
         </td>
+
       </tr>
     </tbody>
   </table>
