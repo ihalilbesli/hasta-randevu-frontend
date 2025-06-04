@@ -6,7 +6,7 @@ import { HeaderComponent } from '../../../header/header.component';
 @Component({
   selector: 'app-export',
   standalone: true,
-  imports: [CommonModule,HeaderComponent,RouterModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './export.component.html',
   styleUrl: './export.component.css'
 })

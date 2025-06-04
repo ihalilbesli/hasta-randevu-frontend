@@ -1,8 +1,7 @@
-<app-header></app-header>
-<h2>Erişim Logları</h2>
+<h2><i class="fa-solid fa-clipboard-list"></i> Erişim Logları</h2>
 
 <div class="filter-container">
-  <label>Zaman:</label>
+  <label><i class="fa-solid fa-clock"></i> Zaman:</label>
   <select [(ngModel)]="selectedPeriod" (change)="filterByPeriod()">
     <option value="">Tümü</option>
     <option value="day">Son 1 Gün</option>
@@ -11,7 +10,7 @@
     <option value="year">Son 1 Yıl</option>
   </select>
 
-  <label>Rol:</label>
+  <label><i class="fa-solid fa-user-tag"></i> Rol:</label>
   <select [(ngModel)]="selectedRole" (change)="applyFilters()">
     <option value="">Tümü</option>
     <option value="ADMIN">Admin</option>
@@ -19,7 +18,7 @@
     <option value="HASTA">Hasta</option>
   </select>
 
-  <label>Durum:</label>
+  <label><i class="fa-solid fa-check-circle"></i> Durum:</label>
   <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
     <option value="">Tümü</option>
     <option value="BAŞARILI">Başarılı</option>
@@ -27,11 +26,12 @@
   </select>
 
   <input type="text" placeholder="Endpoint içinde ara..." [(ngModel)]="keyword" (input)="onKeywordChange()">
-  <button (click)="exportToCSV()">CSV Olarak İndir</button>
-
+  <button class="export-button" (click)="exportToCSV()">
+    <i class="fa-solid fa-file-csv"></i> CSV Olarak İndir
+  </button>
 </div>
 
-<table>
+<table class="log-table">
   <thead>
     <tr>
       <th>ID</th>
@@ -56,10 +56,11 @@
       <td>{{ log.method }}</td>
       <td>{{ log.entity }}</td>
       <td>{{ log.actionType }}</td>
-      <td>{{ log.status }}</td>
+      <td [ngClass]="{ 'status-error': log.status === 'HATA', 'status-success': log.status === 'BAŞARILI' }">
+        <i class="fa-solid" [ngClass]="log.status === 'HATA' ? 'fa-circle-xmark' : 'fa-circle-check'"></i>
+        {{ log.status }}
+      </td>
       <td>{{ log.errorMessage || '-' }}</td>
-      
     </tr>
-    
   </tbody>
 </table>

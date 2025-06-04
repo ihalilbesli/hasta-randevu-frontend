@@ -1,0 +1,204 @@
+/* === GENEL YAPI & FONT === */
+:host {
+    display: block;
+    padding: 32px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #1f2937;
+    background-color: #f9fbfd;
+}
+
+/* === BAŞLIKLAR === */
+h2,
+h3 {
+    color: #013d6b;
+    margin-bottom: 16px;
+}
+
+/* === ROL SEÇİM BUTONLARI === */
+.role-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.role-buttons button {
+    background-color: #e6f0f8;
+    color: #013d6b;
+    border: 1px solid #cfdfea;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.role-buttons button:hover {
+    background-color: #d4e6f4;
+}
+
+/* === FİLTRE ALANI === */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.filter-container input,
+.filter-container select {
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    min-width: 180px;
+    background-color: #ffffff;
+}
+
+/* === YENİ KULLANICI FORMU === */
+.new-user-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.new-user-form input,
+.new-user-form select {
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    flex: 1 1 220px;
+    background-color: #ffffff;
+}
+
+.new-user-form button[type="submit"] {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.new-user-form button[type="submit"]:hover {
+    background-color: #2563eb;
+}
+
+/* === KULLANICI TABLOSU === */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #f1f5f9;
+}
+
+thead th {
+    text-align: left;
+    padding: 12px;
+    font-size: 14px;
+    color: #334155;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tbody td {
+    padding: 12px;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+tbody button {
+    margin-right: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #e0e7ff;
+    color: #1e3a8a;
+    transition: background-color 0.2s;
+}
+
+tbody button:hover {
+    background-color: #c7d2fe;
+}
+
+/* === MODAL PENCERE === */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 12px;
+  padding: 32px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh; /* ekran yüksekliğinin %90'ı */
+  overflow-y: auto;  /* içerik taşarsa scroll çıksın */
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.15);
+  margin-top: 80px;
+}
+
+.modal label {
+    font-weight: 600;
+    margin-top: 12px;
+    display: block;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.modal-buttons button {
+    padding: 10px 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.modal-buttons button:first-child {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.modal-buttons button:last-child {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}

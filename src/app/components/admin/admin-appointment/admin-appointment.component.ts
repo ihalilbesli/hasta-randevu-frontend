@@ -7,7 +7,7 @@ import { HeaderComponent } from '../../header/header.component';
 @Component({
   selector: 'app-admin-appointment',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent],
+  imports: [CommonModule,FormsModule],
   templateUrl: './admin-appointment.component.html',
   styleUrl: './admin-appointment.component.css'
 })

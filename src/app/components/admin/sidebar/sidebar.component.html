@@ -1,0 +1,50 @@
+<div class="sidebar">
+  <h2 class="sidebar-title"><i class="fas fa-user-shield"></i> Admin Panel</h2>
+  <ul>
+    <li (click)="goTo('admin-dashboard')">
+      <i class="fas fa-home"></i> Anasayfa
+    </li>
+    <li (click)="goTo('users')">
+      <i class="fas fa-users"></i> Kullanıcılar
+    </li>
+    <li (click)="goTo('admin-complaints')">
+      <i class="fas fa-bullhorn"></i> Şikayetler
+    </li>
+    <li (click)="goTo('admin-appointments')">
+      <i class="fas fa-calendar-check"></i> Randevular
+    </li>
+
+    <!-- İstatistik ve Analiz (Dropdown) -->
+    <li class="dropdown-toggle" (click)="toggleAnalytics()">
+      <i class="fas fa-chart-line"></i> İstatistik ve Analiz
+      <i class="fas fa-chevron-down toggle-icon" [class.rotate]="analyticsOpen"></i>
+    </li>
+    <ul class="submenu" *ngIf="analyticsOpen">
+      <li (click)="goTo('admin-analytics')">
+        <i class="fas fa-chart-pie"></i> Temel İstatistikler
+      </li>
+      <li (click)="goTo('admin-ai')">
+        <i class="fas fa-robot"></i> AI Klinik Analizi
+      </li>
+    </ul>
+
+    <!-- Veri Dışa Aktar (Dropdown) -->
+    <li class="dropdown-toggle" (click)="toggleExport()">
+      <i class="fas fa-file-export"></i> Veri Dışa Aktar
+      <i class="fas fa-chevron-down toggle-icon" [class.rotate]="exportOpen"></i>
+    </li>
+    <ul class="submenu" *ngIf="exportOpen">
+      <li (click)="goTo('export/users')"><i class="fas fa-user"></i> Kullanıcılar</li>
+      <li (click)="goTo('export/appointments')"><i class="fas fa-calendar-alt"></i> Randevular</li>
+      <li (click)="goTo('export/complaints')"><i class="fas fa-clipboard"></i> Şikayetler</li>
+      <li (click)="goTo('export/prescriptions')"><i class="fas fa-pills"></i> Reçeteler</li>
+      <li (click)="goTo('export/test-results')"><i class="fas fa-vial"></i> Test Sonuçları</li>
+      <li (click)="goTo('export/histories')"><i class="fas fa-book-medical"></i> Hasta Geçmişi</li>
+      <li (click)="goTo('export/reports')"><i class="fas fa-file-medical-alt"></i> Raporlar</li>
+    </ul>
+
+    <li (click)="goTo('admin-access-logs')">
+      <i class="fas fa-scroll"></i> Erişim Logları
+    </li>
+  </ul>
+</div>

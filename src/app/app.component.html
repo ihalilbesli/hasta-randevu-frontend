@@ -1,4 +1,4 @@
-<ng-container *ngIf="!isAuthPage">
+<ng-container *ngIf="isPublicPage">
   <app-header></app-header>
 </ng-container>
 
@@ -6,6 +6,6 @@
   <router-outlet></router-outlet>
 </div>
 
-<ng-container *ngIf="!isAuthPage">
+<ng-container *ngIf="isPublicPage">
   <app-footer></app-footer>
 </ng-container>

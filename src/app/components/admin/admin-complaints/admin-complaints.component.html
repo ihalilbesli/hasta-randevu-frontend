@@ -1,16 +1,15 @@
-<app-header></app-header>
-<h2>Şikayet Yönetimi</h2>
+<h2><i class="fa-solid fa-comments"></i> Şikayet Yönetimi</h2>
 
 <!-- 🔍 Filtre Alanı -->
 <div class="filter-container">
   <select [(ngModel)]="statusFilter" (change)="filterComplaints()">
-    <option value="">Durum (Tümü)</option>
-     <option value="BEKLEMEDE">Beklemede</option>
-    <option value="INCELEMEDE">İncelemede</option>
-    <option value="COZULDU">Çözüldü</option>
+    <option value="">📂 Durum (Tümü)</option>
+    <option value="BEKLEMEDE">⏳ Beklemede</option>
+    <option value="INCELEMEDE">🔍 İncelemede</option>
+    <option value="COZULDU">✅ Çözüldü</option>
   </select>
 
- <input type="text" placeholder="İsim ile ara..." [(ngModel)]="searchKeyword" (input)="filterComplaints()">
+  <input type="text" placeholder="🔎 İsim ile ara..." [(ngModel)]="searchKeyword" (input)="filterComplaints()">
 </div>
 
 <!-- 📋 Şikayet Listesi -->
@@ -18,13 +17,13 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Kullanıcı</th>
-      <th>Konu</th>
-      <th>İçerik</th>
-      <th>Klinik</th> 
-      <th>Durum</th>
-      <th>Admin Notu</th>
-      <th>İşlemler</th>
+      <th><i class="fa-solid fa-user"></i> Kullanıcı</th>
+      <th><i class="fa-solid fa-tag"></i> Konu</th>
+      <th><i class="fa-solid fa-align-left"></i> İçerik</th>
+      <th><i class="fa-solid fa-hospital"></i> Klinik</th> 
+      <th><i class="fa-solid fa-flag"></i> Durum</th>
+      <th><i class="fa-solid fa-note-sticky"></i> Admin Notu</th>
+      <th><i class="fa-solid fa-gear"></i> İşlemler</th>
     </tr>
   </thead>
   <tbody>
@@ -35,30 +34,38 @@
       <td>{{ complaint.content }}</td>
       <td>{{ complaint.clinic?.name || 'Belirtilmemiş' }}</td> 
 
-      <!-- 📝 Güncelleme Modu -->
       <ng-container *ngIf="editingComplaintId === complaint.id; else showStatic">
         <td>
           <select [(ngModel)]="updatedStatus">
-            <option value="BEKLEMEDE">BEKLEMEDE</option>
-            <option value="INCELEMEDE">İNCELEMEDE</option>
-            <option value="COZULDU">ÇÖZÜLDÜ</option>
+            <option value="BEKLEMEDE">⏳ Beklemede</option>
+            <option value="INCELEMEDE">🔍 İncelemede</option>
+            <option value="COZULDU">✅ Çözüldü</option>
           </select>
         </td>
         <td>
           <input [(ngModel)]="updatedNote" placeholder="Not giriniz" />
         </td>
         <td>
-          <button (click)="saveEdit(complaint.id)">💾 Kaydet</button>
-          <button (click)="cancelEdit()">❌ İptal</button>
+          <button (click)="saveEdit(complaint.id)">
+            <i class="fa-solid fa-floppy-disk"></i> Kaydet
+          </button>
+          <button (click)="cancelEdit()">
+            <i class="fa-solid fa-xmark"></i> İptal
+          </button>
         </td>
       </ng-container>
 
-      <!-- 📄 Normal Görünüm -->
       <ng-template #showStatic>
-        <td>{{ complaint.status }}</td>
+        <td [ngClass]="{
+          'status-beklemede': complaint.status === 'BEKLEMEDE',
+          'status-incelemede': complaint.status === 'INCELEMEDE',
+          'status-cozuldu': complaint.status === 'COZULDU'
+        }">{{ complaint.status }}</td>
         <td>{{ complaint.adminNote || '—' }}</td>
         <td>
-          <button (click)="startEditing(complaint)">✏️ Güncelle</button>
+          <button (click)="startEditing(complaint)">
+            <i class="fa-solid fa-pen-to-square"></i> Güncelle
+          </button>
         </td>
       </ng-template>
     </tr>

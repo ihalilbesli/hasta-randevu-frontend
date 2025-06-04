@@ -1,0 +1,29 @@
+.admin-layout-wrapper {
+  display: flex;
+  min-height: calc(100vh - 72px);
+  margin-top: 72px;
+}
+
+.admin-main-content {
+  margin-left: 250px;
+  padding-left: 32px;
+  padding-top: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+  width: calc(100% - 250px);
+}
+
+
+/* Mobil uyumlu */
+@media screen and (max-width: 768px) {
+  .admin-layout-wrapper {
+    flex-direction: column;
+    margin-top: 72px;
+  }
+
+  .admin-main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 16px;
+  }
+}

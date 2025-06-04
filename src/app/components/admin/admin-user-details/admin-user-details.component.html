@@ -1,18 +1,17 @@
-<app-header></app-header>
-<h2>Kullanıcı Detayları</h2>
-<div *ngIf="user">
-  <p><strong>Ad:</strong> {{ user.name }}</p>
-  <p><strong>Soyad:</strong> {{ user.surname }}</p>
-  <p><strong>Email:</strong> {{ user.email }}</p>
-  <p><strong>Telefon:</strong> {{ user.phoneNumber }}</p>
-  <p><strong>Doğum Tarihi:</strong> {{ user.birthDate }}</p>
-  <p><strong>Cinsiyet:</strong> {{ user.gender }}</p>
-  <p><strong>Rol:</strong> {{ user.role }}</p>
-  <p><strong>Kan Grubu:</strong> {{ user.bloodType }}</p>
-  <p><strong>Kronik Hastalık:</strong> {{ user.chronicDiseases }}</p>
-  <p><strong>Uzmanlık:</strong> {{ user.specialization }}</p>
- <p *ngIf="user.role === 'DOKTOR'">
-  <strong>Klinik:</strong>
-  {{ user.clinic?.name || 'Klinik atanmadı' }}
-</p>
+<h2><i class="fa-solid fa-user"></i> Kullanıcı Detayları</h2>
+
+<div *ngIf="user" class="user-details">
+  <p><i class="fa-solid fa-id-card"></i> <strong>Ad:</strong> {{ user.name }}</p>
+  <p><i class="fa-solid fa-id-card"></i> <strong>Soyad:</strong> {{ user.surname }}</p>
+  <p><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> {{ user.email }}</p>
+  <p><i class="fa-solid fa-phone"></i> <strong>Telefon:</strong> {{ user.phoneNumber }}</p>
+  <p><i class="fa-solid fa-calendar-day"></i> <strong>Doğum Tarihi:</strong> {{ user.birthDate }}</p>
+  <p><i class="fa-solid fa-venus-mars"></i> <strong>Cinsiyet:</strong> {{ user.gender }}</p>
+  <p><i class="fa-solid fa-user-tag"></i> <strong>Rol:</strong> {{ user.role }}</p>
+  <p><i class="fa-solid fa-droplet"></i> <strong>Kan Grubu:</strong> {{ user.bloodType }}</p>
+  <p><i class="fa-solid fa-notes-medical"></i> <strong>Kronik Hastalık:</strong> {{ user.chronicDiseases }}</p>
+  <p><i class="fa-solid fa-stethoscope"></i> <strong>Uzmanlık:</strong> {{ user.specialization }}</p>
+  <p *ngIf="user.role === 'DOKTOR'">
+    <i class="fa-solid fa-hospital"></i> <strong>Klinik:</strong> {{ user.clinic?.name || 'Klinik atanmadı' }}
+  </p>
 </div>

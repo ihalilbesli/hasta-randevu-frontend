@@ -10,7 +10,7 @@ import { ClinicsService } from '../../../service/clinics/clinics.service';
 @Component({
   selector: 'app-admin-user-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin-user-list.component.html',
   styleUrl: './admin-user-list.component.css'
 })

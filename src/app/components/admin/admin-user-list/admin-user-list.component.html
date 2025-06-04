@@ -1,11 +1,10 @@
-<app-header></app-header>
-<h2>Kullanıcı Yönetimi</h2>
+<h2><i class="fa-solid fa-users-gear"></i> Kullanıcı Yönetimi</h2>
 
 <!-- 🔘 Rol Seçimi -->
 <div class="role-buttons">
-  <button (click)="selectRole('HASTA')">👤 Hastalar</button>
-  <button (click)="selectRole('DOKTOR')">🧺 Doktorlar</button>
-  <button (click)="selectRole('ADMIN')">🛡️ Adminler</button>
+  <button (click)="selectRole('HASTA')"><i class="fa-solid fa-user"></i> Hastalar</button>
+  <button (click)="selectRole('DOKTOR')"><i class="fa-solid fa-user-doctor"></i> Doktorlar</button>
+  <button (click)="selectRole('ADMIN')"><i class="fa-solid fa-user-shield"></i> Adminler</button>
 </div>
 
 <!-- 🔍 Filtre Alanları -->
@@ -37,7 +36,9 @@
 </div>
 
 <!-- ➕ Ekle Butonu -->
-<button (click)="toggleNewUserForm()">➕ Yeni {{ selectedRole }} Ekle</button>
+<button (click)="toggleNewUserForm()">
+  <i class="fa-solid fa-plus"></i> Yeni {{ selectedRole }} Ekle
+</button>
 
 <!-- ➕ Yeni Kullanıcı Ekleme Formu -->
 <div *ngIf="showNewUserForm">
@@ -83,7 +84,9 @@
       <input [(ngModel)]="newUser.chronicDiseases" name="chronicDiseases" placeholder="Kronik Rahatsızlık">
     </div>
 
-    <button type="submit" [disabled]="!newUserForm.form.valid">➕ Ekle</button>
+    <button type="submit" [disabled]="!newUserForm.form.valid">
+      <i class="fa-solid fa-plus"></i> Ekle
+    </button>
   </form>
 </div>
 
@@ -110,9 +113,15 @@
       <td>{{ user.role }}</td>
       <td>{{ user.role === 'DOKTOR' ? user.specialization : '-' }}</td>
       <td>
-        <button (click)="updateUser(user)">✏️ Güncelle</button>
-        <button (click)="deleteUser(user.id)">🗑️ Sil</button>
-        <button (click)="goToUserDetails(user.id)">🔍 Detay</button>
+        <button (click)="updateUser(user)">
+          <i class="fa-solid fa-pen"></i> Güncelle
+        </button>
+        <button (click)="deleteUser(user.id)">
+          <i class="fa-solid fa-trash"></i> Sil
+        </button>
+        <button (click)="goToUserDetails(user.id)">
+          <i class="fa-solid fa-eye"></i> Detay
+        </button>
       </td>
     </tr>
   </tbody>
@@ -121,7 +130,7 @@
 <!-- ✏️ Güncelleme Modalı -->
 <div class="modal-backdrop" *ngIf="showEditModal">
   <div class="modal">
-    <h3>Kullanıcıyı Güncelle</h3>
+    <h3><i class="fa-solid fa-pen-to-square"></i> Kullanıcıyı Güncelle</h3>
     <form (ngSubmit)="saveEditUser()">
       <label>Ad:</label>
       <input [(ngModel)]="editedUser.name" name="name" required>
@@ -152,7 +161,6 @@
         <option value="BELIRTILMEMIS">Belirtilmemiş</option>
       </select>
 
-      <!-- Güncelleme Modalı içindeki doktor için -->
       <div *ngIf="editedUser.role === 'DOKTOR'">
         <label>Uzmanlık:</label>
         <input [(ngModel)]="editedUser.specialization" name="specialization" required>
@@ -184,8 +192,8 @@
       </div>
 
       <div class="modal-buttons">
-        <button type="submit">💾 Kaydet</button>
-        <button type="button" (click)="closeEditModal()">❌ Kapat</button>
+        <button type="submit"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
+        <button type="button" (click)="closeEditModal()"><i class="fa-solid fa-xmark"></i> Kapat</button>
       </div>
     </form>
   </div>

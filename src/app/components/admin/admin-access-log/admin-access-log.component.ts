@@ -7,7 +7,7 @@ import { AccessLogService } from '../../../service/access-log/access-log.service
 @Component({
   selector: 'app-admin-access-log',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin-access-log.component.html',
   styleUrl: './admin-access-log.component.css'
 })
@@ -30,8 +30,8 @@ export class AdminAccessLogComponent {
   getAllLogs() {
     this.accessLogService.getAllLogs().subscribe({
       next: (data) => {
-        this.logs = data;
-        this.filteredLogs = data;
+        this.logs = data.sort((a, b) => b.id - a.id); // ID'ye göre azalan sıralama
+        this.filteredLogs = [...this.logs];
       },
       error: () => alert("Loglar getirilemedi.")
     });
@@ -41,8 +41,8 @@ export class AdminAccessLogComponent {
     if (this.selectedPeriod) {
       this.accessLogService.getLogsByPeriod(this.selectedPeriod).subscribe({
         next: (data) => {
-          this.logs = data;
-          this.filteredLogs = data;
+          this.logs = data.sort((a, b) => b.id - a.id); // ID'ye göre azalan sıralama
+          this.filteredLogs = [...this.logs];
           this.applyFilters();
         },
         error: () => alert("Zaman filtresi uygulanamadı.")

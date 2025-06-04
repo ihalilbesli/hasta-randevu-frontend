@@ -1,35 +1,43 @@
-<h3>📊 Kullanıcı Rol Dağılımı</h3>
+<h3><i class="fa-solid fa-user-gear"></i> Kullanıcı Rol Dağılımı</h3>
 <canvas baseChart
   [data]="{ labels: roleLabels, datasets: [{ data: roleData, label: 'Kullanıcı Rolü' }] }"
   [type]="'pie'">
 </canvas>
-<button (click)="getAiComment('roles', 'Kullanıcı Rol Dağılımı (Hasta / Doktor / Admin)', roleLabels, roleData)">🧠 Yorumu Gör</button>
-<div *ngIf="loadingMap['roles']">⏳ Yorum getiriliyor...</div>
-<div *ngIf="aiCommentMap['roles']">{{ aiCommentMap['roles'] }}</div>
+<button (click)="getAiComment('roles', 'Kullanıcı Rol Dağılımı (Hasta / Doktor / Admin)', roleLabels, roleData)">
+  <i class="fa-solid fa-brain"></i> Yorumu Gör
+</button>
+<div *ngIf="loadingMap['roles']" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['roles']" class="ai-comment">{{ aiCommentMap['roles'] }}</div>
 
-<h3>🚻 Hastaların Cinsiyet Dağılımı</h3>
+<h3><i class="fa-solid fa-venus-mars"></i> Hastaların Cinsiyet Dağılımı</h3>
 <canvas baseChart
   [data]="{ labels: genderLabels, datasets: [{ data: genderData, label: 'Cinsiyet' }] }"
   [type]="'doughnut'">
 </canvas>
-<button (click)="getAiComment('gender', 'Hastaların Cinsiyet Dağılımı', genderLabels, genderData)">🧠 Yorumu Gör</button>
-<div *ngIf="loadingMap['gender']">⏳ Yorum getiriliyor...</div>
-<div *ngIf="aiCommentMap['gender']">{{ aiCommentMap['gender'] }}</div>
+<button (click)="getAiComment('gender', 'Hastaların Cinsiyet Dağılımı', genderLabels, genderData)">
+  <i class="fa-solid fa-brain"></i> Yorumu Gör
+</button>
+<div *ngIf="loadingMap['gender']" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['gender']" class="ai-comment">{{ aiCommentMap['gender'] }}</div>
 
-<h3>🩸 Hastaların Kan Grubu Dağılımı</h3>
+<h3><i class="fa-solid fa-droplet"></i> Hastaların Kan Grubu Dağılımı</h3>
 <canvas baseChart
   [data]="{ labels: bloodLabels, datasets: [{ data: bloodData, label: 'Kan Grubu' }] }"
   [type]="'bar'">
 </canvas>
-<button (click)="getAiComment('blood', 'Hastaların Kan Grubu Dağılımı', bloodLabels, bloodData)">🧠 Yorumu Gör</button>
-<div *ngIf="loadingMap['blood']">⏳ Yorum getiriliyor...</div>
-<div *ngIf="aiCommentMap['blood']">{{ aiCommentMap['blood'] }}</div>
+<button (click)="getAiComment('blood', 'Hastaların Kan Grubu Dağılımı', bloodLabels, bloodData)">
+  <i class="fa-solid fa-brain"></i> Yorumu Gör
+</button>
+<div *ngIf="loadingMap['blood']" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['blood']" class="ai-comment">{{ aiCommentMap['blood'] }}</div>
 
-<h3>🏥 Kliniklere Göre Aktif Doktor Sayısı</h3>
+<h3><i class="fa-solid fa-user-doctor"></i> Kliniklere Göre Aktif Doktor Sayısı</h3>
 <canvas baseChart
   [data]="{ labels: clinicLabels, datasets: [{ data: clinicDoctorData, label: 'Doktor Sayısı' }] }"
   [type]="'bar'">
 </canvas>
-<button (click)="getAiComment('clinicDoctors', 'Kliniklere Göre Aktif Doktor Sayısı', clinicLabels, clinicDoctorData)">🧠 Yorumu Gör</button>
-<div *ngIf="loadingMap['clinicDoctors']">⏳ Yorum getiriliyor...</div>
-<div *ngIf="aiCommentMap['clinicDoctors']">{{ aiCommentMap['clinicDoctors'] }}</div>
+<button (click)="getAiComment('clinicDoctors', 'Kliniklere Göre Aktif Doktor Sayısı', clinicLabels, clinicDoctorData)">
+  <i class="fa-solid fa-brain"></i> Yorumu Gör
+</button>
+<div *ngIf="loadingMap['clinicDoctors']" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['clinicDoctors']" class="ai-comment">{{ aiCommentMap['clinicDoctors'] }}</div>

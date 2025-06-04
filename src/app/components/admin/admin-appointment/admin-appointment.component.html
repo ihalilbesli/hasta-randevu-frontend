@@ -1,9 +1,8 @@
-<app-header></app-header>
-<h2>Randevu Yönetimi</h2>
+<h2><i class="fas fa-calendar-check"></i> Randevu Yönetimi</h2>
 
 <!-- 🔍 Filtre Alanları -->
 <div class="filter-container">
-  <label>Zaman Filtresi:</label>
+  <label><i class="fas fa-clock"></i> Zaman:</label>
   <select [(ngModel)]="selectedPeriod" (change)="filterByPeriod()">
     <option value="">Tümü</option>
     <option value="day">Son 1 Gün</option>
@@ -12,7 +11,7 @@
     <option value="year">Son 1 Yıl</option>
   </select>
 
-  <label>Durum Filtresi:</label>
+  <label><i class="fas fa-filter"></i> Durum:</label>
   <select [(ngModel)]="selectedStatus" (change)="filterByStatus()">
     <option value="">Tümü</option>
     <option value="AKTIF">Aktif</option>
@@ -20,7 +19,7 @@
     <option value="GEC_KALINDI">Geç Kalındı</option>
   </select>
 
-  <input type="text" placeholder="Açıklamada ara..." [(ngModel)]="keyword" (input)="onKeywordChange()">
+  <input type="text" placeholder="🔍 Açıklamada ara..." [(ngModel)]="keyword" (input)="onKeywordChange()">
 </div>
 
 <!-- 📋 Randevu Listesi -->
@@ -45,7 +44,15 @@
       <td>{{ appointment.clinic?.name }}</td>
       <td>{{ appointment.date }}</td>
       <td>{{ appointment.time }}</td>
-      <td>{{ appointment.status }}</td>
+      <td>
+        <span [ngClass]="{
+          'status-aktif': appointment.status === 'AKTIF',
+          'status-iptal': appointment.status === 'IPTAL_EDILDI',
+          'status-gec': appointment.status === 'GEC_KALINDI'
+        }">
+          {{ appointment.status }}
+        </span>
+      </td>
       <td>{{ appointment.description || '-' }}</td>
     </tr>
   </tbody>

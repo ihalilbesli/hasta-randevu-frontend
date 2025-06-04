@@ -1,15 +1,31 @@
-<app-header></app-header>
+<app-sidebar></app-sidebar>
 <div class="dashboard-container">
- 
-  <!-- Yönetim İşlemleri -->
+  <h2><i class="fa-solid fa-user-shield"></i> Admin Paneli</h2>
+
   <div class="main-actions">
-    <button (click)="goTo('users')">👥 Kullanıcıları Yönet</button>
-    <button (click)="goTo('admin-complaints')">📢 Şikayetleri Görüntüle</button>
-    <button (click)="goTo('admin-appointments')">📅 Randevuları Görüntüle</button>
-    <button (click)="goTo('admin-analytics')">📊 İstatistik ve Analiz</button>
-    <button (click)="goTo('admin-clinics')">🏥 Klinikleri Yönet</button>
-    <button (click)="goTo('export')">📤 Verileri Dışa Aktar</button>
-    <button (click)="goTo('admin-access-logs')">📜 Erişim Kayıtları</button>
-    <button (click)="goTo('admin-ai')">🤖 AI Klinik Önerileri</button>
+    <button (click)="goTo('users')">
+      <i class="fa-solid fa-users"></i> Kullanıcıları Yönet
+    </button>
+    <button (click)="goTo('admin-complaints')">
+      <i class="fa-solid fa-bullhorn"></i> Şikayetleri Görüntüle
+    </button>
+    <button (click)="goTo('admin-appointments')">
+      <i class="fa-solid fa-calendar-check"></i> Randevuları Görüntüle
+    </button>
+    <button (click)="goTo('admin-analytics')">
+      <i class="fa-solid fa-chart-line"></i> İstatistik ve Analiz
+    </button>
+    <button (click)="goTo('admin-clinics')">
+      <i class="fa-solid fa-hospital"></i> Klinikleri Yönet
+    </button>
+    <button (click)="goTo('export')">
+      <i class="fa-solid fa-file-export"></i> Verileri Dışa Aktar
+    </button>
+    <button (click)="goTo('admin-access-logs')">
+      <i class="fa-solid fa-scroll"></i> Erişim Kayıtları
+    </button>
+    <button (click)="goTo('admin-ai')">
+      <i class="fa-solid fa-robot"></i> AI Klinik Önerileri
+    </button>
   </div>
 </div>

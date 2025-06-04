@@ -1,35 +1,43 @@
-<h3>📍 Klinik Bazlı Randevu Dağılımı</h3>
+<h3><i class="fa-solid fa-hospital"></i> Klinik Bazlı Randevu Dağılımı</h3>
 <canvas baseChart
   [data]="{ labels: clinicLabels, datasets: [{ data: clinicData, label: 'Randevu Sayısı' }] }"
   [type]="'bar'">
 </canvas>
-<button (click)="getAiComment('clinicAppointments', 'Kliniklere Göre Randevu Dağılımı', clinicLabels, clinicData)">🧠 Yorumu Gör</button>
-<div *ngIf="loadingMap['clinicAppointments']">⏳ Yorum getiriliyor...</div>
-<div *ngIf="aiCommentMap['clinicAppointments']">{{ aiCommentMap['clinicAppointments'] }}</div>
+<button (click)="getAiComment('clinicAppointments', 'Kliniklere Göre Randevu Dağılımı', clinicLabels, clinicData)">
+  <i class="fa-solid fa-brain"></i> Yorumu Gör
+</button>
+<div *ngIf="loadingMap['clinicAppointments']" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['clinicAppointments']" class="ai-comment">{{ aiCommentMap['clinicAppointments'] }}</div>
 
-<h3>📅 Günlük Randevu Dağılımı</h3>
+<h3><i class="fa-solid fa-calendar-days"></i> Günlük Randevu Dağılımı</h3>
 <canvas baseChart
   [data]="{ labels: dateLabels, datasets: [{ data: dateData, label: 'Günlük Toplam' }] }"
   [type]="'line'">
 </canvas>
-<button (click)="getAiComment('dailyAppointments', 'Günlük Randevu Dağılımı', dateLabels, dateData)">🧠 Yorumu Gör</button>
-<div *ngIf="loadingMap['dailyAppointments']">⏳ Yorum getiriliyor...</div>
-<div *ngIf="aiCommentMap['dailyAppointments']">{{ aiCommentMap['dailyAppointments'] }}</div>
+<button (click)="getAiComment('dailyAppointments', 'Günlük Randevu Dağılımı', dateLabels, dateData)">
+  <i class="fa-solid fa-brain"></i> Yorumu Gör
+</button>
+<div *ngIf="loadingMap['dailyAppointments']" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['dailyAppointments']" class="ai-comment">{{ aiCommentMap['dailyAppointments'] }}</div>
 
-<h3>📊 Randevu Durumlarına Göre Dağılım</h3>
+<h3><i class="fa-solid fa-chart-pie"></i> Randevu Durumlarına Göre Dağılım</h3>
 <canvas baseChart
   [data]="{ labels: statusLabels, datasets: [{ data: statusData, label: 'Durum' }] }"
   [type]="'pie'">
 </canvas>
-<button (click)="getAiComment('appointmentStatuses', 'Randevu Durumlarına Göre Dağılım (AKTIF / IPTAL / COMPLETED / GEC_KALINDI)', statusLabels, statusData)">🧠 Yorumu Gör</button>
-<div *ngIf="loadingMap['appointmentStatuses']">⏳ Yorum getiriliyor...</div>
-<div *ngIf="aiCommentMap['appointmentStatuses']">{{ aiCommentMap['appointmentStatuses'] }}</div>
+<button (click)="getAiComment('appointmentStatuses', 'Randevu Durumlarına Göre Dağılım (AKTIF / IPTAL / COMPLETED / GEC_KALINDI)', statusLabels, statusData)">
+  <i class="fa-solid fa-brain"></i> Yorumu Gör
+</button>
+<div *ngIf="loadingMap['appointmentStatuses']" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['appointmentStatuses']" class="ai-comment">{{ aiCommentMap['appointmentStatuses'] }}</div>
 
-<h3>👨‍⚕️ Doktor Bazlı Randevu Yoğunluğu</h3>
+<h3><i class="fa-solid fa-user-doctor"></i> Doktor Bazlı Randevu Yoğunluğu</h3>
 <canvas baseChart
   [data]="{ labels: doctorLabels, datasets: [{ data: doctorData, label: 'Randevu Sayısı' }] }"
   [type]="'bar'">
 </canvas>
-<button (click)="getAiComment('doctorAppointments', 'Doktor Bazlı Randevu Yoğunluğu', doctorLabels, doctorData)">🧠 Yorumu Gör</button>
-<div *ngIf="loadingMap['doctorAppointments']">⏳ Yorum getiriliyor...</div>
-<div *ngIf="aiCommentMap['doctorAppointments']">{{ aiCommentMap['doctorAppointments'] }}</div>
+<button (click)="getAiComment('doctorAppointments', 'Doktor Bazlı Randevu Yoğunluğu', doctorLabels, doctorData)">
+  <i class="fa-solid fa-brain"></i> Yorumu Gör
+</button>
+<div *ngIf="loadingMap['doctorAppointments']" class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Yorum getiriliyor...</div>
+<div *ngIf="aiCommentMap['doctorAppointments']" class="ai-comment">{{ aiCommentMap['doctorAppointments'] }}</div>

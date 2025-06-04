@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-admin-user-details',
   standalone: true,
-  imports: [CommonModule,HeaderComponent,FormsModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './admin-user-details.component.html',
   styleUrl: './admin-user-details.component.css'
 })

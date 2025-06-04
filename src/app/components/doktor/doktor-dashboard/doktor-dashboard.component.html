@@ -31,8 +31,13 @@
             <div><i class="fas fa-info-circle"></i> <strong>Durum:</strong> {{ patient.status }}</div>
           </div>
 
+          <!-- GECIKTI Uyarısı -->
+          <div *ngIf="patient.status === 'GEC_KALINDI'" class="patient-warning">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Bu hasta randevusuna geç geldi. Muayene için geldiğini lütfen onaylayın.
+          </div>
+
           <!-- Butonlar -->
-          
           <div class="patient-actions">
             <button (click)="goToPatientDetail(patient.patient.id)">Detaya Git</button>
 

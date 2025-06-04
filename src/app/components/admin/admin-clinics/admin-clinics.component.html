@@ -1,21 +1,23 @@
-<app-header></app-header>
-<h2>Klinik Yönetimi</h2>
+<h2><i class="fas fa-hospital"></i> Klinik Yönetimi</h2>
 
-<form (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" class="clinic-form">
   <div>
-    <label>Klinik Adı:</label>
+    <label><i class="fas fa-stethoscope"></i> Klinik Adı:</label>
     <input type="text" [(ngModel)]="name" name="name" required />
   </div>
 
   <div>
-    <label>Açıklama:</label>
+    <label><i class="fas fa-align-left"></i> Açıklama:</label>
     <textarea [(ngModel)]="description" name="description"></textarea>
   </div>
 
   <button type="submit">
-    {{ selectedClinic ? 'Güncelle' : 'Ekle' }}
+    <i class="fas fa-save"></i> {{ selectedClinic ? 'Güncelle' : 'Ekle' }}
   </button>
-  <button type="button" (click)="resetForm()" *ngIf="selectedClinic">İptal</button>
+
+  <button type="button" class="cancel-btn" (click)="resetForm()" *ngIf="selectedClinic">
+    <i class="fas fa-times"></i> İptal
+  </button>
 </form>
 
 <hr />
@@ -35,11 +37,21 @@
       <td>{{ clinic.id }}</td>
       <td>{{ clinic.name }}</td>
       <td>{{ clinic.description }}</td>
-      <td>{{ clinic.isActive ? 'Aktif' : 'Pasif' }}</td>
       <td>
-        <button (click)="editClinic(clinic)">Düzenle</button>
-        <button *ngIf="clinic.isActive" (click)="deactivateClinic(clinic.id)">Pasifleştir</button>
-        <button *ngIf="!clinic.isActive" (click)="activateClinic(clinic.id)">Aktifleştir</button>
+        <span [ngClass]="{ 'status-aktif': clinic.isActive, 'status-pasif': !clinic.isActive }">
+          {{ clinic.isActive ? 'Aktif' : 'Pasif' }}
+        </span>
+      </td>
+      <td>
+        <button (click)="editClinic(clinic)">
+          <i class="fas fa-edit"></i> Düzenle
+        </button>
+        <button *ngIf="clinic.isActive" (click)="deactivateClinic(clinic.id)">
+          <i class="fas fa-toggle-off"></i> Pasifleştir
+        </button>
+        <button *ngIf="!clinic.isActive" (click)="activateClinic(clinic.id)">
+          <i class="fas fa-toggle-on"></i> Aktifleştir
+        </button>
       </td>
     </tr>
   </tbody>

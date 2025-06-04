@@ -3,7 +3,6 @@ import { UserService } from '../../../service/user-service/user-service.service'
 import DoctorService from '../../../service/doctor-service/doctor-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from '../../header/header.component';
 import { AppointmentService } from '../../../service/appoinment/appointment.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';

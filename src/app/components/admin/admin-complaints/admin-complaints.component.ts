@@ -7,7 +7,7 @@ import { HeaderComponent } from '../../header/header.component';
 @Component({
   selector: 'app-admin-complaints',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent],
+  imports: [CommonModule,FormsModule],
   templateUrl: './admin-complaints.component.html',
   styleUrl: './admin-complaints.component.css'
 })
@@ -105,6 +105,6 @@ applyKeywordFilter(data: any[]): any[] {
       this.cancelEdit();
     },
     error: () => alert('Güncelleme başarısız.')
-  });//
+  });
   }
 }

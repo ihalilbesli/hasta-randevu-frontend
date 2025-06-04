@@ -120,6 +120,19 @@
   color: #007bff;
   margin-bottom: 10px;
 }
+.patient-warning {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 6px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
 /* === Mobil Uyum === */
 @media screen and (max-width: 768px) {

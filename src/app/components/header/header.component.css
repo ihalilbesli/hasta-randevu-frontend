@@ -1,6 +1,12 @@
 /* Ana üst bar */
 .top-bar {
-  background-color: #e6f0f8; /* açık mavi-gri */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001;
+  height: 72px;
+  background-color: #e6f0f8;
   padding: 12px 24px;
   display: flex;
   justify-content: space-between;
@@ -23,12 +29,15 @@
   max-height: 100%;
   object-fit: contain;
 }
+
 .system-name {
   font-size: 20px;
   font-weight: bold;
-  color: #013d6b; /* hastane temalı koyu mavi */
+  color: #013d6b;
+  /* hastane temalı koyu mavi */
   white-space: nowrap;
 }
+
 .center-content {
   display: flex;
   flex-direction: column;
@@ -76,6 +85,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .name-text {
   display: inline-block;
   max-width: 170px;
@@ -144,6 +154,7 @@
     opacity: 0;
     transform: translateY(-5px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

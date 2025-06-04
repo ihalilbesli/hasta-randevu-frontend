@@ -13,7 +13,6 @@ import { ComplaintsAnalyticsComponent } from "../analytics/complaints-analytics/
     CommonModule,
     AppointmentAnalyticsComponent,
     UsersAnalyticsComponent,
-    HeaderComponent,
     ComplaintsAnalyticsComponent
 ],
   templateUrl: './admin-analytics.component.html',

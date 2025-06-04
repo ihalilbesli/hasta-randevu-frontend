@@ -1,12 +1,16 @@
-<app-header></app-header>
-
-<h2>📊 İstatistik ve Analiz Paneli</h2>
+<h2><i class="fas fa-chart-pie"></i> İstatistik ve Analiz Paneli</h2>
 
 <!-- Sekmeler -->
 <div class="tab-buttons">
-  <button [class.active]="activeTab === 'appointment'" (click)="activeTab = 'appointment'">Randevu Analizi</button>
-  <button [class.active]="activeTab === 'user'" (click)="activeTab = 'user'">Kullanıcı Analizi</button>
-  <button [class.active]="activeTab === 'complaint'" (click)="activeTab = 'complaint'">Şikayet Analizi</button>
+  <button [class.active]="activeTab === 'appointment'" (click)="activeTab = 'appointment'">
+    <i class="fas fa-calendar-check"></i> Randevu Analizi
+  </button>
+  <button [class.active]="activeTab === 'user'" (click)="activeTab = 'user'">
+    <i class="fas fa-users"></i> Kullanıcı Analizi
+  </button>
+  <button [class.active]="activeTab === 'complaint'" (click)="activeTab = 'complaint'">
+    <i class="fas fa-comment-dots"></i> Şikayet Analizi
+  </button>
 </div>
 
 <hr />
@@ -21,5 +25,3 @@
 <div *ngIf="activeTab === 'complaint'">
   <app-complaints-analytics></app-complaints-analytics>
 </div>
-
-
