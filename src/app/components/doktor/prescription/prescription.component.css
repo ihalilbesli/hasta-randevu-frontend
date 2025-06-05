@@ -1,7 +1,7 @@
 /* === Genel Stil === */
 :host {
   display: block;
-  padding: 24px;
+  padding-top: 96px; 
   background-color: #f9fbff;
   font-family: 'Segoe UI', sans-serif;
   color: #2c3e50;

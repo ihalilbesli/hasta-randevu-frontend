@@ -1,16 +1,16 @@
-<h3>🧪 Test Sonuçları Verileri</h3>
+<h3><i class="fa-solid fa-vial-circle-check"></i> Test Sonuçları Verileri</h3>
 
 <table *ngIf="testResults.length > 0">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Hasta</th>
-      <th>Doktor</th>
-      <th>Test Tarihi</th>
-      <th>Test Adı</th>
-      <th>Test Türü</th>
-      <th>Sonuç</th>
-      <th>Doktor Yorumu</th>
+      <th><i class="fa-solid fa-hashtag"></i> ID</th>
+      <th><i class="fa-solid fa-user"></i> Hasta</th>
+      <th><i class="fa-solid fa-user-doctor"></i> Doktor</th>
+      <th><i class="fa-solid fa-calendar-check"></i> Test Tarihi</th>
+      <th><i class="fa-solid fa-flask"></i> Test Adı</th>
+      <th><i class="fa-solid fa-vials"></i> Test Türü</th>
+      <th><i class="fa-solid fa-check-double"></i> Sonuç</th>
+      <th><i class="fa-solid fa-comments"></i> Doktor Yorumu</th>
     </tr>
   </thead>
   <tbody>
@@ -27,4 +27,6 @@
   </tbody>
 </table>
 
-<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>
+<button (click)="downloadCSV()" class="download-btn">
+  <i class="fa-solid fa-file-csv"></i> CSV Olarak İndir
+</button>

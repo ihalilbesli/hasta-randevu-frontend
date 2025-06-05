@@ -1,15 +1,15 @@
-<h3>📚 Hasta Geçmişi Verileri</h3>
+<h3><i class="fa-solid fa-book-medical"></i> Hasta Geçmişi Verileri</h3>
 
 <table *ngIf="histories.length > 0">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Hasta</th>
-      <th>Doktor</th>
-      <th>Teşhis</th>
-      <th>Tedavi</th>
-      <th>Notlar</th>
-      <th>Tarih</th>
+      <th><i class="fa-solid fa-hashtag"></i> ID</th>
+      <th><i class="fa-solid fa-user"></i> Hasta</th>
+      <th><i class="fa-solid fa-user-doctor"></i> Doktor</th>
+      <th><i class="fa-solid fa-stethoscope"></i> Teşhis</th>
+      <th><i class="fa-solid fa-syringe"></i> Tedavi</th>
+      <th><i class="fa-solid fa-note-sticky"></i> Notlar</th>
+      <th><i class="fa-solid fa-calendar-day"></i> Tarih</th>
     </tr>
   </thead>
   <tbody>
@@ -25,4 +25,6 @@
   </tbody>
 </table>
 
-<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>
+<button (click)="downloadCSV()" class="download-btn">
+  <i class="fa-solid fa-file-csv"></i> CSV Olarak İndir
+</button>

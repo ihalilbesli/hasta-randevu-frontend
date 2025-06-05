@@ -100,7 +100,16 @@
       <th>Email</th>
       <th>Telefon</th>
       <th>Rol</th>
-      <th>Uzmanlık</th>
+      <th>Cinsiyet</th>
+
+      <!-- Hasta için ekstra alanlar -->
+      <th *ngIf="selectedRole === 'HASTA'">Kan Grubu</th>
+      <th *ngIf="selectedRole === 'HASTA'">Kronik Hastalık</th>
+
+      <!-- Doktor için ekstra alanlar -->
+      <th *ngIf="selectedRole === 'DOKTOR'">Uzmanlık</th>
+      <th *ngIf="selectedRole === 'DOKTOR'">Klinik</th>
+
       <th>İşlemler</th>
     </tr>
   </thead>
@@ -111,7 +120,16 @@
       <td>{{ user.email }}</td>
       <td>{{ user.phoneNumber }}</td>
       <td>{{ user.role }}</td>
-      <td>{{ user.role === 'DOKTOR' ? user.specialization : '-' }}</td>
+      <td>{{ user.gender }}</td>
+
+      <!-- Hasta için -->
+      <td *ngIf="selectedRole === 'HASTA'">{{ user.bloodType || '-' }}</td>
+      <td *ngIf="selectedRole === 'HASTA'">{{ user.chronicDiseases || '-' }}</td>
+
+      <!-- Doktor için -->
+      <td *ngIf="selectedRole === 'DOKTOR'">{{ user.specialization || '-' }}</td>
+      <td *ngIf="selectedRole === 'DOKTOR'">{{ user.clinic?.name || '-' }}</td>
+
       <td>
         <button (click)="updateUser(user)">
           <i class="fa-solid fa-pen"></i> Güncelle

@@ -1,24 +1,25 @@
-<h3>👤 Kullanıcı Verileri</h3>
+<h3><i class="fa-solid fa-users"></i> Kullanıcı Verileri</h3>
 
+<table *ngIf="users.length > 0">
   <thead>
     <tr>
-      <th>Dogum Tarhi</th>
-      <th>ID</th>
-      <th>Ad</th>
-      <th>Soyad</th>
-      <th>Email</th>
-      <th>Telefon</th>
-      <th>Rol</th>
-      <th>Cinsiyet</th>
-      <th>Kan Grubu</th>
-      <th>Kronik Hastalık</th>
-      <th>Uzmanlık</th>
-      <th>Klinik</th>
+      <th><i class="fa-solid fa-calendar-day"></i> Doğum Tarihi</th>
+      <th><i class="fa-solid fa-hashtag"></i> ID</th>
+      <th><i class="fa-solid fa-user"></i> Ad</th>
+      <th><i class="fa-solid fa-user"></i> Soyad</th>
+      <th><i class="fa-solid fa-envelope"></i> Email</th>
+      <th><i class="fa-solid fa-phone"></i> Telefon</th>
+      <th><i class="fa-solid fa-user-shield"></i> Rol</th>
+      <th><i class="fa-solid fa-venus-mars"></i> Cinsiyet</th>
+      <th><i class="fa-solid fa-tint"></i> Kan Grubu</th>
+      <th><i class="fa-solid fa-heart-pulse"></i> Kronik Hastalık</th>
+      <th><i class="fa-solid fa-stethoscope"></i> Uzmanlık</th>
+      <th><i class="fa-solid fa-hospital"></i> Klinik</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let user of users">
-      <td>{{user.birthDate}}</td> 
+      <td>{{ user.birthDate }}</td>
       <td>{{ user.id }}</td>
       <td>{{ user.name }}</td>
       <td>{{ user.surname }}</td>
@@ -29,8 +30,11 @@
       <td>{{ user.bloodType }}</td>
       <td>{{ user.chronicDiseases || '-' }}</td>
       <td>{{ user.specialization || '-' }}</td>
-      <td>{{ user.clinic?.name || '-' }}</td> <!-- 👈 ÖNEMLİ KISIM -->
+      <td>{{ user.clinic?.name || '-' }}</td>
     </tr>
   </tbody>
+</table>
 
-<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>
+<button (click)="downloadCSV()" class="download-btn">
+  <i class="fa-solid fa-file-csv"></i> CSV Olarak İndir
+</button>

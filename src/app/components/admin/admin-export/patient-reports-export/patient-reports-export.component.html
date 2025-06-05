@@ -1,14 +1,14 @@
-<h3>📝 Hasta Raporu Verileri</h3>
+<h3><i class="fa-solid fa-file-medical"></i> Hasta Raporu Verileri</h3>
 
 <table *ngIf="reports.length > 0">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Hasta</th>
-      <th>Doktor</th>
-      <th>Rapor Türü</th>
-      <th>Tarih</th>
-      <th>Dosya</th>
+      <th><i class="fa-solid fa-hashtag"></i> ID</th>
+      <th><i class="fa-solid fa-user"></i> Hasta</th>
+      <th><i class="fa-solid fa-user-doctor"></i> Doktor</th>
+      <th><i class="fa-solid fa-file-alt"></i> Rapor Türü</th>
+      <th><i class="fa-solid fa-calendar-day"></i> Tarih</th>
+      <th><i class="fa-solid fa-eye"></i> Dosya</th>
     </tr>
   </thead>
   <tbody>
@@ -19,10 +19,14 @@
       <td>{{ report.reportType }}</td>
       <td>{{ report.reportDate }}</td>
       <td>
-        <a *ngIf="report.fileUrl" [href]="report.fileUrl" target="_blank">📄 Raporu Görüntüle</a>
+        <a *ngIf="report.fileUrl" [href]="report.fileUrl" target="_blank" class="file-link">
+          <i class="fa-solid fa-file-lines"></i> Görüntüle
+        </a>
       </td>
     </tr>
   </tbody>
 </table>
 
-<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>
+<button (click)="downloadCSV()" class="download-btn">
+  <i class="fa-solid fa-file-csv"></i> CSV Olarak İndir
+</button>

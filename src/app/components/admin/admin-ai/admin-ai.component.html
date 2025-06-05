@@ -1,17 +1,29 @@
-<h2><i class="fas fa-robot"></i> AI Destekli Analizler</h2>
+<h2><i class="fa-solid fa-robot"></i> AI Destekli Analizler</h2>
 
 <div class="analysis-buttons">
-  <button (click)="runAnalysis('complaints')"><i class="fas fa-bullhorn"></i> Şikayetleri Analiz Et</button>
-  <button (click)="runAnalysis('clinicLoad')"><i class="fas fa-hospital"></i> Klinik Yoğunluğu</button>
-  <button (click)="runAnalysis('userBehavior')"><i class="fas fa-user-friends"></i> Kullanıcı Davranışları</button>
-  <button (click)="runAnalysis('riskAlerts')"><i class="fas fa-exclamation-triangle"></i> Riskli Durumlar</button>
+  <button (click)="runAnalysis('complaints')">
+    <i class="fa-solid fa-bullhorn"></i> Şikayetleri Analiz Et
+  </button>
+  <button (click)="runAnalysis('clinicLoad')">
+    <i class="fa-solid fa-hospital"></i> Klinik Yoğunluğu
+  </button>
+  <button (click)="runAnalysis('userBehavior')">
+    <i class="fa-solid fa-user-group"></i> Kullanıcı Davranışları
+  </button>
+  <button (click)="runAnalysis('riskAlerts')">
+    <i class="fa-solid fa-triangle-exclamation"></i> Riskli Durumlar
+  </button>
 </div>
 
 <div *ngIf="loading" class="loading">
-  <i class="fas fa-spinner fa-spin"></i> Yükleniyor, lütfen bekleyin...
+  <i class="fa-solid fa-spinner fa-spin"></i> Yükleniyor, lütfen bekleyin...
 </div>
 
-<div *ngIf="!loading && result" class="result">
-  <h3><i class="fas fa-clipboard-list"></i> Sonuç:</h3>
-  <pre>{{ result }}</pre>
+<div *ngIf="!loading && result" class="ai-result-box">
+  <div class="ai-result-header">
+    <i class="fa-solid fa-brain"></i> Yapay Zeka Cevabı:
+  </div>
+  <div class="ai-result-body">
+    {{ result }}
+  </div>
 </div>

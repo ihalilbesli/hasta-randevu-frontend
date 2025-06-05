@@ -7,6 +7,7 @@ h2 {
   gap: 10px;
 }
 
+/* Butonlar */
 .analysis-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -35,6 +36,7 @@ h2 {
   transform: scale(1.02);
 }
 
+/* Yükleniyor mesajı */
 .loading {
   font-weight: 500;
   color: #555;
@@ -45,27 +47,40 @@ h2 {
   font-size: 16px;
 }
 
-.result {
-  background-color: #f9fafc;
-  border-left: 4px solid #4a69bd;
+/* AI Cevap Kutusu */
+.ai-result-box {
+  background-color: #f5f8fc;
+  border-left: 5px solid #4a69bd;
   padding: 20px;
-  border-radius: 8px;
-  white-space: pre-wrap;
-  font-family: 'Courier New', monospace;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.result h3 {
-  margin-top: 0;
-  color: #2c3e50;
-  font-size: 18px;
+.ai-result-header {
+  font-weight: bold;
+  font-size: 16px;
+  color: #34495e;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* ✅ Mobil Uyum */
+.ai-result-body {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #2c3e50;
+  white-space: pre-wrap;
+}
+
+/* Mobil uyum */
 @media screen and (max-width: 768px) {
+  h2 {
+    font-size: 20px;
+  }
+
   .analysis-buttons {
     flex-direction: column;
   }
@@ -75,15 +90,20 @@ h2 {
     justify-content: center;
   }
 
-  .result {
+  .loading {
     font-size: 14px;
   }
 
-  h2 {
-    font-size: 20px;
+  .ai-result-box {
+    padding: 16px;
+    margin: 16px 0;
   }
 
-  .loading {
+  .ai-result-header {
+    font-size: 15px;
+  }
+
+  .ai-result-body {
     font-size: 14px;
   }
 }

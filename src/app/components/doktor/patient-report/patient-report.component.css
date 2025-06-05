@@ -1,4 +1,8 @@
 /* Genel container */
+:host {
+  display: block;
+  padding-top: 96px; 
+}
 .patient-report-container {
   max-width: 1100px;
   margin: 0 auto;

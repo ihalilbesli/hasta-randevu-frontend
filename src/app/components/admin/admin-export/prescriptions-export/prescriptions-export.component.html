@@ -1,14 +1,15 @@
-<h3>💊 Reçete Verileri</h3>
+<h3><i class="fa-solid fa-prescription-bottle-medical"></i> Reçete Verileri</h3>
+
 <table *ngIf="prescriptions.length > 0">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Reçete Kodu</th>
-      <th>Tarih</th>
-      <th>Açıklama</th>
-      <th>İlaçlar</th>
-      <th>Doktor</th>
-      <th>Hasta</th>
+      <th><i class="fa-solid fa-hashtag"></i> ID</th>
+      <th><i class="fa-solid fa-barcode"></i> Reçete Kodu</th>
+      <th><i class="fa-solid fa-calendar-day"></i> Tarih</th>
+      <th><i class="fa-solid fa-file-lines"></i> Açıklama</th>
+      <th><i class="fa-solid fa-capsules"></i> İlaçlar</th>
+      <th><i class="fa-solid fa-user-doctor"></i> Doktor</th>
+      <th><i class="fa-solid fa-user"></i> Hasta</th>
     </tr>
   </thead>
   <tbody>
@@ -24,5 +25,6 @@
   </tbody>
 </table>
 
-
-<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>
+<button (click)="downloadCSV()" class="download-btn">
+  <i class="fa-solid fa-file-csv"></i> CSV Olarak İndir
+</button>

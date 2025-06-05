@@ -1,3 +1,7 @@
+:host {
+  display: block;
+  padding-top: 96px; 
+}
 .patient-history-container {
   max-width: 1100px;
   margin: 0 auto;

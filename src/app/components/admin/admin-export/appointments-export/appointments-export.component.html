@@ -1,16 +1,16 @@
-<h3>📅 Randevu Verileri</h3>
+<h3><i class="fa-solid fa-calendar-days"></i> Randevu Verileri</h3>
 
 <table *ngIf="appointments.length > 0">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Hasta</th>
-      <th>Doktor</th>
-      <th>Klinik</th>
-      <th>Tarih</th>
-      <th>Saat</th>
-      <th>Durum</th>
-      <th>Açıklama</th>
+      <th><i class="fa-solid fa-hashtag"></i> ID</th>
+      <th><i class="fa-solid fa-user"></i> Hasta</th>
+      <th><i class="fa-solid fa-user-doctor"></i> Doktor</th>
+      <th><i class="fa-solid fa-hospital"></i> Klinik</th>
+      <th><i class="fa-solid fa-calendar-day"></i> Tarih</th>
+      <th><i class="fa-solid fa-clock"></i> Saat</th>
+      <th><i class="fa-solid fa-circle-info"></i> Durum</th>
+      <th><i class="fa-solid fa-align-left"></i> Açıklama</th>
     </tr>
   </thead>
   <tbody>
@@ -27,4 +27,6 @@
   </tbody>
 </table>
 
-<button (click)="downloadCSV()" class="download-btn">⬇️ CSV Olarak İndir</button>
+<button (click)="downloadCSV()" class="download-btn">
+  <i class="fa-solid fa-file-csv"></i> CSV Olarak İndir
+</button>

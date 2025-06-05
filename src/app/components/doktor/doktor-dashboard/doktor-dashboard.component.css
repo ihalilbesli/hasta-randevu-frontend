@@ -1,5 +1,8 @@
 .dashboard-wrapper {
-  padding: 24px;
+  padding-top: 96px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
   background-color: #f9fbff;
 }
 

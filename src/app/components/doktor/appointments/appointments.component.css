@@ -1,7 +1,8 @@
 .appointments-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 24px;
+    padding: 96px 24px 24px 24px;
+    /* üst padding 96px yapıldı */
     background-color: #f9fbff;
     font-family: 'Segoe UI', sans-serif;
 }
@@ -58,22 +59,23 @@ button {
 /* Muayene Et butonu */
 /* Muayene Et butonu */
 button:nth-child(1) {
-  background-color: #2e7d6d; /* Koyu zeytin yeşili */
-  color: white;
+    background-color: #2e7d6d;
+    /* Koyu zeytin yeşili */
+    color: white;
 }
 
 button:nth-child(1):hover {
-  background-color: #25695b;
+    background-color: #25695b;
 }
 
 /* Geç Kaldı butonu */
 button:nth-child(2) {
-  background-color: #f0f2f5;
-  color: #34495e;
+    background-color: #f0f2f5;
+    color: #34495e;
 }
 
 button:nth-child(2):hover {
-  background-color: #e0e3e7;
+    background-color: #e0e3e7;
 }
 
 
