@@ -1,11 +1,15 @@
-<ng-container *ngIf="isPublicPage">
-  <app-header></app-header>
-</ng-container>
+<!-- Ana kapsayıcı -->
+<div [ngClass]="{ 'with-topbar': isPublicPage }">
 
-<div class="main-layout">
-  <router-outlet></router-outlet>
+  <!-- Üst bar -->
+  <app-header *ngIf="isPublicPage"></app-header>
+
+  <!-- Sayfa içeriği -->
+  <div class="main-layout">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- Alt bar -->
+  <app-footer *ngIf="isPublicPage"></app-footer>
+
 </div>
-
-<ng-container *ngIf="isPublicPage">
-  <app-footer></app-footer>
-</ng-container>

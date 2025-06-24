@@ -30,16 +30,7 @@ currentUser:any;
       }
     });
   }
-  toggleMenu(){
-    this.showMenu = !this.showMenu;
-  }
-  goToProfile() {
-    // Profil sayfası yapılınca buraya yönlendirme eklenebilir
-    alert("Profil sayfası daha sonra eklenecek.");
-  }
-  logout() {
-    this.authService.logout();
-  }
+
   goTo(path:string){
     this.router.navigate([`/${path}`]);
     console.log(path+" navigate edildi");

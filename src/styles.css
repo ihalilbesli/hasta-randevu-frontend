@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+/* Sadece public sayfalarda (header olanlar) üstten padding uygula */
+.with-topbar {
+  padding-top: 72px;
+}
+
+/* Genel içerik alanı */
+.main-layout {
+  min-height: 100vh;
+  background-color: #f7fafc;
+}

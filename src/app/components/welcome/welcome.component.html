@@ -1,101 +1,42 @@
 <!-- Navbar -->
-<div class="navbar">
-  <img src="assets/logo/Logo_Hasta-Randevu.png" alt="Logo" />
-  <div class="nav-buttons">
-    <button (click)="goToLogin()">Giriş Yap</button>
-    <button (click)="goToRegister()">Kayıt Ol</button>
+<header class="navbar">
+  <div class="navbar-left">
+    <img src="assets/logo/Logo_Hasta-Randevu.png" alt="Logo" class="logo" />
+    <span class="app-title">Hasta Randevu Sistemi</span>
   </div>
-</div>
-
-<!-- Slider -->
-<div class="slider">
-  <div class="arrow left" (click)="prevSlide()">&#10094;</div>
-
-  <div
-    class="slide"
-    *ngFor="let slide of slides; let i = index"
-    [class.active]="i === currentSlide"
-    [style.backgroundImage]="'url(' + slide.imageUrl + ')'"
-  >
-    <div class="overlay">
-      <h2>{{ slide.title }}</h2>
-      <p>{{ slide.description }}</p>
-    </div>
+  <div class="navbar-right">
+    <button class="btn login" (click)="goToLogin()"><i class="fas fa-sign-in-alt"></i> Giriş Yap</button>
+    <button class="btn register" (click)="goToRegister()"><i class="fas fa-user-plus"></i> Kayıt Ol</button>
   </div>
+</header>
 
-  <div class="arrow right" (click)="nextSlide()">&#10095;</div>
+<!-- Hero -->
+<section class="hero">
+  <h1>Sağlığınız İçin Buradayız</h1>
+  <p>Yapay zeka destekli randevu sistemimizle şikayetlerinizi analiz ediyor, en uygun çözümü sunuyoruz.</p>
+</section>
 
-  <div class="dots">
-    <span
-      *ngFor="let s of slides; let i = index"
-      [class.active]="i === currentSlide"
-      (click)="goToSlide(i)"
-    ></span>
-  </div>
-</div>
-
-<!-- Sosyal Medya ve Aydınlatma Alanı -->
-<div class="info-bar">
-  <div class="social-icons">
-    <a href="https://x.com" target="_blank"><img src="assets/icons/x.png" alt="X"></a>
-    <a href="https://facebook.com" target="_blank"><img src="assets/icons/facebook.png" alt="Facebook"></a>
-    <a href="https://instagram.com" target="_blank"><img src="assets/icons/instagram.png" alt="Instagram"></a>
-  </div>
-  <div class="privacy-link">
-    <a href="#">🧾 Aydınlatma Metni</a>
-  </div>
-</div>
-
-<!-- Duyurular -->
-<div class="announcements">
-  <h3>Duyurular</h3>
-  <div class="announcement-grid">
-    <div>MHRS’de Randevu Hatırlatma</div>
-    <div>MHRS Çalışma Usul ve Esasları</div>
-    <div>Öncelikli Hastalar Uygulaması</div>
-    <div>MHRS e-Devlet Buluşması</div>
-    <div>MHRS’den Gururlandıran Ödül</div>
-    <div>Semt Polikliniklerine Randevu</div>
-  </div>
-</div>
-
-<!-- Kartlar -->
-<div class="cards">
-  <div class="card">
-    <img src="assets/icons/fast.png" alt="Hızlı Randevu" />
+<!-- Özellikler -->
+<section class="features">
+  <div class="feature-card">
+    <i class="fas fa-calendar-check"></i>
     <h3>Hızlı Randevu</h3>
-    <p>Anında ve kolay randevu oluşturun.</p>
+    <p>Klinik seç, saatini belirle, kolayca randevu al.</p>
   </div>
-  <div class="card">
-    <img src="assets/icons/location.png" alt="Yakın Hastane" />
-    <h3>En Yakın Hastane</h3>
-    <p>Konuma göre hastaneleri listeleyin.</p>
+  <div class="feature-card">
+    <i class="fas fa-clinic-medical"></i>
+    <h3>Nöbetçi Eczane</h3>
+    <p>Konumuna en yakın eczaneleri görüntüle.</p>
   </div>
-  <div class="card">
-    <img src="assets/icons/doctor.png" alt="Doktor Seçimi" />
+  <div class="feature-card">
+    <i class="fas fa-user-md"></i>
     <h3>Doktor Seçimi</h3>
-    <p>Uzman doktorlarla randevu oluşturun.</p>
+    <p>Uzman doktorlarla güvenli bir randevu oluştur.</p>
   </div>
-  <div class="card">
-    <img src="assets/icons/ai.png" alt="Yapay Zeka" />
+  <div class="feature-card">
+    <i class="fas fa-brain"></i>
     <h3>Yapay Zeka Asistanı</h3>
-    <p>Şikayete göre poliklinik önerisi alın.</p>
+    <p>Şikayetlerine uygun polikliniği sistem öneriyor.</p>
   </div>
-</div>
+</section>
 
-<!-- Footer -->
-<footer>
-  <div class="footer-links">
-    <ul>
-      <li>Hakkımızda</li>
-      <li>Sıkça Sorulan Sorular</li>
-      <li>Soru ve Görüşleriniz</li>
-      <li>Yararlı Bağlantılar</li>
-      <li>Üyelik Silme</li>
-    </ul>
-  </div>
-  <div class="footer-right">
-    <img src="assets/icons/secure.png" alt="Güvenli Bağlantı" />
-    <p>© 2025 Hasta Randevu Sistemi</p>
-  </div>
-</footer>
