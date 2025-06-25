@@ -316,6 +316,20 @@ const routes = [
     canActivate: [authGuard]
   }
 ];
+```
+---
+
+👨‍💻 Geliştirici Bilgisi
+Bu frontend projesi, İstanbul Gelişim Üniversitesi Bilgisayar Mühendisliği öğrencisi
+İbrahim Halil Beşli tarafından 2025 yılı bahar döneminde geliştirilmiştir.
+
+Angular framework kullanılarak tasarlanan uygulama, hasta, doktor ve admin panellerini içeren kullanıcı dostu ve güvenli bir arayüz sunmaktadır.
+Projede rol bazlı erişim, API entegrasyonu, dinamik veri gösterimi ve yapay zeka destekli analiz sonuçları görselleştirilmiştir.
+
+Her türlü soru ve geri bildirim için iletişime geçebilirsiniz.  
+📧 **E-posta:** ihalilbesli@gmail.com
+🔗 **LinkedIn:** [linkedin.com/in/ibrahim-halil-beşli-3079ab223](https://www.linkedin.com/in/ibrahim-halil-be%C5%9Fli-3079ab223/)
+
 
 
 
