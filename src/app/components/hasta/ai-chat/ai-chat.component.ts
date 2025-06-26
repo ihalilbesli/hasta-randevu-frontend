@@ -59,7 +59,7 @@ export class AiChatComponent implements OnInit {
         this.suggestedClinic = matchedClinic ? matchedClinic.name : null;
 
         if (!this.suggestedClinic) {
-          this.response += '\n\n⚠️ Not: Önerilen klinik sistemde bulunamadı.';
+          this.response += '\n\n Not: Önerilen klinik sistemde bulunamadı.';
         }
 
         this.isLoading = false;

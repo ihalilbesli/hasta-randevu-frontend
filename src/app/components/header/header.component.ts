@@ -24,11 +24,14 @@ export class HeaderComponent {
     private authService: AuthService,
     private router: Router
   ) {
+  // 🔐 Sadece giriş yapılmışsa kullanıcı bilgisini getir
+  if (this.authService.isLoggedIn()) {
     this.userService.getCurrentUser().subscribe({
       next: (user) => this.currentUser = user,
       error: () => this.currentUser = null
     });
   }
+}
 
   ngOnInit() {
     this.updateTime();
